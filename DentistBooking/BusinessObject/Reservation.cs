@@ -14,6 +14,7 @@ namespace BusinessObject
         public double Price { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public string Status { get; set; }
 
         [ForeignKey("Id")]
         public int DentistId { get; set; }
@@ -22,10 +23,6 @@ namespace BusinessObject
         [ForeignKey("Id")]
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
-
-        [ForeignKey("Id")]
-        public int StatusId { get; set; }
-        public virtual Status Status { get; set; }
 
         [ForeignKey("Id")]
         public int ServiceId { get; set; }

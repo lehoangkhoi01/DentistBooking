@@ -374,9 +374,12 @@ D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.RazorCoreGenerate.cache
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Error.cshtml.g.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Index.cshtml.g.cs
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Login.cshtml.g.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Privacy.cshtml.g.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Shared\_Layout.cshtml.g.cs
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Shared\_LoginPartial.cshtml.g.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Signup.cshtml.g.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\_ViewImports.cshtml.g.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\_ViewStart.cshtml.g.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.RazorTargetAssemblyInfo.cache

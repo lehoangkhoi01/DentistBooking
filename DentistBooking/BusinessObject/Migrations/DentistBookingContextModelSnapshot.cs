@@ -113,8 +113,8 @@ namespace BusinessObject.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -126,8 +126,6 @@ namespace BusinessObject.Migrations
                     b.HasIndex("DentistId");
 
                     b.HasIndex("ServiceId");
-
-                    b.HasIndex("StatusId");
 
                     b.ToTable("Reservations");
                 });
@@ -175,8 +173,8 @@ namespace BusinessObject.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -185,24 +183,7 @@ namespace BusinessObject.Migrations
 
                     b.HasIndex("AdminId");
 
-                    b.HasIndex("StatusId");
-
                     b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("BusinessObject.Status", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("BusinessObject.User", b =>
@@ -281,19 +262,11 @@ namespace BusinessObject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessObject.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Customer");
 
                     b.Navigation("Dentist");
 
                     b.Navigation("Service");
-
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("BusinessObject.Service", b =>
@@ -302,15 +275,7 @@ namespace BusinessObject.Migrations
                         .WithMany()
                         .HasForeignKey("AdminId");
 
-                    b.HasOne("BusinessObject.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Admin");
-
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("BusinessObject.User", b =>

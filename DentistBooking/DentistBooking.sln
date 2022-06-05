@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObject", "BusinessObject\BusinessObject.csproj", "{103781FD-94E5-403F-9C01-4580C246632E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObject", "BusinessObject\BusinessObject.csproj", "{103781FD-94E5-403F-9C01-4580C246632E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{8FA73CB9-A95C-4AB7-91F5-F03A5F54AFE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{8FA73CB9-A95C-4AB7-91F5-F03A5F54AFE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentistBookingWebApp", "DentistBookingWebApp\DentistBookingWebApp.csproj", "{897E43D8-9637-4650-A6B1-73FE7D7B9FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentistBookingWebApp", "DentistBookingWebApp\DentistBookingWebApp.csproj", "{897E43D8-9637-4650-A6B1-73FE7D7B9FBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

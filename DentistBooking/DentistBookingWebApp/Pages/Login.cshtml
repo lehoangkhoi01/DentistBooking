@@ -1,0 +1,50 @@
+﻿@page
+@model DentistBookingWebApp.Pages.LoginModel
+@{
+}
+
+<div class="container">
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card border-0 shadow rounded-3 my-5">
+                <div class="card-body p-4 p-sm-5">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">Login Form</h5>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <form method="post">
+                        <div class="form-floating mb-3">
+                            <label for="floatingInput">Email</label>
+                            <input type="text" class="form-control" id="floatingInput" asp-for="Email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <label for="floatingPassword">Password</label>
+                            <input type="password" class="form-control" id="floatingPassword" asp-for="Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid text-center">
+                            <button class="btn btn-primary text-uppercase fw-bold col-md-6" type="submit">
+                                Login
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <a asp-page="./Signup">Register</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
