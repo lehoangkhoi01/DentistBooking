@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public class DentistDAO
+    public class ServiceDAO
     {
-        private static DentistDAO instance = null;
+        private static ServiceDAO instance = null;
         private static readonly object instanceLock = new object();
 
-        private DentistDAO() { }
-        public static DentistDAO Instance
+        private ServiceDAO() { }
+        public static ServiceDAO Instance
         {
             get
             {
@@ -22,19 +22,20 @@ namespace DataAccess
                 {
                     if (instance == null)
                     {
-                        instance = new DentistDAO();
+                        instance = new ServiceDAO();
                     }
                 }
                 return instance;
             }
         }
-        //---------------------------------------------------------
-        public void AddNewDentist(Dentist dentist)
+        //-----------------------------------------------------------------
+
+        public void AddNewService(Service service)
         {
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Dentists.AddAsync(dentist);
+                dbContext.Services.AddAsync(service);
                 dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -43,42 +44,27 @@ namespace DataAccess
             }
         }
 
-        public Dentist GetDentistByUserId(int id)
+        public Service GetServiceById(int id)
         {
-            Dentist dentist;
+            Service service;
             try
             {
                 var dbContext = new DentistBookingContext();
-                dentist = dbContext.Dentists.FirstOrDefault(x => x.UserId == id);
+                service = dbContext.Services.FirstOrDefault(x => x.Id == id);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return dentist;
+            return service;
         }
 
-        public Dentist GetDentistByDentistId(int id)
-        {
-            Dentist dentist;
-            try
-            {
-                var dbContext = new DentistBookingContext();
-                dentist = dbContext.Dentists.FirstOrDefault(x => x.Id == id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return dentist;
-        }
-
-        public void UpdateDentist(Dentist dentist)
+        public void UpdateService(Service service)
         {
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Dentists.Update(dentist);
+                dbContext.Services.Update(service);
                 dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -87,20 +73,19 @@ namespace DataAccess
             }
         }
 
-        public IEnumerable<Dentist> GetDentistList()
+        public IEnumerable<Service> GetServiceList()
         {
-            IEnumerable<Dentist> dentistList;
+            IEnumerable<Service> serviceList;
             try
             {
                 var dbContext = new DentistBookingContext();
-                dentistList = dbContext.Dentists.ToList();
+                serviceList = dbContext.Services.ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return dentistList;
+            return serviceList;
         }
-
     }
 }

@@ -1,3 +1,11 @@
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.csproj.AssemblyReference.cache
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.AssemblyInfoInputs.cache
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.AssemblyInfo.cs
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.csproj.CoreCompileInputs.cache
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.MvcApplicationPartsAssemblyInfo.cache
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.RazorAssemblyInfo.cache
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.RazorAssemblyInfo.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\bin\Debug\net5.0\appsettings.Development.json
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\bin\Debug\net5.0\appsettings.json
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\bin\Debug\net5.0\DentistBookingWebApp.exe
@@ -358,15 +366,6 @@ D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\bin\Debug\net
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\bin\Debug\net5.0\DataAccess.dll
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\bin\Debug\net5.0\BusinessObject.pdb
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\bin\Debug\net5.0\DataAccess.pdb
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.csproj.AssemblyReference.cache
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.GeneratedMSBuildEditorConfig.editorconfig
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.AssemblyInfoInputs.cache
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.AssemblyInfo.cs
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.csproj.CoreCompileInputs.cache
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.MvcApplicationPartsAssemblyInfo.cs
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.MvcApplicationPartsAssemblyInfo.cache
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.RazorAssemblyInfo.cache
-D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.RazorAssemblyInfo.cs
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\scopedcss\bundle\DentistBookingWebApp.styles.css
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\staticwebassets\DentistBookingWebApp.StaticWebAssets.Manifest.cache
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.TagHelpers.input.cache
