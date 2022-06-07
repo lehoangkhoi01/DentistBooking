@@ -36,8 +36,8 @@ namespace DentistBookingWebApp.Pages
                 if (userId > 0)
                 {
                     User user = userRepository.GetUserById(userId);
-                    HttpContext.Session.SetString("Email", user.Email);
-                    HttpContext.Session.SetString("Role", user.RoleId.ToString());
+                    HttpContext.Session.SetString("EMAIL", user.Email);
+                    HttpContext.Session.SetString("ROLE", user.RoleId.ToString());
                     return RedirectToPage("./Index");
                 }
                 else

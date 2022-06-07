@@ -34,7 +34,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Customers.AddAsync(dentist);
+                dbContext.Dentists.AddAsync(dentist);
                 dbContext.SaveChangesAsync();
             }
             catch (Exception ex)

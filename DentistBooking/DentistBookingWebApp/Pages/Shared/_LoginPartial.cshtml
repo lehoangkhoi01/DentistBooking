@@ -2,10 +2,10 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 <ul class="navbar-nav">
-    @if (HttpContextAccessor.HttpContext.Session.GetString("Email") != null)
+    @if (HttpContextAccessor.HttpContext.Session.GetString("EMAIL") != null)
     {
         <li class="nav-item mr-3">
-            @HttpContextAccessor.HttpContext.Session.GetString("Email")
+            @HttpContextAccessor.HttpContext.Session.GetString("EMAIL")
         </li>
         <li class="nav-item">
             <a asp-page="Index" asp-page-handler="Logout">Logout</a>
