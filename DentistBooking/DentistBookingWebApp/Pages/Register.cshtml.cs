@@ -1,0 +1,99 @@
+using BusinessObject;
+using DataAccess.Interfaces;
+using DentistBookingWebApp.Validation;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.ComponentModel.DataAnnotations;
+using HashCode = DentistBookingWebApp.Validation.HashCode;
+
+namespace DentistBookingWebApp.Pages
+{
+    public class RegisterModel : PageModel
+    {
+        private readonly IUserRepository userRepository;
+        private readonly ICustomerRepository customerRepository;
+        public RegisterModel(IUserRepository _userRepository, ICustomerRepository _customerRepository)
+        {
+            userRepository = _userRepository;
+            customerRepository = _customerRepository;
+        }
+
+        [BindProperty]
+        [Required]
+        [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; }
+
+        [BindProperty]
+        [Required]
+        [Display(Name = "Password")]
+        [DataType(DataType.Password)]
+        [StringLength(50, ErrorMessage = "Password length must be between 6 and 50", MinimumLength = 6)]
+        public string Password { get; set; }
+
+        [BindProperty]
+        public Customer customer { get; set; }
+
+        [BindProperty]
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
+        [Compare("Password", ErrorMessage = "The password and confirm password do not match.")]
+        public string ConfirmPassword { get; set; }
+        public void OnGet()
+        {
+        }
+        public IActionResult OnPost()
+        {
+            try
+            {
+                if (SignUpValidation.CheckEmail(Email))
+                {
+                    ModelState.AddModelError("Email", "This email already exists");
+                }
+                if (SignUpValidation.CheckPhone(customer.PhoneNumber))
+                {
+                    ModelState.AddModelError("customer.PhoneNumber", "This phone number already exists");
+                }
+                if (ModelState.IsValid)
+                {
+                    User userObj = new User
+                    {
+                        Email = Email,
+                        Password = HashCode.HashPassword(Password),
+                        RoleId = 2
+                    };
+                   
+                    int userId = userRepository.SignUp(userObj);
+                    if (userId > 0)
+                    {
+                        Customer customerObj = new Customer
+                        {
+                            FullName = customer.FullName,
+                            PhoneNumber = customer.PhoneNumber,
+                            UserId = userId
+                        };
+                        customerRepository.AddNewCustomer(customerObj);
+                        return RedirectToPage("./Login");
+                    }
+                    else
+                    {
+                        ViewData["Message"] = "Cannot sign up!";
+                        return Page();
+                    }
+                }
+                else
+                {
+                    return Page();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewData["Message"] = ex.Message;
+                return Page();
+            }
+        }
+        
+    }
+}

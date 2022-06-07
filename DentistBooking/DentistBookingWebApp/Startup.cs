@@ -34,6 +34,7 @@ namespace DentistBookingWebApp
             services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(30));
             services.AddHttpContextAccessor();
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<ICustomerRepository, CustomerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

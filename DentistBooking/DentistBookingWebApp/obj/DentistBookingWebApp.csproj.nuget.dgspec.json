@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\.NET project\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\DentistBookingWebApp.csproj": {}
+    "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\DentistBookingWebApp.csproj": {}
   },
   "projects": {
-    "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {
+    "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj",
         "projectName": "BusinessObject",
-        "projectPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +40,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.17, )"
@@ -82,17 +86,17 @@
         }
       }
     },
-    "D:\\.NET project\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj": {
+    "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\.NET project\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj",
         "projectName": "DataAccess",
-        "projectPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -106,8 +110,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {
-                "projectPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj"
+              "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {
+                "projectPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj"
               }
             }
           }
@@ -140,17 +144,17 @@
         }
       }
     },
-    "D:\\.NET project\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\DentistBookingWebApp.csproj": {
+    "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\DentistBookingWebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\.NET project\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\DentistBookingWebApp.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\DentistBookingWebApp.csproj",
         "projectName": "DentistBookingWebApp",
-        "projectPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\DentistBookingWebApp.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\DentistBookingWebApp.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DentistBookingWebApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -164,11 +168,11 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {
-                "projectPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj"
+              "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {
+                "projectPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj"
               },
-              "D:\\.NET project\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj": {
-                "projectPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj"
+              "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj": {
+                "projectPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\DataAccess\\DataAccess.csproj"
               }
             }
           }

@@ -31,6 +31,7 @@ namespace DataAccess.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         public User GetUserById(int id);
+        public User GetUserByEmail(string email);
 
     }
 }
