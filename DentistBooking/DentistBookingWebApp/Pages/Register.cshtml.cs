@@ -1,6 +1,7 @@
-using BusinessObject;
 using DataAccess.Interfaces;
+using BusinessObject;
 using DentistBookingWebApp.Validation;
+using DentistBookingWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -33,7 +34,7 @@ namespace DentistBookingWebApp.Pages
         public string Password { get; set; }
 
         [BindProperty]
-        public Customer customer { get; set; }
+        public ViewModels.Customer customer { get; set; }
 
         [BindProperty]
         [Required]
@@ -58,7 +59,7 @@ namespace DentistBookingWebApp.Pages
                 }
                 if (ModelState.IsValid)
                 {
-                    User userObj = new User
+                    BusinessObject.User userObj = new BusinessObject.User
                     {
                         Email = Email,
                         Password = HashCode.HashPassword(Password),
@@ -68,7 +69,7 @@ namespace DentistBookingWebApp.Pages
                     int userId = userRepository.SignUp(userObj);
                     if (userId > 0)
                     {
-                        Customer customerObj = new Customer
+                        BusinessObject.Customer customerObj = new BusinessObject.Customer
                         {
                             FullName = customer.FullName,
                             PhoneNumber = customer.PhoneNumber,
