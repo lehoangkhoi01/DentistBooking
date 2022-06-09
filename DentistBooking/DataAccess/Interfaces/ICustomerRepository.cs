@@ -28,6 +28,7 @@ namespace DataAccess.Interfaces
         /// <param name="customerId"></param>
         /// <returns></returns>
         public Customer GetCustomerByCustomerId (int customerId);
+        public Customer GetCustomerByPhone(string phoneNumber);
 
         public void UpdateCustomer(Customer customer);
 

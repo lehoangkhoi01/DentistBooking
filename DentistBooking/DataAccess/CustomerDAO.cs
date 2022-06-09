@@ -74,6 +74,20 @@ namespace DataAccess
             }
             return customer;
         }
+        public Customer GetCustomerByPhone(string phone)
+        {
+            Customer customer;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                customer = dbContext.Customers.FirstOrDefault(x => x.PhoneNumber == phone);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return customer;
+        }
 
         public void UpdateCustomer(Customer customer)
         {

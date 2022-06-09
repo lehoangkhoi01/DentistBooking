@@ -1,5 +1,6 @@
 using BusinessObject;
 using DataAccess.Interfaces;
+using DentistBookingWebApp.Validation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -32,7 +33,7 @@ namespace DentistBookingWebApp.Pages
         {
             if (ModelState.IsValid)
             {
-                int userId = userRepository.Login(Email, Password);
+                int userId = userRepository.Login(Email, HashCode.HashPassword(Password));
                 if (userId > 0)
                 {
                     User user = userRepository.GetUserById(userId);

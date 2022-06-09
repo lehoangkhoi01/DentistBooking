@@ -20,7 +20,7 @@ namespace DataAccess
             {
                 lock (instanceLock)
                 {
-                    if(instance == null)
+                    if (instance == null)
                     {
                         instance = new UserDAO();
                     }
@@ -37,7 +37,7 @@ namespace DataAccess
             {
                 var dbContext = new DentistBookingContext();
                 User user = dbContext.Users.FirstOrDefault(u => u.Email.Equals(username) && u.Password.Equals(password));
-                if(user != null)
+                if (user != null)
                 {
                     result = user.Id;
                 }
@@ -56,7 +56,7 @@ namespace DataAccess
             {
                 var dbContext = new DentistBookingContext();
                 User _user = dbContext.Users.FirstOrDefault(u => u.Email.Equals(user.Email));
-                if(_user == null)
+                if (_user == null)
                 {
                     dbContext.Users.Add(user);
                     dbContext.SaveChanges();
@@ -84,5 +84,20 @@ namespace DataAccess
             }
             return user;
         }
+        public User GetUserByEmail(string email)
+        {
+            User user;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                user = dbContext.Users.FirstOrDefault(u => u.Email == email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return user;
+        }
+
     }
 }
