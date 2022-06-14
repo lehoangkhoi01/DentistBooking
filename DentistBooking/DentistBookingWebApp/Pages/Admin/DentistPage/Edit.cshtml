@@ -1,0 +1,45 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Admin.DentistPage.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Dentist</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Dentist.Id" />
+            <div class="form-group">
+                <label asp-for="Dentist.FullName" class="control-label"></label>
+                <input asp-for="Dentist.FullName" class="form-control" />
+                <span asp-validation-for="Dentist.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dentist.PhoneNumber" class="control-label"></label>
+                <input asp-for="Dentist.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Dentist.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dentist.UserId" class="control-label"></label>
+                <select asp-for="Dentist.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="Dentist.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
