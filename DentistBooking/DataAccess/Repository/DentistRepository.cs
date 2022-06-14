@@ -14,6 +14,9 @@ namespace DataAccess.Repository
 
         public Dentist GetDentistByDentistId(int dentistId) => DentistDAO.Instance.GetDentistByDentistId(dentistId);
 
+        public Dentist GetDentistByPhone(string phone)
+        => DentistDAO.Instance.GetDentistByPhone(phone);
+
         public Dentist GetDentistByUserId(int userId) => DentistDAO.Instance.GetDentistByUserId(userId);
 
         public IEnumerable<Dentist> GetDentistList() => DentistDAO.Instance.GetDentistList();
