@@ -1,6 +1,7 @@
 using BusinessObject;
 using DataAccess.Interfaces;
 using DentistBookingWebApp.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
@@ -17,9 +18,17 @@ namespace DentistBookingWebApp.Pages.Services
         }
 
         [BindProperty]
-        IList<ServiceViewModel> serviceList { get; set; }
+        public IList<ServiceViewModel> serviceList { get; set; }
+        public string Role { get; set; }
+
         public void OnGet()
         {
+            string role = HttpContext.Session.GetString("ROLE");
+            if(!string.IsNullOrEmpty(role))
+            {
+                Role = role;
+            }
+
             List<Service> services = serviceRepository.GetServiceList().ToList();
             foreach(Service service in services)
             {

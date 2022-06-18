@@ -43,6 +43,10 @@
     @if(!string.IsNullOrEmpty(Model.Role) && Model.Role.ToLower() == "admin")
     {
         <a asp-page="./Edit" asp-route-id="@Model.serviceViewModel.Id">Edit |</a>
+        <form method="post" asp-page-handler="Delete">
+            <input name="serviceId" value="@Model.serviceViewModel.Id" type="hidden"/>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
     }
     else
     {

@@ -3,6 +3,7 @@ using DataAccess.Interfaces;
 using DentistBookingWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 
 namespace DentistBookingWebApp.Pages.Services
 {
@@ -15,8 +16,10 @@ namespace DentistBookingWebApp.Pages.Services
             this.serviceRepository = serviceRepository;
         }
 
-
+        [BindProperty]
         public ServiceViewModel serviceViewModel { get; set; }
+
+        [BindProperty]
         public string Role { get; set; }
 
 
@@ -47,6 +50,40 @@ namespace DentistBookingWebApp.Pages.Services
                 };
             }
             return Page();
+        }
+
+        public IActionResult OnPostDelete([FromForm] int serviceId)
+        {
+            try
+            {
+                Service _service = serviceRepository.GetServiceById(serviceId);
+                if(_service == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    Service service = new Service
+                    {
+                        Id = _service.Id,
+                        Description = _service.Description,
+                        Name = _service.Name,
+                        Price = _service.Price,
+                        Image = _service.Image,
+                        CreatedDate = _service.CreatedDate,
+                        UpdatedDate = DateTime.Now,
+                        Admin = _service.Admin,
+                        CreatedPersonId = _service.CreatedPersonId,
+                        Status = "Inactive"
+                    };
+                    serviceRepository.UpdateService(service);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.InnerException;
+                return Page();
+            }
         }
     }
 }

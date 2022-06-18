@@ -84,7 +84,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Services.Update(service);
+                dbContext.Entry<Service>(service).State = EntityState.Modified;
                 dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
