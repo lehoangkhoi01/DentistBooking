@@ -789,3 +789,4 @@ D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.pdb
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\DentistBookingWebApp.genruntimeconfig.cache
 D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\ref\DentistBookingWebApp.dll
+D:\.NET project\DentistBooking\DentistBooking\DentistBookingWebApp\obj\Debug\net5.0\Razor\Pages\Services\Details.cshtml.g.cs
