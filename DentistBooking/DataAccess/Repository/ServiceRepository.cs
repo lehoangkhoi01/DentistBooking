@@ -14,6 +14,8 @@ namespace DataAccess.Repository
 
         public Service GetServiceById(int id) => ServiceDAO.Instance.GetServiceById(id);
 
+        public Service GetServiceByName(string name) => ServiceDAO.Instance.GetServiceByName(name);
+
         public IEnumerable<Service> GetServiceList() => ServiceDAO.Instance.GetServiceList();
 
         public void UpdateService(Service service) => ServiceDAO.Instance.UpdateService(service);

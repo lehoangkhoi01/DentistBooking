@@ -1,6 +1,7 @@
 using BusinessObject.Data;
 using DataAccess.Interfaces;
 using DataAccess.Repository;
+using DentistBookingWebApp.Utils.FileUploadService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +36,9 @@ namespace DentistBookingWebApp
             services.AddHttpContextAccessor();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<ICustomerRepository, CustomerRepository>();
+            services.AddSingleton<IAdminRepository, AdminRepository>();
+            services.AddSingleton<IServiceRepository, ServiceRepository>();
+            services.AddSingleton<IFileUploadService, LocalFileUploadService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

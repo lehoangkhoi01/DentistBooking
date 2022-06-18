@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {}
+    "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {
+    "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj",
+        "projectUniqueName": "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj",
         "projectName": "BusinessObject",
-        "projectPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\Documents\\PRN221\\DentistBooking\\DentistBooking\\BusinessObject\\obj\\",
+        "projectPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\BusinessObject.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "D:\\.NET project\\DentistBooking\\DentistBooking\\BusinessObject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

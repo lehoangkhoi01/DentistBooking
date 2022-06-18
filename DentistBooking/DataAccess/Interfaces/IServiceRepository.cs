@@ -13,6 +13,7 @@ namespace DataAccess.Interfaces
         public void UpdateService(Service service);
         public IEnumerable<Service> GetServiceList();
         public Service GetServiceById(int id);
+        public Service GetServiceByName(string name);   
 
     }
 }

@@ -59,6 +59,21 @@ namespace DataAccess
             return service;
         }
 
+        public Service GetServiceByName(string name)
+        {
+            Service service;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                service = dbContext.Services.FirstOrDefault(x => x.Name.ToLower().Trim().Equals(name.ToLower().Trim()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return service;
+        }
+
         public void UpdateService(Service service)
         {
             try
