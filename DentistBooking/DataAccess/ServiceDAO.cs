@@ -84,8 +84,15 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Entry<Service>(service).State = EntityState.Modified;
-                dbContext.SaveChangesAsync();
+                if(!CheckDuplicateServiceName(service))
+                {
+                    throw new Exception("This service is already exsited");
+                }
+                else
+                {
+                    dbContext.Entry<Service>(service).State = EntityState.Modified;
+                    dbContext.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -108,6 +115,26 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
             return serviceList;
+        }
+
+        private bool CheckDuplicateServiceName(Service service)
+        {
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                List<Service> serviceList = dbContext.Services.ToList();
+                serviceList.RemoveAll(s => s.Id == service.Id);
+                if(serviceList.Exists(s => s.Name.ToLower().Trim() == service.Name.ToLower().Trim()))
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return true;
         }
     }
 }

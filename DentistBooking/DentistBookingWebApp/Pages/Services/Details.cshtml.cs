@@ -45,7 +45,7 @@ namespace DentistBookingWebApp.Pages.Services
                     Description = service.Description,
                     Image = service.Image,
                     Price = service.Price,
-                    Status = service.Status,
+                    Status = service.Status == "Active" ? true : false,
                     Admin = service.Admin
                 };
             }

@@ -34,7 +34,7 @@ namespace DentistBookingWebApp.Pages.Services
         public IActionResult OnGet()
         {
             string role = HttpContext.Session.GetString("ROLE");
-            if(role.ToLower() != "admin")
+            if(role != "1")
             {
                 return NotFound();
             }

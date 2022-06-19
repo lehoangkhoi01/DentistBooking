@@ -6,9 +6,9 @@ using System.IO;
 
 namespace DentistBookingWebApp.Validation
 {
-    public class ServiceImageExtensionValidation : ValidationAttribute
+    public class ImageValidation : ValidationAttribute
     {
-        public ServiceImageExtensionValidation()
+        public ImageValidation()
         {
             ErrorMessage = "Wrong format for image";
         }
@@ -25,11 +25,10 @@ namespace DentistBookingWebApp.Validation
             {
                 //decimal price = decimal.Parse(value.ToString());
                 IFormFile file = (IFormFile)value;
-                if (file != null)
+                if(file != null)
                 {
                     string extensions = Path.GetExtension(file.FileName);
-                    if (listExtensions.Exists(p => p.Equals(extensions)))
-                    {
+                    if(listExtensions.Exists(p => p.Equals(extensions))) {
                         return true;
                     }
                     else

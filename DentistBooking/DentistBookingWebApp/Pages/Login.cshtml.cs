@@ -43,7 +43,7 @@ namespace DentistBookingWebApp.Pages
                 }
                 else
                 {
-                    ViewData["ErrorMessage"] = "Wrong email or password.";
+                    TempData["ErrorMessage"] = "Wrong email or password.";
                     return Page();
                 }
             }

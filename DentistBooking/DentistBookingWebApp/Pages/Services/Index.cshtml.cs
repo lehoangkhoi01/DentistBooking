@@ -19,17 +19,23 @@ namespace DentistBookingWebApp.Pages.Services
 
         [BindProperty]
         public IList<ServiceViewModel> serviceList { get; set; }
-        public string Role { get; set; }
+        public string RoleId { get; set; }
 
         public void OnGet()
         {
-            string role = HttpContext.Session.GetString("ROLE");
-            if(!string.IsNullOrEmpty(role))
+            string roleId = HttpContext.Session.GetString("ROLE");
+            if(!string.IsNullOrEmpty(roleId))
             {
-                Role = role;
+                RoleId = roleId;
             }
 
             List<Service> services = serviceRepository.GetServiceList().ToList();
+
+            if(serviceList == null)
+            {
+                serviceList = new List<ServiceViewModel>();
+            }
+            
             foreach(Service service in services)
             {
                 ServiceViewModel serviceViewModel = new ServiceViewModel
@@ -37,7 +43,7 @@ namespace DentistBookingWebApp.Pages.Services
                     Id = service.Id,
                     Name = service.Name,
                     Price = service.Price,
-                    Status = service.Status,
+                    Status = service.Status == "Active" ? true : false,
                     Image = service.Image,
                     CreatedDate = service.CreatedDate,
                     UpdatedDate = service.UpdatedDate,
