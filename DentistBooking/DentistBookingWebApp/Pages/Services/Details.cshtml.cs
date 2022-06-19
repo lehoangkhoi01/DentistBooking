@@ -30,7 +30,7 @@ namespace DentistBookingWebApp.Pages.Services
                 return NotFound();
             }
 
-            Service service = serviceRepository.GetServiceById(id);
+            Service service = serviceRepository.GetServiceById((int)id);
 
             if(service == null)
             {
@@ -52,38 +52,38 @@ namespace DentistBookingWebApp.Pages.Services
             return Page();
         }
 
-        public IActionResult OnPostDelete([FromForm] int serviceId)
-        {
-            try
-            {
-                Service _service = serviceRepository.GetServiceById(serviceId);
-                if(_service == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    Service service = new Service
-                    {
-                        Id = _service.Id,
-                        Description = _service.Description,
-                        Name = _service.Name,
-                        Price = _service.Price,
-                        Image = _service.Image,
-                        CreatedDate = _service.CreatedDate,
-                        UpdatedDate = DateTime.Now,
-                        Admin = _service.Admin,
-                        CreatedPersonId = _service.CreatedPersonId,
-                        Status = "Inactive"
-                    };
-                    serviceRepository.UpdateService(service);
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.InnerException;
-                return Page();
-            }
-        }
+        //public IActionResult OnPostDelete([FromForm] int serviceId)
+        //{
+        //    try
+        //    {
+        //        Service _service = serviceRepository.GetServiceById(serviceId);
+        //        if(_service == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            Service service = new Service
+        //            {
+        //                Id = _service.Id,
+        //                Description = _service.Description,
+        //                Name = _service.Name,
+        //                Price = _service.Price,
+        //                Image = _service.Image,
+        //                CreatedDate = _service.CreatedDate,
+        //                UpdatedDate = DateTime.Now,
+        //                Admin = _service.Admin,
+        //                CreatedPersonId = _service.CreatedPersonId,
+        //                Status = "Inactive"
+        //            };
+        //            serviceRepository.UpdateService(service);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["ErrorMessage"] = ex.InnerException;
+        //        return Page();
+        //    }
+        //}
     }
 }
