@@ -1,10 +1,10 @@
 ﻿using BusinessObject;
 using BusinessObject.Data;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccess
 {
@@ -97,20 +97,6 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
             return user;
-        }
-        public IEnumerable<User> GetUsers()
-        {
-            IEnumerable<User> users = new List<User>();
-            try
-            {
-                var dbContext = new DentistBookingContext();
-                users = dbContext.Users.Include(u => u.Role).ToList();
-            }
-            catch (Exception Ex)
-            {
-                throw new Exception(Ex.Message);
-            }
-            return users;
         }
 
     }

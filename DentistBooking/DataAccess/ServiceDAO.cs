@@ -1,5 +1,6 @@
 ﻿using BusinessObject;
 using BusinessObject.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,26 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                service = dbContext.Services.FirstOrDefault(x => x.Id == id);
+                service = dbContext.Services
+                                    .Include(s => s.Admin)
+                                    .FirstOrDefault(x => x.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return service;
+        }
+
+        public Service GetServiceByName(string name)
+        {
+            Service service;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                service = dbContext.Services
+                    .Include(s => s.Admin)
+                    .FirstOrDefault(x => x.Name.ToLower().Trim().Equals(name.ToLower().Trim()));
             }
             catch (Exception ex)
             {
@@ -64,7 +84,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Services.Update(service);
+                dbContext.Entry<Service>(service).State = EntityState.Modified;
                 dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -79,7 +99,9 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                serviceList = dbContext.Services.ToList();
+                serviceList = dbContext.Services
+                    .Include(s => s.Admin)
+                    .ToList();
             }
             catch (Exception ex)
             {

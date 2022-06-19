@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
@@ -110,7 +109,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                customerList = dbContext.Customers.Include(c => c.User.Role).ToList();
+                customerList = dbContext.Customers.ToList();
             }
             catch (Exception ex)
             {
