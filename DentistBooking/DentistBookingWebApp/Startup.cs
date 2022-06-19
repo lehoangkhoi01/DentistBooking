@@ -39,6 +39,7 @@ namespace DentistBookingWebApp
             services.AddSingleton<IAdminRepository, AdminRepository>();
             services.AddSingleton<IServiceRepository, ServiceRepository>();
             services.AddSingleton<IFileUploadService, LocalFileUploadService>();
+            services.AddSingleton<IDentistRepository, DentistRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

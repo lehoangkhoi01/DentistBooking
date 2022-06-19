@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Threading.Tasks;
 
+
 namespace DentistBookingWebApp.Pages.Services
 {
     public class CreateModel : PageModel
@@ -53,7 +54,7 @@ namespace DentistBookingWebApp.Pages.Services
                 if (_service == null) //Check if service is already existed
                 {
                     BusinessObject.User user = userRepository.GetUserByEmail(HttpContext.Session.GetString("EMAIL"));
-                    Admin admin = adminRepository.GetAdminByUserId(user.Id);
+                    BusinessObject.Admin admin = adminRepository.GetAdminByUserId(user.Id);
 
                     string filePath = await fileUploadService.UploadFileAsync(ServiceViewModel.ImageFile);
                     Service service = new Service

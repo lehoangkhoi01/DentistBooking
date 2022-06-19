@@ -53,7 +53,7 @@ namespace DentistBookingWebApp.Pages
                 {
                     ModelState.AddModelError("Email", "This email already exists");
                 }
-                if (SignUpValidation.CheckPhone(customer.PhoneNumber))
+                if (SignUpValidation.CheckPhoneCustomer(customer.PhoneNumber))
                 {
                     ModelState.AddModelError("customer.PhoneNumber", "This phone number already exists");
                 }

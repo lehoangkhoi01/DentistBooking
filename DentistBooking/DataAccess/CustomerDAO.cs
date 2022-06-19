@@ -1,11 +1,11 @@
 ﻿using BusinessObject;
 using BusinessObject.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace DataAccess
 {
@@ -109,7 +109,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                customerList = dbContext.Customers.ToList();
+                customerList = dbContext.Customers.Include(c => c.User.Role).ToList();
             }
             catch (Exception ex)
             {
