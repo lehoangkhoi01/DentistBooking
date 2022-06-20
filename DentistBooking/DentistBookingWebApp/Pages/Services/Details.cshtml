@@ -4,7 +4,6 @@
     ViewData["Title"] = "Detail";
 }
 
-
 <div class="container">
     <div class="body-top mt-3">
         <div class="service-name text-center mb-4">
@@ -12,9 +11,22 @@
         </div>
     </div>
 
-@*    <div class="specialty-section col-12 mb-3">
-        <span style="font-weight: bold" class="mr-1">Specialty:</span>@Model.Specialty.SpecialtyName
-    </div>*@
+    @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "1")
+    {
+        <div class="specialty-section col-12 mb-3">
+            <span style="font-weight: bold" class="mr-1">Status:</span>
+            @if( @Model.serviceViewModel.Status)
+            {
+                <span>Active</span>
+            }
+            else
+            {
+                <span>Inactive</span>
+            }
+            
+        </div>
+    }
+
     <div class="row mb-5">
         <div class="body-left col-12">
             <div>
@@ -29,20 +41,29 @@
                 </div>
             </div>
             <div class="funct-button text-center mt-5">
-                @if(!string.IsNullOrEmpty(Model.Role) && Model.Role == "1")
+                @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "1")
                 {
                     <a class="btn btn-success col-4"
-                       asp-page="/Services/Edit"
-                       asp-route-id="@Model.serviceViewModel.Id">
+                        asp-page="/Services/Edit"
+                        asp-route-id="@Model.serviceViewModel.Id">
                         Edit
-                    </a><br>
+                    </a>
+                    <a class="btn btn-danger col-4"
+                        asp-page="/Services/Details"
+                        asp-page-handler="Delete"
+                        asp-route-id="@Model.serviceViewModel.Id">
+                        Delete
+                    </a>
+                    <br>
                 }
                 else
                 {
                     <a class="btn btn-success col-4"
-                       href="#">
+                        href="#">
                         Make reservation
-                    </a><br>
+                    </a>
+
+                    <br>
                 }
 
             </div>
@@ -54,8 +75,8 @@
     <link href="@Url.Content("~/css/service/detail.css")" rel="stylesheet" type="text/css" />
 }
 
-@section Scripts {
+    @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+    }

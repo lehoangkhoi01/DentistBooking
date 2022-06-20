@@ -1,6 +1,7 @@
 using BusinessObject;
 using DataAccess.Interfaces;
 using DentistBookingWebApp.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -20,7 +21,7 @@ namespace DentistBookingWebApp.Pages.Services
         public ServiceViewModel serviceViewModel { get; set; }
 
         [BindProperty]
-        public string Role { get; set; }
+        public string RoleId { get; set; }
 
 
         public IActionResult OnGet(int? id)
@@ -29,6 +30,13 @@ namespace DentistBookingWebApp.Pages.Services
             {
                 return NotFound();
             }
+
+            string roleId = HttpContext.Session.GetString("ROLE");
+            if(!string.IsNullOrEmpty(roleId))
+            {
+                RoleId = roleId;
+            }
+
 
             Service service = serviceRepository.GetServiceById((int)id);
 
