@@ -10,21 +10,19 @@ using BusinessObject;
 using BusinessObject.Data;
 using DataAccess.Interfaces;
 
-namespace DentistBookingWebApp.Pages.Admin.DentistPage
+namespace DentistBookingWebApp.Pages.Admin.CustomerPage
 {
     public class EditModel : PageModel
     {
-        //private readonly IUserRepository userRepository;
-        private readonly IDentistRepository dentistRepository;
+        private readonly ICustomerRepository customerRepository;
 
-        public EditModel(/*IUserRepository userRepository,*/ IDentistRepository dentistRepository)
+        public EditModel(ICustomerRepository customerRepository)
         {
-            //this.userRepository = userRepository;
-            this.dentistRepository = dentistRepository;
+            this.customerRepository = customerRepository;
         }
 
         [BindProperty]
-        public ViewModels.Dentist Dentist { get; set; }
+        public ViewModels.Customer Customer { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -32,18 +30,17 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
             {
                 return NotFound();
             }
-            Dentist dentist = dentistRepository.GetDentistByDentistId((int)id);
-            Dentist = new ViewModels.Dentist
+
+            Customer cust = customerRepository.GetCustomerByCustomerId((int)id);
+            Customer = new ViewModels.Customer
             {
-                Id = dentist.Id,
-                PhoneNumber = dentist.PhoneNumber,
-                FullName = dentist.FullName,
-                UserId = dentist.UserId,
-                User = dentist.User,
+                Id = cust.Id,
+                FullName = cust.FullName,
+                PhoneNumber = cust.PhoneNumber,
+                UserId = cust.UserId,
+                User = cust.User
             };
-
-
-            if (Dentist == null)
+            if (Customer == null)
             {
                 return NotFound();
             }
@@ -58,14 +55,15 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
             {
                 return Page();
             }
+
             try
             {
-                dentistRepository.UpdateDentist(new Dentist
+                customerRepository.UpdateCustomer(new Customer
                 {
-                    Id = Dentist.Id,
-                    FullName = Dentist.FullName,
-                    PhoneNumber = Dentist.PhoneNumber,
-                    UserId = Dentist.UserId
+                    Id = Customer.Id,
+                    FullName = Customer.FullName,
+                    PhoneNumber = Customer.PhoneNumber,
+                    UserId = Customer.UserId
                 });
             }
             catch (Exception ex)
@@ -74,9 +72,8 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
                 return Page();
             }
 
-            return RedirectToPage("./Details", new {id = Dentist.Id});
+            return RedirectToPage("./Details", new { id = Customer.Id });
         }
 
-      
     }
 }
