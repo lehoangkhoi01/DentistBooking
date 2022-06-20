@@ -5,69 +5,6 @@
 }
 
 
-@*<h1>Details</h1>
-
-<div>
-    <h4>Service</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.serviceViewModel.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.serviceViewModel.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.serviceViewModel.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.serviceViewModel.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.serviceViewModel.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.serviceViewModel.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.serviceViewModel.Image)
-        </dt>
-        <dd class="col-sm-10">
-            <img src="~/images/@Model.serviceViewModel.Image" alt="@Model.serviceViewModel.Image" height="200" width="200" />
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.serviceViewModel.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.serviceViewModel.Status)
-            {
-                <span>Active</span>
-            }
-            else
-            {
-                <span>Inactive</span>
-            }
-        </dd>
-    </dl>
-</div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
-    @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "1")
-    {
-        <a asp-page="./Edit" asp-route-id="@Model.serviceViewModel.Id">Edit |</a>
-        <form method="post" asp-page-handler="Delete">
-            <input name="serviceId" value="@Model.serviceViewModel.Id" type="hidden" />
-            <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-    }
-    else
-    {
-        <a href="#">Booking appoitment</a>
-    }
-</div>*@
-
-
 <div class="container">
     <div class="body-top mt-3">
         <div class="service-name text-center mb-4">
@@ -82,7 +19,7 @@
         <div class="body-left col-12">
             <div>
                 <div class="service-thumb mb-3">
-                    <img src="~/images/@Model.serviceViewModel.Image" />
+                    <img src="~/images/service/@Model.serviceViewModel.Image" />
                 </div>
                 <div class="service-des">
                     @Html.Raw(Model.serviceViewModel.Description)
