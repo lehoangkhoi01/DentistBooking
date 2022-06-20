@@ -38,33 +38,46 @@
                     <div class="service-descript text-secondary px-3">
                         @Html.Raw(item.Description)
                     </div>
-                    <div class="card-bottom mt-3 px-3">
-                        <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
-                        <a href="#"
-                           class="btn btn-success button-card">
-                            Make reservation
-                        </a>
-                    </div>
-                </div>
+                    @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "1")
+                    {
+                        <div class="card-bottom mt-3 px-3">
+                            <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
+                            <a asp-page="./Edit"
+                       class="btn btn-success button-card">
+                                Edit
+                            </a>
+                        </div>
+                    }
+                    else if (string.IsNullOrEmpty(Model.RoleId) || Model.RoleId == "3")
+                    {
+                        <div class="card-bottom mt-3 px-3">
+                            <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
+                            <a href="#"
+                                class="btn btn-success button-card">
+                                Make reservation
+                            </a>
+                        </div>
+                    }
+             </div>
             </div>
         }
     </div>
 
     @*<nav aria-label="..." class="pagination">
-        <ul class="pagination">
-            <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
-                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })" tabindex="-1">Previous</a>
-            </li>
-            @for (int i = 1; i <= ViewBag.PageCount; i++)
-            {
-                <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
-                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
-                </li>
-            }
-            <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
-                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
-            </li>
-        </ul>
+    <ul class="pagination">
+    <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
+    <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })" tabindex="-1">Previous</a>
+    </li>
+    @for (int i = 1; i <= ViewBag.PageCount; i++)
+    {
+    <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
+    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+    </li>
+    }
+    <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
+    <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
+    </li>
+    </ul>
     </nav>*@
 </div>
 
@@ -73,8 +86,10 @@
     <link href="@Url.Content("~/css/service/index.css")" rel="stylesheet" type="text/css" />
 }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
 
 
