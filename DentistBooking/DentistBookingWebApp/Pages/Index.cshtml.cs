@@ -21,5 +21,11 @@ namespace DentistBookingWebApp.Pages
         {
 
         }
+
+        public void OnGetLogOut()
+        {
+            HttpContext.Session.Remove("EMAIL");
+            HttpContext.Session.Remove("ROLE");
+        }
     }
 }

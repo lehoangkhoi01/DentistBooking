@@ -1,5 +1,6 @@
 using BusinessObject;
 using DataAccess.Interfaces;
+using DentistBookingWebApp.Validation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -32,17 +33,17 @@ namespace DentistBookingWebApp.Pages
         {
             if (ModelState.IsValid)
             {
-                int userId = userRepository.Login(Email, Password);
+                int userId = userRepository.Login(Email, HashCode.HashPassword(Password));
                 if (userId > 0)
                 {
                     User user = userRepository.GetUserById(userId);
-                    HttpContext.Session.SetString("Email", user.Email);
-                    HttpContext.Session.SetString("Role", user.RoleId.ToString());
+                    HttpContext.Session.SetString("EMAIL", user.Email);
+                    HttpContext.Session.SetString("ROLE", user.RoleId.ToString());
                     return RedirectToPage("./Index");
                 }
                 else
                 {
-                    ViewData["ErrorMessage"] = "Wrong email or password.";
+                    TempData["ErrorMessage"] = "Wrong email or password.";
                     return Page();
                 }
             }

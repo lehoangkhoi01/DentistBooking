@@ -1,0 +1,72 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Services.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Service</h1>
+
+<h4>Product</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <div class="form-group">
+                <label asp-for="ServiceViewModel.Name" class="control-label"></label>
+                <input asp-for="ServiceViewModel.Name" class="form-control" />
+                <span asp-validation-for="ServiceViewModel.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ServiceViewModel.Description" class="control-label"></label>
+                <textarea asp-for="ServiceViewModel.Description" class="form-control" id="text-content"></textarea>
+                <span asp-validation-for="ServiceViewModel.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ServiceViewModel.Price" class="control-label"></label>
+                <input asp-for="ServiceViewModel.Price" class="form-control" />
+                <span asp-validation-for="ServiceViewModel.Price" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="ServiceViewModel.Status" value="Active">
+
+            <div class="form-group">
+                <label asp-for="ServiceViewModel.ImageFile" class="control-label"></label>
+                <input asp-for="ServiceViewModel.ImageFile" class="form-control"/>
+                <span asp-validation-for="ServiceViewModel.ImageFile" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="https://cdn.tiny.cloud/1/2t4he0yxbmprjqhk0y813ygaxy9y5u0mjixyrmjobarrfcvj/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#text-content',
+            skin: 'bootstrap',
+            plugins: 'lists, link, image, media',
+            toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
+            menubar: false
+        });
+    </script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#service-content',
+            menubar: false
+        });
+    </script>
+}

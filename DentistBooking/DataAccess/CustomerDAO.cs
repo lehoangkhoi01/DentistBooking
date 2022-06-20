@@ -1,11 +1,11 @@
 ﻿using BusinessObject;
 using BusinessObject.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace DataAccess
 {
@@ -74,6 +74,20 @@ namespace DataAccess
             }
             return customer;
         }
+        public Customer GetCustomerByPhone(string phone)
+        {
+            Customer customer;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                customer = dbContext.Customers.FirstOrDefault(x => x.PhoneNumber == phone);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return customer;
+        }
 
         public void UpdateCustomer(Customer customer)
         {
@@ -95,7 +109,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                customerList = dbContext.Customers.ToList();
+                customerList = dbContext.Customers.Include(c => c.User.Role).ToList();
             }
             catch (Exception ex)
             {
