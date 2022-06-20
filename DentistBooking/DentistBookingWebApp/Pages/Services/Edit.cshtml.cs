@@ -105,10 +105,10 @@ namespace DentistBookingWebApp.Pages.Services
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                ViewData["ErrorMessage"] = ex.Message;
                 return Page();
             }
-            return RedirectToPage();
+            return RedirectToPage("Edit", "Get", new {id = ServiceViewModel.Id});
             
         }
     }

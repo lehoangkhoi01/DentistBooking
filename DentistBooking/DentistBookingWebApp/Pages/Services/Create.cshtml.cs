@@ -74,11 +74,13 @@ namespace DentistBookingWebApp.Pages.Services
                 else
                 {
                     TempData["ErrorMessage"] = "This serice is already existed.";
+                    return Page();
                 }
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
+                return Page();
             }
 
             
