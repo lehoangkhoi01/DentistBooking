@@ -52,12 +52,12 @@
                         <div class="card-bottom mt-3 px-3">
                             <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
                             <a href="#"
-                                class="btn btn-success button-card">
+                       class="btn btn-success button-card">
                                 Make reservation
                             </a>
                         </div>
                     }
-             </div>
+                </div>
             </div>
         }
     </div>
@@ -89,6 +89,17 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
     }
 
 

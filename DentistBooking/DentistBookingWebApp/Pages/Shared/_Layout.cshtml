@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - DentistBooking</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/notify.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <link href="@Url.Content("~/css/")" rel="stylesheet" type="text/css" />
     @RenderSection("Styles", false)
@@ -51,6 +53,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/notify.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
