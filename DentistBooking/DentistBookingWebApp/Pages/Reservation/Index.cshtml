@@ -125,8 +125,10 @@
             });
             var date = moment();
             var currentDate = date.format('DD-MM-YYYY');
-            $("#date-picker").val(currentDate);
-
+            if('@ViewBag.Date' != "") {
+                $("#date-picker").val('@ViewBag.Date');
+            }
+            else $("#date-picker").val(currentDate);
 
             var date = $("#date-picker").val();
             var time = $("#timeSelectBox").val();

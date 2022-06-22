@@ -6,20 +6,25 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace DentistBookingWebApp.Pages.Reservation
 {
     public class IndexModel : PageModel
     {
+        private readonly IList<string> TIME_LIST = new List<string> { "09:00", "10:00", "11:00", "14:00", "15:00", "16:00" };
         private readonly IServiceRepository serviceRepository;
         private readonly IDentistRepository dentistRepository;
+        private readonly IReservationRepository reservationRepository;
 
         public IndexModel(IServiceRepository serviceRepository, 
-                            IDentistRepository dentistRepository)
+                            IDentistRepository dentistRepository,
+                            IReservationRepository reservationRepository)
         {
             this.serviceRepository = serviceRepository;
             this.dentistRepository = dentistRepository;
+            this.reservationRepository = reservationRepository;
         }
 
         public IList<string> TimeList { get; set; }
@@ -36,7 +41,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 return NotFound();
             }
 
-            TimeList = new List<string> { "09:00", "10:00", "11:00", "14:00", "15:00", "16:00"};
+            //TimeList = new List<string> { "09:00", "10:00", "11:00", "14:00", "15:00", "16:00"};
 
             try
             {
@@ -45,7 +50,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 
                 ViewData["Service"] = new SelectList(services, "Id", "Name");
                 ViewData["DentistList"] = new SelectList(dentists, "Id", "FullName");
-                ViewData["TimeList"] = new SelectList(TimeList);
+                ViewData["TimeList"] = new SelectList(TIME_LIST);
             }
             catch (Exception ex)
             {
@@ -57,7 +62,40 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IActionResult OnPostLoadDentist([FromForm] string date, string time)
         {
-            date = "Array";
+            IEnumerable<Dentist> dentists;
+            IEnumerable<Service> services;
+            try
+            {
+                services = serviceRepository.GetServiceList();
+                dentists = dentistRepository.GetDentistList();
+
+                if (!string.IsNullOrEmpty(date) && !string.IsNullOrEmpty(time))
+                {
+                    var dateTimeString = date + " " + time;
+                    DateTime dateTime = DateTime.ParseExact(dateTimeString, "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);
+                    IList<Dentist> busyDentists = new List<Dentist>().ToList();
+                    IEnumerable<BusinessObject.Reservation> reservations = reservationRepository.GetReservationsByDateTime(dateTime);                                     
+                    if (reservations.Count() > 0)
+                    {
+                        foreach (var item in reservations)
+                        {
+                            busyDentists.Add(item.Dentist);
+                        }
+                        dentists = dentists.Where(i => !busyDentists.Contains(i));
+                    }
+                    //ViewData["DentistList"] = new SelectList(dentists, "Id", "FullName");
+                }
+                ViewData["DentistList"] = new SelectList(dentists, "Id", "FullName");
+                ViewData["Service"] = new SelectList(services, "Id", "Name");
+                ViewData["TimeList"] = new SelectList(TIME_LIST, time);
+                ViewData["Date"] = date;
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+
+            
             return Page();
         }
     }

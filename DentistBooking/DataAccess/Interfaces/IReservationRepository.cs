@@ -14,6 +14,7 @@ namespace DataAccess.Interfaces
         public IEnumerable<Reservation> GetReservationsByCustomerId(int customerId);
         public IEnumerable<Reservation> GetReservationsByDentistId(int dentistId);
         public IEnumerable<Reservation> GetReservationsByServiceId(int serviceId);
+        public IEnumerable<Reservation> GetReservationsByDateTime(DateTime dateTime);
         public void AddNewReservation(Reservation reservation);
         public void UpdateReservation(Reservation reservation);
     }

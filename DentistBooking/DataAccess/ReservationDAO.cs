@@ -124,6 +124,26 @@ namespace DataAccess
             return reservations;
         }
 
+        public IEnumerable<Reservation> GetReservationsByDate(DateTime dateTime)
+        {
+            IEnumerable<Reservation> reservations;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                reservations = dbContext.Reservations
+                    .Include(r => r.Service)
+                    .Include(r => r.Customer)
+                    .Include(r => r.Dentist)
+                    .Where(r => r.ResevrationDate == dateTime)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return reservations;
+        }
+
         public void AddNewReservation(Reservation reservation)
         {
             try
