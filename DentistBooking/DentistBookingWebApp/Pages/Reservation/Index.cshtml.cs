@@ -45,13 +45,19 @@ namespace DentistBookingWebApp.Pages.Reservation
                 
                 ViewData["Service"] = new SelectList(services, "Id", "Name");
                 ViewData["DentistList"] = new SelectList(dentists, "Id", "FullName");
-                ViewData["TimeList"] = TimeList;
+                ViewData["TimeList"] = new SelectList(TimeList);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
             }
 
+            return Page();
+        }
+
+        public IActionResult OnPostLoadDentist([FromForm] string date, string time)
+        {
+            date = "Array";
             return Page();
         }
     }
