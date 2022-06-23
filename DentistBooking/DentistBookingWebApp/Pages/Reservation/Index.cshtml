@@ -6,22 +6,11 @@
 
 <div class="reservation-wrapper px-5 py-5 my-3">
     <div class="form-row col-12 reservation-top pb-4">
-        <div class="col-12 col-lg-4 left-section my-3">
-            @*<h4>Dentist Option</h4>
-            <button class="col-6 btn btn-success my-3" onclick="onClickChooseAutoDentist()">Auto choose dentist</button>
-            <button type="button"
-                    data-toggle="modal"
-                    data-target="#dentistModal"
-                    class="col-6 btn btn-primary my-3">
-                Choose your dentist
-            </button>
-            <h5>Dentist: <span id="dentistName"></span> </h5>*@
-        </div>
-
+        
         <div class="col-12 col-lg-8 right-section">
             <div class="container-fluid px-0 px-sm-4 mx-auto">
                 <div class="col-12">
-                    <form autocomplete="off" method="post" id="reservationForm">
+                    
                         <div class="form-group col-lg-6 mb-4 service-choose">
                             <label class="control-label">Choose a service</label>
                             <select class="form-control" asp-items="ViewBag.Service" id="serviceSelectBox"></select>
@@ -56,9 +45,6 @@
 
                             </div>
                         </div>
-                        <input name="patientId" id="chosenPatientId" hidden />
-                        <input name="timeReservation" id="timeReservation" hidden />
-                    </form>
                 </div>
             </div>
         </div>
@@ -67,10 +53,11 @@
         <h5>Detail</h5>
         <h6>Date & Time: <span id="datetimeDetail"></span></h6>
         <h6>Dentist: <span id="dentistDetail"></span></h6>
+        <input type="hidden" id="dentistIdDetail"/>
     </div>
     <div class="reservation-bottom col-12">
         <div class="text-center">
-            <button type="button" class="btn btn-outline-success col-lg-4">Complete</button>
+            <button type="button" onclick="onClickSubmitForm()" class="btn btn-outline-success col-lg-4">Complete</button>
         </div>
     </div>
 </div>
@@ -82,29 +69,14 @@
     <input type="hidden" name="time" id="timeInput" />
 </form>
 
+<!-- Hidden form to submit reservation form -->
+<form method="post" asp-page-handler="MakeReservation" id="reservationForm">
+    <input hidden name="serviceId" id="serviceIdForm" />
+    <input hidden name="date" id="dateForm" />
+    <input hidden name="time" id="timeForm" />
+    <input hidden name="dentistId" id="dentistIdForm" />
+</form>
 
-<!-- Choose Dentist Modal -->
-<div class="modal fade" id="dentistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Dentist list</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group col-12">
-                    <select id="chosenDentist" class="form-control" asp-items="ViewBag.DentistList"></select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" onclick="onClickChooseDentist()" class="btn btn-outline-primary">Choose</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Styles {
     <link href="@Url.Content("~/css/reservation/index.css")" rel="stylesheet" type="text/css" />
@@ -156,6 +128,7 @@
 
         function onClickChooseAutoDentist() {
             $("#dentistDetail").text("Auto choose");
+            $("#dentistIdDetail").val(0);
         }
 
         function onChangeTimeSelectBox() {
@@ -186,7 +159,26 @@
         function onChangeDentistSelectBox() {
             var dentistId = $("#chosenDentist").val();
             var dentistName = $("#chosenDentist option:selected").text();
-            $("#dentistDetail").text(dentistName);            
+            $("#dentistDetail").text(dentistName);     
+            $("#dentistIdDetail").val(dentistId);
+        }
+    </script>
+
+    <script>
+        function onClickSubmitForm() {
+            var date = $("#date-picker").val();
+            $("#dateForm").val(date);
+
+            var time = $("#timeSelectBox").val();
+            $("#timeForm").val(time);
+
+            var serviceId = $("#serviceSelectBox").val();
+            $("#serviceIdForm").val(serviceId);
+
+            var dentistId = $("#dentistIdDetail").val();
+            $("#dentistIdForm").val(dentistId);
+
+            $("#reservationForm").submit();
         }
     </script>
 }
