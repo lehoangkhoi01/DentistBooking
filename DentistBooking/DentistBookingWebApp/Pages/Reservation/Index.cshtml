@@ -6,19 +6,29 @@
 
 <div class="reservation-wrapper px-5 py-5 my-3">
     <div class="form-row col-12 reservation-top pb-4">
-        
+
         <div class="col-12 col-lg-8 right-section">
             <div class="container-fluid px-0 px-sm-4 mx-auto">
                 <div class="col-12">
-                    
+                    <form method="post" id="reservationForm">
                         <div class="form-group col-lg-6 mb-4 service-choose">
                             <label class="control-label">Choose a service</label>
-                            <select class="form-control" asp-items="ViewBag.Service" id="serviceSelectBox"></select>
+                            <select class="form-control"
+                                    asp-items="ViewBag.Service"
+                                    asp-for="ServiceId"
+                                    id="serviceSelectBox"></select>
                         </div>
+
                         <div class="card border-0">
                             <div class="card-header bg-primary">
                                 <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
-                                    <input onchange="onChangeDatePicker()" type="text" id="date-picker" class="datepicker" placeholder="Pick Date" name="dateReservation" readonly>
+                                    <input asp-for="Date"
+                                           onchange="onChangeDatePicker()"
+                                           type="text"
+                                           id="date-picker"
+                                           class="datepicker"
+                                           placeholder="Pick Date"
+                                           readonly>
                                     <span class="fa fa-calendar"></span>
                                 </div>
                             </div>
@@ -27,24 +37,29 @@
                                 <div class="row text-center mx-0 col-12">
                                     <div class="col-12 col-lg-6">
                                         <label class="control-label">Time</label>
-                                        <select class="form-control" asp-items="ViewBag.TimeList" id="timeSelectBox" onchange="onChangeTimeSelectBox()"></select>
+                                        <select class="form-control"
+                                                asp-items="ViewBag.TimeList"
+                                                asp-for="Time"
+                                                id="timeSelectBox"
+                                                onchange="onChangeTimeSelectBox()"></select>
                                     </div>
 
-                                    @*@foreach (var time in ViewBag.TimeList)
-                                    {
-                                    <div class="col-md-2 col-4 my-1 px-2">
-                                    <div class="cell py-1">@time</div>
-                                    </div>
-                                    }*@
                                     <div class="text-center mx-0 col-12 col-lg-6">
                                         <label class="control-label">Dentist Options</label>
-                                        <select id="chosenDentist" class="form-control mb-3" asp-items="ViewBag.DentistList" onchange="onChangeDentistSelectBox()"></select>
-                                        <button type="button" class="col-12 btn btn-success" onclick="onClickChooseAutoDentist()">Auto choose dentist</button>
+                                        <select id="chosenDentist" 
+                                                class="form-control mb-3" 
+                                                asp-items="ViewBag.DentistList" 
+                                                asp-for="DentistId"
+                                                onchange="onChangeDentistSelectBox()">
+                                            <option value="0">Auto choose</option>
+                                        </select>
+                                        @*<button type="button" class="col-12 btn btn-success" onclick="onClickChooseAutoDentist()">Auto choose dentist</button>*@
                                     </div>
                                 </div>
 
                             </div>
                         </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -53,7 +68,7 @@
         <h5>Detail</h5>
         <h6>Date & Time: <span id="datetimeDetail"></span></h6>
         <h6>Dentist: <span id="dentistDetail"></span></h6>
-        <input type="hidden" id="dentistIdDetail"/>
+        <input type="hidden" id="dentistIdDetail" />
     </div>
     <div class="reservation-bottom col-12">
         <div class="text-center">
@@ -64,18 +79,18 @@
 
 
 <!-- Hidden form to request load dentist list-->
-<form method="post" asp-page-handler="LoadDentist" id="loadDentistForm">
+@*<form method="post" asp-page-handler="LoadDentist" id="loadDentistForm">
     <input type="hidden" name="date" id="dateInput" />
     <input type="hidden" name="time" id="timeInput" />
-</form>
+</form>*@
 
 <!-- Hidden form to submit reservation form -->
-<form method="post" asp-page-handler="MakeReservation" id="reservationForm">
+@*<form method="post" asp-page-handler="MakeReservation" id="reservationForm">
     <input hidden name="serviceId" id="serviceIdForm" />
     <input hidden name="date" id="dateForm" />
     <input hidden name="time" id="timeForm" />
     <input hidden name="dentistId" id="dentistIdForm" />
-</form>
+</form>*@
 
 
 @section Styles {
@@ -97,7 +112,7 @@
             });
             var date = moment();
             var currentDate = date.format('DD-MM-YYYY');
-            if('@ViewBag.Date' != "") {
+            if ('@ViewBag.Date' != "") {
                 $("#date-picker").val('@ViewBag.Date');
             }
             else $("#date-picker").val(currentDate);
@@ -119,13 +134,6 @@
         });
     </script>
     <script>
-        //function onClickChooseDentist() {
-        //    $("#dentistModal").modal('hide');
-        //    var dentistId = $("#chosenDentist").val();
-        //    var dentistName = $("#chosenDentist option:selected").text();
-        //    $("#dentistDetail").text(dentistName);
-        //}
-
         function onClickChooseAutoDentist() {
             $("#dentistDetail").text("Auto choose");
             $("#dentistIdDetail").val(0);
@@ -159,24 +167,24 @@
         function onChangeDentistSelectBox() {
             var dentistId = $("#chosenDentist").val();
             var dentistName = $("#chosenDentist option:selected").text();
-            $("#dentistDetail").text(dentistName);     
+            $("#dentistDetail").text(dentistName);
             $("#dentistIdDetail").val(dentistId);
         }
     </script>
 
     <script>
         function onClickSubmitForm() {
-            var date = $("#date-picker").val();
-            $("#dateForm").val(date);
+            //var date = $("#date-picker").val();
+            //$("#dateForm").val(date);
 
-            var time = $("#timeSelectBox").val();
-            $("#timeForm").val(time);
+            //var time = $("#timeSelectBox").val();
+            //$("#timeForm").val(time);
 
-            var serviceId = $("#serviceSelectBox").val();
-            $("#serviceIdForm").val(serviceId);
+            //var serviceId = $("#serviceSelectBox").val();
+            //$("#serviceIdForm").val(serviceId);
 
-            var dentistId = $("#dentistIdDetail").val();
-            $("#dentistIdForm").val(dentistId);
+            //var dentistId = $("#dentistIdDetail").val();
+            //$("#dentistIdForm").val(dentistId);
 
             $("#reservationForm").submit();
         }

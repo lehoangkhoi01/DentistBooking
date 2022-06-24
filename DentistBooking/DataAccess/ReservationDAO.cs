@@ -84,6 +84,22 @@ namespace DataAccess
             return reservations;
         }
 
+        public Reservation GetReservationByDateTimeAndCustomerId(int customerId, DateTime dateTime)
+        {
+            Reservation reservation;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                reservation = dbContext.Reservations.SingleOrDefault(r => r.CustomerId == customerId
+                                                                            && r.ResevrationDate == dateTime);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return reservation;
+        }
+
         public IEnumerable<Reservation> GetReservationsByDentistId(int dentistId)
         {
             IEnumerable<Reservation> reservations;
