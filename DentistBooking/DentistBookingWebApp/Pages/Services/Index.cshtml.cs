@@ -53,5 +53,7 @@ namespace DentistBookingWebApp.Pages.Services
                 serviceList.Add(serviceViewModel);
             }
         }
+
+        
     }
 }

@@ -32,6 +32,9 @@
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Services/Index">Service</a>
                         </li>
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/Index">Reservation</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -54,6 +57,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/notify.js"></script>
+    <script src="~/js/moment.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -60,7 +60,7 @@ namespace DentistBookingWebApp.Pages.Services
                     Service service = new Service
                     {
                         Name = ServiceViewModel.Name,
-                        Description = ServiceViewModel.Name,
+                        Description = ServiceViewModel.Description,
                         Price = ServiceViewModel.Price,
                         Image = ServiceViewModel.ImageFile.FileName,
                         CreatedDate = DateTime.Now.Date,
