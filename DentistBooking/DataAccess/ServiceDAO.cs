@@ -117,6 +117,25 @@ namespace DataAccess
             return serviceList;
         }
 
+        public IEnumerable<Service> GetServiceListByPage(int page, int itemPerPage)
+        {
+            IEnumerable<Service> serviceList;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                serviceList = dbContext.Services
+                    .Include(s => s.Admin)
+                    .Skip((page - 1) * itemPerPage)
+                    .Take(itemPerPage)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return serviceList;
+        }
+
         private bool CheckDuplicateServiceName(Service service)
         {
             try
