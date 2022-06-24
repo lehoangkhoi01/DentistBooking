@@ -11,19 +11,28 @@
         </div>
     </div>
 
-    @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "1")
+    @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId != "2")
     {
-        <div class="specialty-section col-12 mb-3">
-            <span style="font-weight: bold" class="mr-1">Status:</span>
-            @if( @Model.serviceViewModel.Status)
-            {
-                <span>Active</span>
-            }
-            else
-            {
-                <span>Inactive</span>
-            }
-            
+        <div class="row col-12">
+            <div class="specialty-section col-4 mb-3">
+                <span style="font-weight: bold" class="mr-1">Status:</span>
+                @if (@Model.serviceViewModel.Status)
+                {
+                    <span>Active</span>
+                }
+                else
+                {
+                    <span>Inactive</span>
+                }
+            </div>
+            <div class="specialty-section col-4 mb-3">
+                <span style="font-weight: bold" class="mr-1">Created by: </span>               
+                <span>@Model.serviceViewModel.Admin.FullName</span>
+            </div>
+            <div class="specialty-section col-4 mb-3">
+                <span style="font-weight: bold" class="mr-1">Latest update: </span>               
+                <span>@Model.serviceViewModel.UpdatedDate</span>
+            </div>
         </div>
     }
 
@@ -44,22 +53,22 @@
                 @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "1")
                 {
                     <a class="btn btn-success col-4"
-                        asp-page="/Services/Edit"
-                        asp-route-id="@Model.serviceViewModel.Id">
+                   asp-page="/Services/Edit"
+                   asp-route-id="@Model.serviceViewModel.Id">
                         Edit
                     </a>
                     <a class="btn btn-danger col-4"
-                        asp-page="/Services/Details"
-                        asp-page-handler="Delete"
-                        asp-route-id="@Model.serviceViewModel.Id">
+                   asp-page="/Services/Details"
+                   asp-page-handler="Delete"
+                   asp-route-id="@Model.serviceViewModel.Id">
                         Delete
                     </a>
                     <br>
                 }
-                else
+                else if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "2")
                 {
                     <a class="btn btn-success col-4"
-                        href="#">
+                   href="#">
                         Make reservation
                     </a>
 
