@@ -1,0 +1,72 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Dentist.ScheduleModel
+@{
+    ViewData["Title"] = "Schedule";
+}
+
+<div class="wrapper px-3 py-5">
+    <div class="section-title">
+        <h2>Accounts</h2>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table table-striped table-bordered mydatatable">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Customer
+                    </th>
+                    <th>
+                        Service
+                    </th>
+                    <th>
+                        Date & Time
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Reservations)
+                {
+                    <tr>
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.Customer.FullName
+                        </td>
+                        <td>
+                            @item.Service.Name
+                        </td>
+                        <td>
+                            @item.ResevrationDate
+                        </td>
+                        <td>
+                            @item.Status
+                        </td>
+                        <td>
+                            <a href="#">Detail</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Styles {
+
+}
+
+@section Scripts {
+    <script>
+        $(".mydatatable").DataTable();
+    </script>
+}

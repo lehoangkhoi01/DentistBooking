@@ -19,7 +19,7 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
             _context = context;
         }
 
-        public IList<Dentist> Dentist { get;set; }
+        public IList<BusinessObject.Dentist> Dentist { get;set; }
 
         public async Task OnGetAsync()
         {

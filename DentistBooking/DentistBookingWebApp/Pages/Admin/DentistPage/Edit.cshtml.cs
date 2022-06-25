@@ -32,7 +32,7 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
             {
                 return NotFound();
             }
-            Dentist dentist = dentistRepository.GetDentistByDentistId((int)id);
+            BusinessObject.Dentist dentist = dentistRepository.GetDentistByDentistId((int)id);
             Dentist = new ViewModels.Dentist
             {
                 Id = dentist.Id,
@@ -60,7 +60,7 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
             }
             try
             {
-                dentistRepository.UpdateDentist(new Dentist
+                dentistRepository.UpdateDentist(new BusinessObject.Dentist
                 {
                     Id = Dentist.Id,
                     FullName = Dentist.FullName,

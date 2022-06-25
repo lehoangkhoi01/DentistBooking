@@ -26,7 +26,7 @@ namespace DentistBookingWebApp.Pages.Admin.CustomerPage
         }
 
         //public IEnumerable<User> User { get;set; }
-        public IEnumerable<Dentist> Dentist { get; set; }
+        public IEnumerable<BusinessObject.Dentist> Dentist { get; set; }
         public IEnumerable<Customer> Customer { get; set; }
 
 

@@ -20,7 +20,7 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
         }
 
         [BindProperty]
-        public Dentist Dentist { get; set; }
+        public BusinessObject.Dentist Dentist { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

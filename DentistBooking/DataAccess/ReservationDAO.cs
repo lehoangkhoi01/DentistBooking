@@ -37,7 +37,11 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservation = dbContext.Reservations.SingleOrDefault(r => r.Id == id);
+                reservation = dbContext.Reservations
+                    .Include(r => r.Service)
+                    .Include(r => r.Customer.User)
+                    .Include(r => r.Dentist.User)
+                    .SingleOrDefault(r => r.Id == id);
             }
             catch(Exception ex)
             {

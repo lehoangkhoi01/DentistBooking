@@ -35,6 +35,9 @@
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/Index">Reservation</a>
                         </li>
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Dentist/Schedule">Schedule</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -58,7 +61,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/notify.js"></script>
     <script src="~/js/moment.js"></script>
-
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
