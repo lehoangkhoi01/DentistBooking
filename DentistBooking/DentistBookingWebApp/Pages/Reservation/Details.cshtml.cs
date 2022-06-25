@@ -80,7 +80,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             return RedirectToPage("/Reservation/Details", new { id = reservationId });
         }
 
-        public IActionResult OnPostRejectReservation([FromForm] int reservationId)
+        public IActionResult OnPostRejectReservation([FromForm] int reservationId, string rejectReason)
         {
             string roleId = HttpContext.Session.GetString("ROLE");
             if(string.IsNullOrEmpty(roleId))
@@ -97,6 +97,10 @@ namespace DentistBookingWebApp.Pages.Reservation
                 }
                 AuthorizeForAdminAndChosenDentist(reservation);
                 reservation.Status = "Rejected";
+                if(!string.IsNullOrEmpty(rejectReason.Trim()))
+                {
+                    reservation.NoteMessage = rejectReason;
+                }
                 reservationRepository.UpdateReservation(reservation);
                 TempData["Message"] = "Update successfully";
             }

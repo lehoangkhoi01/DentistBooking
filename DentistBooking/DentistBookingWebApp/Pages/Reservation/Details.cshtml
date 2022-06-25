@@ -7,7 +7,7 @@
 <div class="wrapper px-5">
     <div class="form-wrapper col-12 col-lg-8 mt-3 py-3">
         <div class="customer-section col-12">
-            <div class="row">               
+            <div class="row">
                 <div class="col mb-3">
                     <h5>Customer information</h5>
                     <div><span class="text-secondary">Name: </span><a href="#">@Model.Reservation.Customer.FullName</a></div>
@@ -28,7 +28,7 @@
                     <div>
                         <span class="text-secondary">Service name:</span>
                         <a href="/Services/Details?id=@Model.Reservation.ServiceId">@Model.Reservation.Service.Name</a>
-                        </div>
+                    </div>
                     <div><span class="text-secondary">Date:</span> @Model.Reservation.ResevrationDate</div>
                 </div>
                 <div class="col mb-3">
@@ -73,39 +73,60 @@
         </div>
         <div class="text-center">
             <form method="post" asp-page-handler="AcceptReservation">
-                <input hidden name="reservationId" value="@Model.Reservation.Id"/>
+                <input hidden name="reservationId" value="@Model.Reservation.Id" />
                 <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
-            </form>                
+            </form>
             <button class="btn btn-outline-danger col-6" data-toggle="modal" data-target="#rejectModal">Reject</button>
-        </div>        
+        </div>
     </div>
 </div>
 
 <!--Reject modal-->
 <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Reason</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <textarea class="col-12"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <form method="post" asp-page-handler="RejectReservation">
-            <input nname="reservationId" value="@Model.Reservation.Id"/>
-        </form>
-        <button type="button" class="btn btn-danger">Reject</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reason</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="RejectReservation" id="rejectForm">
+                    <input nname="reservationId" value="@Model.Reservation.Id" hidden />
+                    <textarea class="col-12" name="rejectReason"></textarea>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                <button type="button" class="btn btn-danger">Reject</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
 @section Styles {
     <link href="@Url.Content("~/css/reservation/detail.css")" rel="stylesheet" type="text/css" />
+}
+
+    @section Scripts {
+    <script>
+        function onClickSubmitRejectForm() {
+            $("#rejectForm").submit();
+        }
+    </script>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
 }
