@@ -7,28 +7,15 @@
 <div class="wrapper px-5">
     <div class="form-wrapper col-12 col-lg-8 mt-3 py-3">
         <div class="customer-section col-12">
-            <div class="row">
-                @*<div class="col mb-3">
-                    <h5>Patient information</h5>
-                    <div><span class="text-secondary">Name:</span> @Model.Patient.PatientName</div>
-                    <div><span class="text-secondary">Birthdate:</span> @Model.Patient.Birthdate.ToString("dd-MM-yyyy")</div>
-                    <div>
-                        <span class="text-secondary">Gender:</span>
-                        @if (Model.Patient.Gender)
-                        {
-                            <span style="font-weight: 400">Male</span>
-                        }
-                        else
-                        {
-                            <span style="font-weight: 400">Female</span>
-                        }
-                    </div>
-                </div>*@
+            <div class="row">               
                 <div class="col mb-3">
                     <h5>Customer information</h5>
-                    <div><span class="text-secondary">Name:</span><a href="#">@Model.Reservation.Customer.FullName</a></div>
+                    <div><span class="text-secondary">Name: </span><a href="#">@Model.Reservation.Customer.FullName</a></div>
                     <div><span class="text-secondary">Email:</span> @Model.Reservation.Customer.User.Email</div>
                     <div><span class="text-secondary">Phone number:</span> @Model.Reservation.Customer.PhoneNumber</div>
+                </div>
+                <div class="col mb-3">
+                    <div><span class="text-secondary">Status:</span> @Model.Reservation.Status</div>
                 </div>
             </div>
         </div>
@@ -84,7 +71,38 @@
                 </div>
             </div>
         </div>
+        <div class="text-center">
+            <form method="post" asp-page-handler="AcceptReservation">
+                <input hidden name="reservationId" value="@Model.Reservation.Id"/>
+                <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
+            </form>                
+            <button class="btn btn-outline-danger col-6" data-toggle="modal" data-target="#rejectModal">Reject</button>
+        </div>        
     </div>
+</div>
+
+<!--Reject modal-->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reason</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea class="col-12"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form method="post" asp-page-handler="RejectReservation">
+            <input nname="reservationId" value="@Model.Reservation.Id"/>
+        </form>
+        <button type="button" class="btn btn-danger">Reject</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
