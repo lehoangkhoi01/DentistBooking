@@ -60,7 +60,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             try
             {
                 IEnumerable<Service> services = serviceRepository.GetServiceList();
-                IEnumerable<Dentist> dentists = dentistRepository.GetDentistList();
+                IEnumerable<BusinessObject.Dentist> dentists = dentistRepository.GetDentistList();
 
                 ViewData["Service"] = new SelectList(services, "Id", "Name");
                 ViewData["DentistList"] = new SelectList(dentists, "Id", "FullName");
@@ -114,9 +114,9 @@ namespace DentistBookingWebApp.Pages.Reservation
                 //    // Auto choose random dentist if user not demand specific
                 if (DentistId == 0)
                 {
-                    IEnumerable<Dentist> availableDentists = GetAvailableDentist(dateTime);
+                    IEnumerable<BusinessObject.Dentist> availableDentists = GetAvailableDentist(dateTime);
                     int indexRandom = new Random().Next(availableDentists.Count());
-                    Dentist randomDentist = availableDentists.ElementAt(indexRandom);
+                    BusinessObject.Dentist randomDentist = availableDentists.ElementAt(indexRandom);
                     dentistId = randomDentist.Id;
                 }
                 else dentistId = DentistId;
@@ -146,7 +146,7 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IActionResult OnPostLoadDentist([FromForm] string date, string time)
         {
-            IEnumerable<Dentist> dentists;
+            IEnumerable<BusinessObject.Dentist> dentists;
             IEnumerable<Service> services;
             try
             {
@@ -176,13 +176,13 @@ namespace DentistBookingWebApp.Pages.Reservation
             return Page();
         }
 
-        private IEnumerable<Dentist> GetAvailableDentist(DateTime dateTime)
+        private IEnumerable<BusinessObject.Dentist> GetAvailableDentist(DateTime dateTime)
         {
-            IEnumerable<Dentist> dentists;
+            IEnumerable<BusinessObject.Dentist> dentists;
             try
             {
                 dentists = dentistRepository.GetDentistList();
-                IList<Dentist> busyDentists = new List<Dentist>().ToList();
+                IList<BusinessObject.Dentist> busyDentists = new List<BusinessObject.Dentist>().ToList();
 
                 IEnumerable<BusinessObject.Reservation> reservations = reservationRepository.GetReservationsByDateTime(dateTime);
                 if (reservations.Count() > 0)

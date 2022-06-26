@@ -15,6 +15,7 @@ namespace BusinessObject
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string Status { get; set; }
+        public string NoteMessage { get; set; }
 
         [ForeignKey("Id")]
         public int DentistId { get; set; }

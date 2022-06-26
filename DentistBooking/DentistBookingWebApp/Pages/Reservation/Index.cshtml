@@ -174,19 +174,17 @@
 
     <script>
         function onClickSubmitForm() {
-            //var date = $("#date-picker").val();
-            //$("#dateForm").val(date);
-
-            //var time = $("#timeSelectBox").val();
-            //$("#timeForm").val(time);
-
-            //var serviceId = $("#serviceSelectBox").val();
-            //$("#serviceIdForm").val(serviceId);
-
-            //var dentistId = $("#dentistIdDetail").val();
-            //$("#dentistIdForm").val(dentistId);
-
             $("#reservationForm").submit();
+        }
+    </script>
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
         }
     </script>
 }
