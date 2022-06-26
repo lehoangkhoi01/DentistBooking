@@ -141,7 +141,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 return Page();
             }
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Reservation/History");
         }
 
         public IActionResult OnPostLoadDentist([FromForm] string date, string time)
