@@ -25,6 +25,9 @@ namespace DentistBookingWebApp.Pages.Reservation
         [BindProperty]
         public BusinessObject.Reservation Reservation { get; set; }
 
+        [BindProperty]
+        public string Status { get; set; }
+
         public IActionResult OnGet(int? id)
         {
             if(id == null)
@@ -41,6 +44,11 @@ namespace DentistBookingWebApp.Pages.Reservation
             try
             {                
                 Reservation = reservationRepository.GetReservationById((int)id);
+                Status = Reservation.Status;
+                if(Reservation.ResevrationDate < DateTime.Now)
+                {
+                    Status = "Invalid";
+                }
                 AuthorizeForAdminAndChosenDentist(Reservation);
             }
             catch (Exception ex)

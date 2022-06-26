@@ -16,6 +16,17 @@
                 </div>
                 <div class="col mb-3">
                     <div><span class="text-secondary">Status:</span> @Model.Reservation.Status</div>
+                    <div>
+                        <span class="text-secondary">Note:</span>
+                        @if (string.IsNullOrEmpty(Model.Reservation.NoteMessage))
+                        {
+                            <span style="font-weight: normal">(No information)</span>
+                        }
+                        else
+                        {
+                            <span style="font-weight: normal">@Model.Reservation.NoteMessage</span>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,7 +44,7 @@
                 </div>
                 <div class="col mb-3">
                     <h5>Dentist information</h5>
-                    <div><span class="text-secondary">Doctor name:</span><a href="#">@Model.Reservation.Dentist.FullName</a></div>
+                    <div><span class="text-secondary">Doctor name:</span><a href="#"> @Model.Reservation.Dentist.FullName</a></div>
                     <div><span class="text-secondary">Email:</span> @Model.Reservation.Dentist.User.Email</div>
                 </div>
             </div>
@@ -72,11 +83,25 @@
             </div>
         </div>
         <div class="text-center">
-            <form method="post" asp-page-handler="AcceptReservation">
-                <input hidden name="reservationId" value="@Model.Reservation.Id" />
-                <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
-            </form>
-            <button class="btn btn-outline-danger col-6" data-toggle="modal" data-target="#rejectModal">Reject</button>
+            @if (Model.Status.Equals("Accepted"))
+            {
+                <button class="btn btn-outline-danger col-6 my-3" data-toggle="modal" data-target="#rejectModal">Reject</button>
+            }
+            else if (Model.Status.Equals("Waiting"))
+            {
+                <form method="post" asp-page-handler="AcceptReservation">
+                    <input hidden name="reservationId" value="@Model.Reservation.Id" />
+                    <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
+                </form>
+                <button class="btn btn-outline-danger col-6" data-toggle="modal" data-target="#rejectModal">Reject</button>
+            }
+            else if(Model.Status.Equals("Rejected"))
+            {
+                <form method="post" asp-page-handler="AcceptReservation">
+                    <input hidden name="reservationId" value="@Model.Reservation.Id" />
+                    <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
+                </form>
+            }
         </div>
     </div>
 </div>
@@ -93,7 +118,7 @@
             </div>
             <div class="modal-body">
                 <form method="post" asp-page-handler="RejectReservation" id="rejectForm">
-                    <input nname="reservationId" value="@Model.Reservation.Id" hidden />
+                    <input name="reservationId" value="@Model.Reservation.Id" hidden />
                     <textarea class="col-12" name="rejectReason"></textarea>
                 </form>
 
@@ -101,7 +126,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                <button type="button" class="btn btn-danger">Reject</button>
+                <button type="button" class="btn btn-danger" onclick="onClickSubmitRejectForm()">Reject</button>
             </div>
         </div>
     </div>
