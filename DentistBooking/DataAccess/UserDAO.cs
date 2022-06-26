@@ -76,7 +76,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                user = dbContext.Users.FirstOrDefault(u => u.Id == id);
+                user = dbContext.Users.Include(u => u.Role.Name).FirstOrDefault(u => u.Id == id);
             }
             catch (Exception ex)
             {

@@ -1,0 +1,127 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Admin.DashboardModel
+@{
+}
+<input type="checkbox" id="nav-toggle">
+<div class="sidebar" style: background="#3287a8">
+    <div class="sidebar-brand">
+        <a href="StartupServlet" class="link-primary" style="color: white">
+            <h3><span class="lab la-accusoft"></span><span class="lmao" style="font-size: 1.5rem">Dentist Booking</span></h3>
+        </a>
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Dashboard" class="active btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-tv"></span>
+                    <span>General Statistic</span>
+                </a>
+            </li>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Account" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fa fa-user"></span>
+                    <span>Account</span>
+                </a>
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a href="" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-first-aid"></span>
+                    <span>Service</span>
+                </a>
+
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a href="" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-notes-medical"></span>
+                    <span>Reservation</span>
+                </a>
+
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<div class="main-content">
+    <header>
+        <h2>
+            <label for="nav-toggle">
+                <span class="las la-bars"></span>
+            </label>
+            General Statistic
+        </h2>
+    </header>
+    <main>
+        <div class="cards">
+            <div class="card-single">
+                <div>
+                    <h1>@Model.Account</h1>
+                    <span>Account</span>
+                </div>
+                <div>
+                    <span class="fas fa-users"></span>
+                </div>
+            </div>
+            <div class="card-single">
+                <div>
+                    <h1>@Model.Service</h1>
+                    <span>Service</span>
+                </div>
+                <div>
+                    <span class="fas fa-first-aid"></span>
+                </div>
+            </div>
+
+            <div class="card-single">
+                <div>
+                    <h1>@Model.Reservation</h1>
+                    <span>Reservation</span>
+                </div>
+                <div>
+                    <span class="fas fa-notes-medical"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="recent-grid">
+            <div class="projects">
+                <div class="card">
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<!--Custom JS-->
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(".mydatatable").DataTable();
+</script>
+
+
+<script>
+    window.addEventListener('load', function() {
+        const loader = document.querySelector(".loader");
+        loader.className += " hidden"; // class "loader hidden"
+    });
+</script>
+
+
+
+@section Styles {
+    <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
+}
