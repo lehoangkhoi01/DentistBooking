@@ -76,9 +76,31 @@ namespace DataAccess
                 var dbContext = new DentistBookingContext();
                 reservations = dbContext.Reservations
                     .Include(r => r.Service)
-                    .Include(r => r.Customer)
-                    .Include(r => r.Dentist)
+                    .Include(r => r.Customer.User)
+                    .Include(r => r.Dentist.User)
                     .Where(r => r.CustomerId == customerId)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return reservations;
+        }
+
+        public IEnumerable<Reservation> GetReservationsByCustomerId(int page, int itemPerPage, int customerId)
+        {
+            IEnumerable<Reservation> reservations;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                reservations = dbContext.Reservations
+                    .Include(r => r.Service)
+                    .Include(r => r.Customer.User)
+                    .Include(r => r.Dentist.User)
+                    .Where(r => r.CustomerId == customerId)
+                    .Skip((page - 1) * itemPerPage)
+                    .Take(itemPerPage)
                     .ToList();
             }
             catch (Exception ex)

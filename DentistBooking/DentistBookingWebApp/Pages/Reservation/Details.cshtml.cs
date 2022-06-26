@@ -12,14 +12,17 @@ namespace DentistBookingWebApp.Pages.Reservation
         private readonly IReservationRepository reservationRepository;
         private readonly IUserRepository userRepository;
         private readonly IDentistRepository dentistRepository;
+        private readonly ICustomerRepository customerRepository;
 
         public DetailsModel(IReservationRepository reservationRepository,
                             IUserRepository userRepository,
-                            IDentistRepository dentistRepository)
+                            IDentistRepository dentistRepository,
+                            ICustomerRepository customerRepository)
         {
             this.reservationRepository = reservationRepository;
             this.dentistRepository = dentistRepository;
             this.userRepository = userRepository;
+            this.customerRepository = customerRepository;
         }
 
         [BindProperty]
@@ -49,14 +52,20 @@ namespace DentistBookingWebApp.Pages.Reservation
                 {
                     Status = "Invalid";
                 }
-                AuthorizeForAdminAndChosenDentist(Reservation);
+                if(!AuthorizeForAdminAndChosenDentist(Reservation))
+                {
+                    return NotFound();
+                }
+                
+                return Page();
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
-                return RedirectToPage("/Reservation/Index");
+                
             }
-            return Page();
+            return RedirectToPage("/Reservation/Index");
+
         }
 
         public IActionResult OnPostAcceptReservation([FromForm] int reservationId)
@@ -120,24 +129,39 @@ namespace DentistBookingWebApp.Pages.Reservation
             return RedirectToPage("/Reservation/Details", new { id = reservationId });
         } 
 
-        private void AuthorizeForAdminAndChosenDentist(BusinessObject.Reservation reservation)
+        private bool AuthorizeForAdminAndChosenDentist(BusinessObject.Reservation reservation)
         {
             string email = HttpContext.Session.GetString("EMAIL");
             string roleId = HttpContext.Session.GetString("ROLE");
+            
+            
             try
             {
                 User user = userRepository.GetUserByEmail(email);
-                BusinessObject.Dentist dentist = dentistRepository.GetDentistByUserId(user.Id);
-
-                if(roleId != "Admin" || dentist != null || dentist.Id != reservation.Id)
+                if(roleId == "2")
                 {
-                    NotFound();
+                    Customer customer = customerRepository.GetCustomerByUserId(user.Id);
+                    if(customer == null || customer.Id != reservation.CustomerId)
+                    {
+                        return false;
+                    }
                 }
+                else if(roleId == "3")
+                {
+                    BusinessObject.Dentist dentist = dentistRepository.GetDentistByUserId(user.Id);
+                    if (dentist == null || dentist.Id != reservation.DentistId)
+                    {
+                        return false;
+                    }
+                }
+                 
             }
             catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+
+            return true;
         }
     }
 }

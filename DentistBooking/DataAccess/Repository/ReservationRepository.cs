@@ -21,6 +21,9 @@ namespace DataAccess.Repository
 
         public IEnumerable<Reservation> GetReservationsByCustomerId(int customerId) => ReservationDAO.Instance.GetReservationsByCustomerId(customerId);
 
+        public IEnumerable<Reservation> GetReservationsByCustomerId(int page, int itemPerPage, int customerId)
+            => ReservationDAO.Instance.GetReservationsByCustomerId(page, itemPerPage, customerId);
+
         public IEnumerable<Reservation> GetReservationsByDateTime(DateTime dateTime) => ReservationDAO.Instance.GetReservationsByDate(dateTime);
 
         public IEnumerable<Reservation> GetReservationsByDentistId(int dentistId) => ReservationDAO.Instance.GetReservationsByDentistId(dentistId);
