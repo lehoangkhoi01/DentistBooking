@@ -25,9 +25,18 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IList<BusinessObject.Reservation> Reservations { get; set; }
 
-        public void OnGet([FromQuery] int? page = 1)
+        public IActionResult OnGet([FromQuery] int? page = 1)
         {
-            AuthorizeForCustomer();
+            string roleId = HttpContext.Session.GetString("ROLE");
+            if(string.IsNullOrEmpty(roleId))
+            {
+                return RedirectToPage("/Login");
+            } 
+            else if(roleId != "2")
+            {
+                return NotFound();
+            }
+
             string email = HttpContext.Session.GetString("EMAIL");
             try
             {
@@ -40,28 +49,59 @@ namespace DentistBookingWebApp.Pages.Reservation
                 int pageCount = (int)Math.Ceiling(reservationRepository.GetReservationsByCustomerId(customer.Id).Count() / (double)MAX_ITEM_PAGE);
                 if (page <= 0 || page > pageCount)
                 {
-                    NotFound();
+                   return NotFound();
                 }
                 ViewData["PageCount"] = pageCount;
                 ViewData["CurrentPage"] = page;
             }
             catch(Exception ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                TempData["ErrorMessage"] = "There is an error. Please try again later";
             }
+            return Page();
         }
 
-        private void AuthorizeForCustomer()
+        public IActionResult OnPostCancelReservation([FromForm] int reservationId)
         {
             string roleId = HttpContext.Session.GetString("ROLE");
             if(string.IsNullOrEmpty(roleId))
             {
-                RedirectToPage("/Login");
+                return RedirectToPage("/Login");
             }
-            else if (roleId != "1")
+            else if(roleId != "2")
             {
-                NotFound();
+                return NotFound();
             }
+
+            string email = HttpContext.Session.GetString("EMAIL");
+            try
+            {
+                User user = userRepository.GetUserByEmail(email);
+                Customer customer = customerRepository.GetCustomerByUserId(user.Id);
+                BusinessObject.Reservation reservation = reservationRepository.GetReservationById(reservationId);
+                if(reservation == null || reservation.CustomerId != customer.Id)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    var timeDiff = (reservation.ResevrationDate - DateTime.Now).TotalDays;
+                    if(timeDiff < 1)
+                    {
+                        TempData["ErrorMessage"] = "Reservation can only be canceled before 1 day.";
+                    }
+                    reservationRepository.DeleteReservation(reservation);
+                    TempData["Message"] = "Cancel reservation successfully.";
+                }               
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "There is an error. Please try again later.";
+            }
+            return RedirectToPage("/Reservation/History");
+
         }
+
+       
     }
 }

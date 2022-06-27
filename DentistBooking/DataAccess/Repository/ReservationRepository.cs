@@ -12,6 +12,8 @@ namespace DataAccess.Repository
     {
         public void AddNewReservation(Reservation reservation) => ReservationDAO.Instance.AddNewReservation(reservation);
 
+        public void DeleteReservation(Reservation reservation) => ReservationDAO.Instance.DeleteReservation(reservation);
+
         public Reservation GetReservationByCustomerIdAndDateTime(int customerId, DateTime dateTime) 
             => ReservationDAO.Instance.GetReservationByDateTimeAndCustomerId(customerId, dateTime);
 

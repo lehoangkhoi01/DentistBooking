@@ -214,6 +214,19 @@ namespace DataAccess
             }
         }
 
+        public void DeleteReservation(Reservation reservation)
+        {
+            try { 
+                var dbContext = new DentistBookingContext();
+                dbContext.Reservations.Remove(reservation);
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
     }
 }
