@@ -64,8 +64,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <form asp-action="Delete" method="post">
-                                    <input type="hidden" value="@item.Id" name="id" />
+                                <form method="post" asp-page-handler="CancelReservation" id="cancelForm">
+                                    <input type="hidden" name="reservationId" id="reservationIdInput" />
                                     <button class="btn btn-danger" type="submit">Cancel</button>
                                 </form>
                             </div>
@@ -90,7 +90,7 @@
                 </button>
                 }*@
                     <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-primary button-card mx-3">Detail</a>
-                    <a href="#" class="btn btn-danger button-card">Cancel</a>
+                    <button type="button" class="btn btn-danger button-card" dt data-toggle="modal" data-reservation="@item.Id" data-target="#deleteModal">Cancel</button>
                 </div>
             </div>
         }
@@ -104,7 +104,7 @@
             @for (int i = 1; i <= ViewBag.PageCount; i++)
             {
                 <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
-                     <a class="page-link" href="/Reservation/History?page=@i">@i</a>
+                    <a class="page-link" href="/Reservation/History?page=@i">@i</a>
                 </li>
             }
             <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
@@ -114,6 +114,8 @@
     </nav>
 </div>
 
+
+
 @section Styles {
     <link href="@Url.Content("~/css/reservation/history.css")" rel="stylesheet" type="text/css" />
 }
@@ -121,16 +123,23 @@
     @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
-        <script type="text/javascript">
-            window.onload = function() {
-                if ('@TempData["Message"]' != "") {
-                    $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
-                }
-                else if ('@TempData["ErrorMessage"]' != "") {
-                    $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
-                }
-            }
-        </script>
     }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var reservationId = button.data('reservation');
+            $("#reservationIdInput").val(reservationId);
+        })
+    </script>
     }

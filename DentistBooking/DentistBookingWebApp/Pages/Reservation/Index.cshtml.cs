@@ -57,10 +57,12 @@ namespace DentistBookingWebApp.Pages.Reservation
                 return NotFound();
             }
 
+            var dateTimeNow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
+
             try
             {
                 IEnumerable<Service> services = serviceRepository.GetServiceList();
-                IEnumerable<BusinessObject.Dentist> dentists = dentistRepository.GetDentistList();
+                IEnumerable<BusinessObject.Dentist> dentists = GetAvailableDentist(dateTimeNow);
 
                 ViewData["Service"] = new SelectList(services, "Id", "Name");
                 ViewData["DentistList"] = new SelectList(dentists, "Id", "FullName");
@@ -77,7 +79,7 @@ namespace DentistBookingWebApp.Pages.Reservation
         public IActionResult OnPost()
         {
             string email = HttpContext.Session.GetString("EMAIL");
-
+            var dateTimeString = Date + " " + Time;
 
             // ---- Validation -------
             if (string.IsNullOrEmpty(email))
@@ -86,15 +88,14 @@ namespace DentistBookingWebApp.Pages.Reservation
             }
 
             try
-            {
-                if(string.IsNullOrEmpty(Date) || string.IsNullOrEmpty(Time))
+            {               
+                if (string.IsNullOrEmpty(Date) || string.IsNullOrEmpty(Time))
                 {
                     throw new Exception("You must choose date and time to make reservation");
                 }
 
-                var dateTimeString = Date + " " + Time;
-                DateTime dateTime = DateTime.ParseExact(dateTimeString, "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);
                 
+                DateTime dateTime = DateTime.ParseExact(dateTimeString, "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);                
                 Service service = serviceRepository.GetServiceById(ServiceId);
                 if (service == null)
                 {
@@ -134,10 +135,17 @@ namespace DentistBookingWebApp.Pages.Reservation
                 };
 
                 reservationRepository.AddNewReservation(reservation);
+                TempData["Message"] = "Make reservation successfully. Keep up checking your reservation status.";
             }
             catch (Exception ex)
             {
+                DateTime dateTime = DateTime.ParseExact(dateTimeString, "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);
+                IEnumerable<Service> services = serviceRepository.GetServiceList();
+                IEnumerable<BusinessObject.Dentist> availableDentists = GetAvailableDentist(dateTime);
                 TempData["ErrorMessage"] = ex.Message;
+                ViewData["Service"] = new SelectList(services, "Id", "Name");
+                ViewData["DentistList"] = new SelectList(availableDentists, "Id", "FullName");
+                ViewData["TimeList"] = new SelectList(TIME_LIST);
                 return Page();
             }
 

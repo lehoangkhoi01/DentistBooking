@@ -19,5 +19,6 @@ namespace DataAccess.Interfaces
         public Reservation GetReservationByCustomerIdAndDateTime(int customerId, DateTime dateTime);
         public void AddNewReservation(Reservation reservation);
         public void UpdateReservation(Reservation reservation);
+        public void DeleteReservation(Reservation reservation);
     }
 }
