@@ -32,6 +32,7 @@ namespace DataAccess.Interfaces
         /// <returns></returns>
         public User GetUserById(int id);
         public User GetUserByEmail(string email);
+        public IEnumerable<User> GetUsers();
 
     }
 }

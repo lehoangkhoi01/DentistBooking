@@ -17,6 +17,8 @@ namespace DataAccess.Repository
         public User GetUserById(int id) => UserDAO.Instance.GetUser(id);
 
         public User GetUserByEmail(string email) => UserDAO.Instance.GetUserByEmail(email);
-       
+
+        public IEnumerable<User> GetUsers()
+        => UserDAO.Instance.GetUsers();
     }
 }

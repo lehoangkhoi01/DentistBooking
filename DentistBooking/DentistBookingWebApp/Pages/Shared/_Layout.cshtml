@@ -6,7 +6,11 @@
     <title>@ViewData["Title"] - DentistBooking</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/notify.css"/>
+    <link rel="stylesheet" href="~/css/notify.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/regular.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/solid.min.css" />
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <link href="@Url.Content("~/css/")" rel="stylesheet" type="text/css" />
@@ -37,9 +41,12 @@
                         </li>
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Dentist/Schedule">Schedule</a>
-                        </li
+                        </li>
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/History">History</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Dashboard">Dashboard</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
