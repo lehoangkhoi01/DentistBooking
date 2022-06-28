@@ -52,6 +52,7 @@ namespace DentistBookingWebApp.Pages
                     {
                         new Claim(ClaimTypes.Name, user.Email),
                         new Claim(ClaimTypes.Role, user.Role.Name),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())                       
                     };
                     var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);

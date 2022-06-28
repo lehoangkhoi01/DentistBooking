@@ -1,5 +1,6 @@
 using BusinessObject;
 using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ using System.Linq;
 
 namespace DentistBookingWebApp.Pages.Reservation
 {
+    [Authorize(Roles = "Customer")]
     public class IndexModel : PageModel
     {
         private readonly IList<string> TIME_LIST = new List<string> { "09:00", "10:00", "11:00", "14:00", "15:00", "16:00" };
@@ -47,16 +49,6 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IActionResult OnGet()
         {
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if (string.IsNullOrEmpty(roleId))
-            {
-                return RedirectToPage("/Login");
-            }
-            else if (roleId != "2")
-            {
-                return NotFound();
-            }
-
             var dateTimeNow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
 
             try
