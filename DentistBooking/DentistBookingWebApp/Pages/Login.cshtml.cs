@@ -1,10 +1,15 @@
 using BusinessObject;
 using DataAccess.Interfaces;
 using DentistBookingWebApp.Validation;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages
 {
@@ -25,25 +30,47 @@ namespace DentistBookingWebApp.Pages
         [Required]
         public string Password { get; set; }
 
-        public void OnGet()
+        public string ReturnUrl { get; set; }
+
+        public IActionResult OnGet(string returnUrl = null)
         {
+            returnUrl ??= Url.Content("~/");
+            ReturnUrl = returnUrl;
+            return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            returnUrl ??= Url.Content("~/Index");
             if (ModelState.IsValid)
             {
                 int userId = userRepository.Login(Email, HashCode.HashPassword(Password));
                 if (userId > 0)
                 {
                     User user = userRepository.GetUserById(userId);
-                    HttpContext.Session.SetString("EMAIL", user.Email);
-                    HttpContext.Session.SetString("ROLE", user.RoleId.ToString());
-                    return RedirectToPage("./Index");
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.Email),
+                        new Claim(ClaimTypes.Role, user.Role.Name),
+                    };
+                    var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+                    {
+                        AllowRefresh = true,
+                    };
+                    //var identityClaim = new Claim(ClaimTypes.Email, user.Email);
+                    //var roleClaim = new Claim(ClaimTypes.Role, user.Role.Name);
+                    //HttpContext.Session.SetString("EMAIL", user.Email);
+                    //HttpContext.Session.SetString("ROLE", user.RoleId.ToString());
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                                    new ClaimsPrincipal(claimsIdentity),
+                                                    authProperties);
+                    return RedirectToPage(returnUrl);
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "Wrong email or password.";
+                    ModelState.AddModelError(string.Empty, "Invalid email or password.");
                     return Page();
                 }
             }

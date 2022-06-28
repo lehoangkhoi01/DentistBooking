@@ -1,15 +1,18 @@
 using BusinessObject;
 using DataAccess.Interfaces;
 using DentistBookingWebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Services
 {
+    [AllowAnonymous]
     public class IndexModel : PageModel
     {
         private const int MAX_ITEM_PAGE = 4;
@@ -23,7 +26,7 @@ namespace DentistBookingWebApp.Pages.Services
 
         [BindProperty]
         public IList<ServiceViewModel> serviceList { get; set; }
-        public string RoleId { get; set; }
+        public string Role { get; set; }
 
 
         [BindProperty(SupportsGet = true)]
@@ -31,11 +34,7 @@ namespace DentistBookingWebApp.Pages.Services
 
         public IActionResult OnGet([FromQuery] int? page = 1)
         {
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if(!string.IsNullOrEmpty(roleId))
-            {
-                RoleId = roleId;
-            }
+            Role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
 
             try
             {

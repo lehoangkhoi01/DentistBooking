@@ -2,6 +2,7 @@ using BusinessObject.Data;
 using DataAccess.Interfaces;
 using DataAccess.Repository;
 using DentistBookingWebApp.Utils.FileUploadService;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +35,12 @@ namespace DentistBookingWebApp
             //                        b => b.MigrationsAssembly("BusinessObject")));
             services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(30));
             services.AddHttpContextAccessor();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/Login";
+                        options.ReturnUrlParameter = "ReturnUrl";
+                    });
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<ICustomerRepository, CustomerRepository>();
             services.AddSingleton<IAdminRepository, AdminRepository>();
@@ -61,7 +68,7 @@ namespace DentistBookingWebApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

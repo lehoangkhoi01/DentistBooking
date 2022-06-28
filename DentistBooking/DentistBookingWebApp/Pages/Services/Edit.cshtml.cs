@@ -2,6 +2,7 @@ using BusinessObject;
 using DataAccess.Interfaces;
 using DentistBookingWebApp.Utils.FileUploadService;
 using DentistBookingWebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Services
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly IServiceRepository serviceRepository;
@@ -33,16 +35,6 @@ namespace DentistBookingWebApp.Pages.Services
 
         public IActionResult OnGet(int? id)
         {
-            //Authorize and valiadation
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if(string.IsNullOrEmpty(roleId))
-            {
-                return RedirectToPage("/Login");
-            }
-            else if(roleId != "1" || id == null)
-            {
-                return NotFound();
-            }
             try
             {
                 Service service = serviceRepository.GetServiceById((int)id);

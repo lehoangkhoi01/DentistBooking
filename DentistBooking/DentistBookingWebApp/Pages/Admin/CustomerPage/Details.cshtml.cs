@@ -22,7 +22,7 @@ namespace DentistBookingWebApp.Pages.Admin.CustomerPage
 
         public ViewModels.Customer Customer { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {

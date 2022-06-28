@@ -1,18 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
 @inject IHttpContextAccessor HttpContextAccessor
 
 <ul class="navbar-nav">
-    @if (HttpContextAccessor.HttpContext.Session.GetString("EMAIL") != null)
+    @if (User.Identity.Name != null)
     {
-        @if (@HttpContextAccessor.HttpContext.Session.GetString("ROLE") == "2")
-        {
-            <li class="nav-item mr-3">
-                <a class="nav-link" asp-page="/CustomerPage/Details" asp-route-id="">
-                    @HttpContextAccessor.HttpContext.Session.GetString("EMAIL")
-                </a>
-            </li>
-        }
-
+        <li>
+            <a>@User.Identity.Name</a>
+        </li>
         <li class="nav-item">
             <a asp-page="/Index" asp-page-handler="Logout">Logout</a>
         </li>
