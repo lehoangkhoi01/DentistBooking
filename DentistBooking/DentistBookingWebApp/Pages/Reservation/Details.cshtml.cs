@@ -1,12 +1,15 @@
 using BusinessObject;
 using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Reservation
 {
+    [Authorize]
     public class DetailsModel : PageModel
     {
         private readonly IReservationRepository reservationRepository;
@@ -38,12 +41,6 @@ namespace DentistBookingWebApp.Pages.Reservation
                 return NotFound();
             }
 
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if(string.IsNullOrEmpty(roleId))
-            {
-                return RedirectToPage("/Login");
-            }
-
             try
             {                
                 Reservation = reservationRepository.GetReservationById((int)id);
@@ -68,14 +65,9 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         }
 
+        
         public IActionResult OnPostAcceptReservation([FromForm] int reservationId)
         {
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if(string.IsNullOrEmpty(roleId))
-            {
-                return RedirectToPage("/Login");
-            }
-
             try
             {
                 BusinessObject.Reservation reservation = reservationRepository.GetReservationById(reservationId);
@@ -99,11 +91,6 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IActionResult OnPostRejectReservation([FromForm] int reservationId, string rejectReason)
         {
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if(string.IsNullOrEmpty(roleId))
-            {
-                return RedirectToPage("/Login");
-            }
 
             try
             {
@@ -131,24 +118,22 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         private bool AuthorizeForAdminAndChosenDentist(BusinessObject.Reservation reservation)
         {
-            string email = HttpContext.Session.GetString("EMAIL");
-            string roleId = HttpContext.Session.GetString("ROLE");
-            
-            
+            string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+            string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
             try
             {
-                User user = userRepository.GetUserByEmail(email);
-                if(roleId == "2")
+                //User user = userRepository.GetUserByEmail(email);
+                if(role == "Customer")
                 {
-                    Customer customer = customerRepository.GetCustomerByUserId(user.Id);
+                    Customer customer = customerRepository.GetCustomerByUserId(int.Parse(userId));
                     if(customer == null || customer.Id != reservation.CustomerId)
                     {
                         return false;
                     }
                 }
-                else if(roleId == "3")
+                else if(role == "Dentist")
                 {
-                    BusinessObject.Dentist dentist = dentistRepository.GetDentistByUserId(user.Id);
+                    BusinessObject.Dentist dentist = dentistRepository.GetDentistByUserId(int.Parse(userId));
                     if (dentist == null || dentist.Id != reservation.DentistId)
                     {
                         return false;

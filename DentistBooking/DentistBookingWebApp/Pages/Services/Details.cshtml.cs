@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Services
 {
@@ -21,7 +22,7 @@ namespace DentistBookingWebApp.Pages.Services
         public ServiceViewModel serviceViewModel { get; set; }
 
         [BindProperty]
-        public string RoleId { get; set; }
+        public string Role { get; set; }
 
 
         public IActionResult OnGet(int? id)
@@ -31,11 +32,7 @@ namespace DentistBookingWebApp.Pages.Services
                 return NotFound();
             }
 
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if(!string.IsNullOrEmpty(roleId))
-            {
-                RoleId = roleId;
-            }
+            Role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
 
 
             Service service = serviceRepository.GetServiceById((int)id);

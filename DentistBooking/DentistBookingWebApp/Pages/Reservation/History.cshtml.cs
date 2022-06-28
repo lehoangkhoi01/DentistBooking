@@ -1,14 +1,17 @@
 using BusinessObject;
 using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Reservation
 {
+    [Authorize(Roles = "Customer")]
     public class HistoryModel : PageModel
     {
         private readonly IReservationRepository reservationRepository;
@@ -27,17 +30,8 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IActionResult OnGet([FromQuery] int? page = 1)
         {
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if(string.IsNullOrEmpty(roleId))
-            {
-                return RedirectToPage("/Login");
-            } 
-            else if(roleId != "2")
-            {
-                return NotFound();
-            }
-
-            string email = HttpContext.Session.GetString("EMAIL");
+            
+            string email = User.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value;
             try
             {
                 User user = userRepository.GetUserByEmail(email);
@@ -63,17 +57,8 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IActionResult OnPostCancelReservation([FromForm] int reservationId)
         {
-            string roleId = HttpContext.Session.GetString("ROLE");
-            if(string.IsNullOrEmpty(roleId))
-            {
-                return RedirectToPage("/Login");
-            }
-            else if(roleId != "2")
-            {
-                return NotFound();
-            }
 
-            string email = HttpContext.Session.GetString("EMAIL");
+            string email = User.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value;
             try
             {
                 User user = userRepository.GetUserByEmail(email);

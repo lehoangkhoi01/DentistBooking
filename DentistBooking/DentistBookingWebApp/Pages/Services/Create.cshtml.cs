@@ -2,6 +2,7 @@ using BusinessObject;
 using DataAccess.Interfaces;
 using DentistBookingWebApp.Utils.FileUploadService;
 using DentistBookingWebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Services
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly IServiceRepository serviceRepository;
@@ -31,14 +33,8 @@ namespace DentistBookingWebApp.Pages.Services
         [BindProperty]
         public ServiceViewModel ServiceViewModel { get; set; }
 
-        public IActionResult OnGet()
+        public void OnGet()
         {
-            string role = HttpContext.Session.GetString("ROLE");
-            if(role != "1")
-            {
-                return NotFound();
-            }
-            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId != "2")
+    @if (!string.IsNullOrEmpty(Model.Role) && Model.Role != "Customer")
     {
         <div class="row col-12">
             <div class="specialty-section col-4 mb-3">
@@ -50,22 +50,22 @@
                 </div>
             </div>
             <div class="funct-button text-center mt-5">
-                @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "1")
+                @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
                 {
                     <a class="btn btn-success col-4"
-                   asp-page="/Services/Edit"
-                   asp-route-id="@Model.serviceViewModel.Id">
+                        asp-page="/Services/Edit"
+                        asp-route-id="@Model.serviceViewModel.Id">
                         Edit
                     </a>
                     <a class="btn btn-danger col-4"
-                   asp-page="/Services/Details"
-                   asp-page-handler="Delete"
-                   asp-route-id="@Model.serviceViewModel.Id">
+                        asp-page="/Services/Details"
+                        asp-page-handler="Delete"
+                        asp-route-id="@Model.serviceViewModel.Id">
                         Delete
                     </a>
                     <br>
                 }
-                else if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "2")
+                else if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Customer")
                 {
                     <a class="btn btn-success col-4"
                    href="#">

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,10 +24,10 @@ namespace DentistBookingWebApp.Pages
 
         }
 
-        public void OnGetLogOut()
+        public async Task<IActionResult> OnGetLogOutAsync()
         {
-            HttpContext.Session.Remove("EMAIL");
-            HttpContext.Session.Remove("ROLE");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToPage("/Index");
         }
     }
 }
