@@ -1,14 +1,17 @@
 using BusinessObject;
 using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Dentist
 {
+    [Authorize(Roles = "Admin, Dentist")]
     public class ScheduleModel : PageModel
     {
         private readonly IReservationRepository reservationRepository;
@@ -26,16 +29,27 @@ namespace DentistBookingWebApp.Pages.Dentist
 
         public IList<BusinessObject.Reservation> Reservations { get; set; }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? id)
         {
-            AuthorizeForDentist();
 
             try
             {
-                string email = HttpContext.Session.GetString("EMAIL");
-                BusinessObject.Dentist dentist = GetDentist(email);
-
-                Reservations = reservationRepository.GetReservationsByDentistId(dentist.Id).ToList();
+                string email = User.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value;
+                string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+                if(!string.IsNullOrEmpty(email))
+                {
+                    if (id == null && role == "Dentist")
+                    {
+                        BusinessObject.Dentist dentist = GetDentist(email);
+                        Reservations = reservationRepository.GetReservationsByDentistId(dentist.Id).ToList();
+                    }
+                    else if (id != null && role == "Admin")
+                    {
+                        Reservations = reservationRepository.GetReservationsByDentistId((int)id).ToList();
+                    }
+                    else return NotFound();
+                }
+                               
             }
             catch (Exception ex)
             {
@@ -43,19 +57,6 @@ namespace DentistBookingWebApp.Pages.Dentist
                 return RedirectToPage("/Index");
             }
             return Page();
-        }
-
-        private void AuthorizeForDentist()
-        {
-            string role = HttpContext.Session.GetString("ROLE");
-            if (string.IsNullOrEmpty(role))
-            {
-                RedirectToPage("/Login");
-            }
-            else if (role != "3")
-            {
-                NotFound();
-            }
         }
 
         private BusinessObject.Dentist GetDentist(string email)

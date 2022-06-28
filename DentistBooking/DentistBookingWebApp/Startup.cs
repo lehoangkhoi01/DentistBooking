@@ -39,6 +39,7 @@ namespace DentistBookingWebApp
                     .AddCookie(options =>
                     {
                         options.LoginPath = "/Login";
+                        options.AccessDeniedPath = "/AccessDenied";
                         options.ReturnUrlParameter = "ReturnUrl";
                     });
             services.AddSingleton<IUserRepository, UserRepository>();
