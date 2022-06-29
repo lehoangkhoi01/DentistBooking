@@ -99,17 +99,29 @@ namespace DentistBookingWebApp.Pages.Reservation
 
             try
             {
-                Customer customer = customerRepository.GetCustomerByUserId(int.Parse(userId));
-                Feedback feedback = new Feedback
+                Customer customer = customerRepository.GetCustomerByUserId(int.Parse(userId));               
+                Feedback prevFeedback = feedbackRepository.GetFeedbackByReservationId(reservationId);
+                if(prevFeedback == null)
                 {
-                    CustomerId = customer.Id,
-                    Star = rate,
-                    Comment = comment,
-                    ReservationId = reservationId,
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now
-                };
-                feedbackRepository.AddNewFeedback(feedback);
+                    Feedback feedback = new Feedback
+                    {
+                        CustomerId = customer.Id,
+                        Star = rate,
+                        Comment = comment,
+                        ReservationId = reservationId,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now
+                    };
+                    feedbackRepository.AddNewFeedback(feedback);
+                }
+                else
+                {
+                    prevFeedback.Star = rate;
+                    prevFeedback.Comment = comment;
+                    prevFeedback.UpdatedDate = DateTime.Now;
+                    feedbackRepository.UpdateFeedback(prevFeedback);
+                    
+                }
                 TempData["Message"] = "Send feedback successfully.";
 
             }
