@@ -36,8 +36,8 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Services.AddAsync(service);
-                dbContext.SaveChangesAsync();
+                dbContext.Services.Add(service);
+                dbContext.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace DataAccess
                 else
                 {
                     dbContext.Entry<Service>(service).State = EntityState.Modified;
-                    dbContext.SaveChangesAsync();
+                    dbContext.SaveChanges();
                 }
             }
             catch (Exception ex)
