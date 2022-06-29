@@ -34,6 +34,9 @@ namespace DentistBookingWebApp.Pages.Reservation
         [BindProperty]
         public string Status { get; set; }
 
+        [BindProperty]
+        public string Role { get; set; }
+
         public IActionResult OnGet(int? id)
         {
             if(id == null)
@@ -42,7 +45,8 @@ namespace DentistBookingWebApp.Pages.Reservation
             }
 
             try
-            {                
+            {
+                Role = User.FindFirstValue(ClaimTypes.Role);
                 Reservation = reservationRepository.GetReservationById((int)id);
                 Status = Reservation.Status;
                 if(Reservation.ResevrationDate < DateTime.Now)
@@ -122,7 +126,6 @@ namespace DentistBookingWebApp.Pages.Reservation
             string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
             try
             {
-                //User user = userRepository.GetUserByEmail(email);
                 if(role == "Customer")
                 {
                     Customer customer = customerRepository.GetCustomerByUserId(int.Parse(userId));

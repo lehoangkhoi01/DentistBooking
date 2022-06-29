@@ -67,7 +67,8 @@ namespace DentistBookingWebApp.Pages
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                                                     new ClaimsPrincipal(claimsIdentity),
                                                     authProperties);
-                    return RedirectToPage(returnUrl);
+
+                    return LocalRedirect(returnUrl);
                 }
                 else
                 {

@@ -1,18 +1,7 @@
-﻿﻿.wrapper {
+﻿.wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-}
-
-
-.form-wrapper {
-    display: flex;
-    flex-direction: column;
-    border-radius: 4px;
-    border: 1px solid #b2bec3;
-    background-color: #fff;
-    box-shadow: 0px 4px 8px 0px #7986CB;
 }
 
 .customer-section, .service-section, .feedback-section {
@@ -30,6 +19,15 @@
 
 .row > .col:nth-child(2) {
     text-align: right;
+}
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    border: 1px solid #b2bec3;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px 0px #7986CB;
 }
 
 hr {
