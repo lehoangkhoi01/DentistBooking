@@ -100,6 +100,24 @@ namespace DataAccess
             }
         }
 
+        public IEnumerable<Service> GetActiveServiceList()
+        {
+            IEnumerable<Service> serviceList;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                serviceList = dbContext.Services
+                    .Include(s => s.Admin)
+                    .Where(s => s.Status == "Active")
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return serviceList;
+        }
+
         public IEnumerable<Service> GetServiceList()
         {
             IEnumerable<Service> serviceList;

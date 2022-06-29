@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Reservation
 {
@@ -47,16 +48,21 @@ namespace DentistBookingWebApp.Pages.Reservation
 
 
 
-        public IActionResult OnGet()
+        public IActionResult OnGet([FromQuery] int? serviceId)
         {
             var dateTimeNow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
 
             try
             {
-                IEnumerable<Service> services = serviceRepository.GetServiceList();
+                IEnumerable<Service> services = serviceRepository.GetActiveServiceList();
                 IEnumerable<BusinessObject.Dentist> dentists = GetAvailableDentist(dateTimeNow);
 
-                ViewData["Service"] = new SelectList(services, "Id", "Name");
+                if(serviceId != null)
+                {
+                    ViewData["Service"] = new SelectList(services, "Id", "Name", serviceId);
+                }
+                else ViewData["Service"] = new SelectList(services, "Id", "Name");
+
                 ViewData["DentistList"] = new SelectList(dentists, "Id", "FullName");
                 ViewData["TimeList"] = new SelectList(TIME_LIST);
             }
@@ -70,14 +76,8 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IActionResult OnPost()
         {
-            string email = HttpContext.Session.GetString("EMAIL");
+            string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
             var dateTimeString = Date + " " + Time;
-
-            // ---- Validation -------
-            if (string.IsNullOrEmpty(email))
-            {
-                return RedirectToPage("/Login");
-            }
 
             try
             {               
@@ -94,8 +94,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                     throw new Exception("This service is not available now. Please choose another.");
                 }
 
-                User user = userRepository.GetUserByEmail(email);
-                Customer customer = customerRepository.GetCustomerByUserId(user.Id);
+                Customer customer = customerRepository.GetCustomerByUserId(int.Parse(userId));
 
                 if(!string.IsNullOrEmpty(ValidationReservation(customer.Id, dateTime)))
                 {
