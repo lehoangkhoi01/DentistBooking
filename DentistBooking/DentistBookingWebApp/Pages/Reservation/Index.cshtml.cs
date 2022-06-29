@@ -47,16 +47,21 @@ namespace DentistBookingWebApp.Pages.Reservation
 
 
 
-        public IActionResult OnGet()
+        public IActionResult OnGet([FromQuery] int? serviceId)
         {
             var dateTimeNow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
 
             try
             {
-                IEnumerable<Service> services = serviceRepository.GetServiceList();
+                IEnumerable<Service> services = serviceRepository.GetActiveServiceList();
                 IEnumerable<BusinessObject.Dentist> dentists = GetAvailableDentist(dateTimeNow);
 
-                ViewData["Service"] = new SelectList(services, "Id", "Name");
+                if(serviceId != null)
+                {
+                    ViewData["Service"] = new SelectList(services, "Id", "Name", serviceId);
+                }
+                else ViewData["Service"] = new SelectList(services, "Id", "Name");
+
                 ViewData["DentistList"] = new SelectList(dentists, "Id", "FullName");
                 ViewData["TimeList"] = new SelectList(TIME_LIST);
             }

@@ -26,11 +26,11 @@
                 }
             </div>
             <div class="specialty-section col-4 mb-3">
-                <span style="font-weight: bold" class="mr-1">Created by: </span>               
+                <span style="font-weight: bold" class="mr-1">Created by: </span>
                 <span>@Model.serviceViewModel.Admin.FullName</span>
             </div>
             <div class="specialty-section col-4 mb-3">
-                <span style="font-weight: bold" class="mr-1">Latest update: </span>               
+                <span style="font-weight: bold" class="mr-1">Latest update: </span>
                 <span>@Model.serviceViewModel.UpdatedDate</span>
             </div>
         </div>
@@ -53,22 +53,22 @@
                 @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
                 {
                     <a class="btn btn-success col-4"
-                        asp-page="/Services/Edit"
-                        asp-route-id="@Model.serviceViewModel.Id">
+                   asp-page="/Services/Edit"
+                   asp-route-id="@Model.serviceViewModel.Id">
                         Edit
                     </a>
                     <a class="btn btn-danger col-4"
-                        asp-page="/Services/Details"
-                        asp-page-handler="Delete"
-                        asp-route-id="@Model.serviceViewModel.Id">
+                   asp-page="/Services/Details"
+                   asp-page-handler="Delete"
+                   asp-route-id="@Model.serviceViewModel.Id">
                         Delete
                     </a>
                     <br>
                 }
-                else if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Customer")
+                else if (string.IsNullOrEmpty(Model.Role) || Model.Role == "Customer")
                 {
                     <a class="btn btn-success col-4"
-                   href="#">
+                   href="/Reservation/Index?serviceId=@Model.serviceViewModel.Id">
                         Make reservation
                     </a>
 
