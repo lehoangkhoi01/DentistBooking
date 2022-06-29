@@ -42,6 +42,7 @@ namespace DentistBookingWebApp
                         options.AccessDeniedPath = "/AccessDenied";
                         options.ReturnUrlParameter = "ReturnUrl";
                     });
+
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<ICustomerRepository, CustomerRepository>();
             services.AddSingleton<IAdminRepository, AdminRepository>();
@@ -49,6 +50,7 @@ namespace DentistBookingWebApp
             services.AddSingleton<IFileUploadService, LocalFileUploadService>();
             services.AddSingleton<IDentistRepository, DentistRepository>();
             services.AddSingleton<IReservationRepository, ReservationRepository>();
+            services.AddSingleton<IFeedbackRepository, FeedbackRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

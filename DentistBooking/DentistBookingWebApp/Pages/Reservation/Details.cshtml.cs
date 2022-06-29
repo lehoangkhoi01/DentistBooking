@@ -16,20 +16,26 @@ namespace DentistBookingWebApp.Pages.Reservation
         private readonly IUserRepository userRepository;
         private readonly IDentistRepository dentistRepository;
         private readonly ICustomerRepository customerRepository;
+        private readonly IFeedbackRepository feedbackRepository;
 
         public DetailsModel(IReservationRepository reservationRepository,
                             IUserRepository userRepository,
                             IDentistRepository dentistRepository,
-                            ICustomerRepository customerRepository)
+                            ICustomerRepository customerRepository,
+                            IFeedbackRepository feedbackRepository)
         {
             this.reservationRepository = reservationRepository;
             this.dentistRepository = dentistRepository;
             this.userRepository = userRepository;
             this.customerRepository = customerRepository;
+            this.feedbackRepository = feedbackRepository;
         }
 
         [BindProperty]
         public BusinessObject.Reservation Reservation { get; set; }
+
+        [BindProperty]
+        public Feedback Feedback { get; set; }
 
         [BindProperty]
         public string Status { get; set; }
@@ -48,6 +54,12 @@ namespace DentistBookingWebApp.Pages.Reservation
             {
                 Role = User.FindFirstValue(ClaimTypes.Role);
                 Reservation = reservationRepository.GetReservationById((int)id);
+                if(Reservation == null)
+                {
+                    return NotFound();
+                } 
+
+                Feedback = feedbackRepository.GetFeedbackByReservationId(Reservation.Id);
                 Status = Reservation.Status;
                 if(Reservation.ResevrationDate < DateTime.Now)
                 {

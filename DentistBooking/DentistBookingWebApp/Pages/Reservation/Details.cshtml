@@ -58,9 +58,9 @@
             <div class="row">
                 <div class="col">
                     <span class="text-secondary">Rate:</span>
-                    @if (ViewBag.Feedback != null)
+                    @if (Model.Feedback != null && Model.Feedback.Star != 0)
                     {
-                        <span style="font-weight: 400">@ViewBag.Feedback.Rate</span>
+                        <span style="font-weight: 400">@Model.Feedback.Star</span>
                     }
                     else
                     {
@@ -71,9 +71,9 @@
             <div class="row">
                 <div class="col">
                     <span class="text-secondary">Comment:</span>
-                    @if (ViewBag.Feedback != null)
+                    @if (Model.Feedback != null && !string.IsNullOrEmpty(Model.Feedback?.Comment))
                     {
-                        <span style="font-weight: 400">@ViewBag.Feedback.Comment</span>
+                        <span style="font-weight: 400">@Model.Feedback.Comment</span>
                     }
                     else
                     {
