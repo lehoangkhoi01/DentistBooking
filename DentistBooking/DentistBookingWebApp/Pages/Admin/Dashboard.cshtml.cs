@@ -2,6 +2,7 @@ using DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Admin
 {
@@ -22,11 +23,11 @@ namespace DentistBookingWebApp.Pages.Admin
         public int Service { get; set; }
         public int Reservation { get; set; }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             Account = userRepository.GetUsers().Count();
             Service = serviceRepository.GetServiceList().Count();
-            Reservation = reservationRepository.GetReservations().Count();
+            Reservation = (await reservationRepository.GetReservations()).Count();
             return Page();
         }
     }

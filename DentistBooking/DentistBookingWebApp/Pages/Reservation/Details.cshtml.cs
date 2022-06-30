@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Reservation
 {
@@ -43,7 +44,7 @@ namespace DentistBookingWebApp.Pages.Reservation
         [BindProperty]
         public string Role { get; set; }
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
             if(id == null)
             {
@@ -53,7 +54,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             try
             {
                 Role = User.FindFirstValue(ClaimTypes.Role);
-                Reservation = reservationRepository.GetReservationById((int)id);
+                Reservation = await reservationRepository.GetReservationById((int)id);
                 if(Reservation == null)
                 {
                     return NotFound();
@@ -82,11 +83,11 @@ namespace DentistBookingWebApp.Pages.Reservation
         }
 
         
-        public IActionResult OnPostAcceptReservation([FromForm] int reservationId)
+        public async Task<IActionResult> OnPostAcceptReservation([FromForm] int reservationId)
         {
             try
             {
-                BusinessObject.Reservation reservation = reservationRepository.GetReservationById(reservationId);
+                BusinessObject.Reservation reservation = await reservationRepository.GetReservationById(reservationId);
                 if(reservation == null)
                 {
                     return NotFound();
@@ -94,7 +95,7 @@ namespace DentistBookingWebApp.Pages.Reservation
 
                 AuthorizeForAdminAndChosenDentist(reservation);
                 reservation.Status = "Accepted";
-                reservationRepository.UpdateReservation(reservation);
+                await reservationRepository.UpdateReservation(reservation);
                 TempData["Message"] = "Update successfully";
             }
             catch (Exception ex)
@@ -105,12 +106,12 @@ namespace DentistBookingWebApp.Pages.Reservation
             return LocalRedirect("/Reservation/Details?id="+reservationId);
         }
 
-        public IActionResult OnPostRejectReservation([FromForm] int reservationId, string rejectReason)
+        public async Task<IActionResult> OnPostRejectReservation([FromForm] int reservationId, string rejectReason)
         {
 
             try
             {
-                BusinessObject.Reservation reservation = reservationRepository.GetReservationById(reservationId);
+                BusinessObject.Reservation reservation = await reservationRepository.GetReservationById(reservationId);
                 if (reservation == null)
                 {
                     return NotFound();
@@ -121,7 +122,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 {
                     reservation.NoteMessage = rejectReason;
                 }
-                reservationRepository.UpdateReservation(reservation);
+                await reservationRepository.UpdateReservation(reservation);
                 TempData["Message"] = "Update successfully";
             }
             catch(Exception ex)
@@ -173,7 +174,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             return LocalRedirect("/Reservation/Details?id="+ reservationId);
         }
 
-        public IActionResult OnPostDeleteFeedback([FromForm] int reservationId)
+        public async Task<IActionResult> OnPostDeleteFeedback([FromForm] int reservationId)
         {
             string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
             string userId = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
@@ -183,7 +184,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             }
             try
             {
-                BusinessObject.Reservation reservation = reservationRepository.GetReservationById(reservationId);
+                BusinessObject.Reservation reservation = await reservationRepository.GetReservationById(reservationId);
                 Feedback feedback = feedbackRepository.GetFeedbackByReservationId(reservationId);
                 if(feedback != null)
                 {
