@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Dentist
 {
@@ -29,7 +30,7 @@ namespace DentistBookingWebApp.Pages.Dentist
 
         public IList<BusinessObject.Reservation> Reservations { get; set; }
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
 
             try
@@ -41,11 +42,11 @@ namespace DentistBookingWebApp.Pages.Dentist
                     if (id == null && role == "Dentist")
                     {
                         BusinessObject.Dentist dentist = GetDentist(email);
-                        Reservations = reservationRepository.GetReservationsByDentistId(dentist.Id).ToList();
+                        Reservations = (await reservationRepository.GetReservationsByDentistId(dentist.Id)).ToList();
                     }
                     else if (id != null && role == "Admin")
                     {
-                        Reservations = reservationRepository.GetReservationsByDentistId((int)id).ToList();
+                        Reservations = (await reservationRepository.GetReservationsByDentistId((int)id)).ToList();
                     }
                     else return NotFound();
                 }

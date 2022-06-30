@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Reservation
 {
@@ -33,7 +34,7 @@ namespace DentistBookingWebApp.Pages.Reservation
 
         public IList<BusinessObject.Reservation> Reservations { get; set; }
 
-        public IActionResult OnGet([FromQuery] int? page = 1)
+        public async Task<IActionResult> OnGet([FromQuery] int? page = 1)
         {
             
             string email = User.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value;
@@ -41,11 +42,10 @@ namespace DentistBookingWebApp.Pages.Reservation
             {
                 User user = userRepository.GetUserByEmail(email);
                 Customer customer = customerRepository.GetCustomerByUserId(user.Id);
-                Reservations = reservationRepository.GetReservationsByCustomerId((int)page, MAX_ITEM_PAGE, customer.Id)
-                                                    .ToList();
-
+                Reservations = (await reservationRepository.GetReservationsByCustomerId((int)page, MAX_ITEM_PAGE, customer.Id))
+                                .ToList();
                 
-                int pageCount = (int)Math.Ceiling(reservationRepository.GetReservationsByCustomerId(customer.Id).Count() / (double)MAX_ITEM_PAGE);
+                int pageCount = (int)Math.Ceiling((await reservationRepository.GetReservationsByCustomerId(customer.Id)).Count() / (double)MAX_ITEM_PAGE);
                 if (page <= 0 || page > pageCount)
                 {
                    return NotFound();
@@ -60,7 +60,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             return Page();
         }
 
-        public IActionResult OnPostCancelReservation([FromForm] int reservationId)
+        public async Task<IActionResult> OnPostCancelReservation([FromForm] int reservationId)
         {
 
             string email = User.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value;
@@ -68,7 +68,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             {
                 User user = userRepository.GetUserByEmail(email);
                 Customer customer = customerRepository.GetCustomerByUserId(user.Id);
-                BusinessObject.Reservation reservation = reservationRepository.GetReservationById(reservationId);
+                BusinessObject.Reservation reservation = await reservationRepository.GetReservationById(reservationId);
                 if(reservation == null || reservation.CustomerId != customer.Id)
                 {
                     return NotFound();
@@ -80,7 +80,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                     {
                         TempData["ErrorMessage"] = "Reservation can only be canceled before 1 day.";
                     }
-                    reservationRepository.DeleteReservation(reservation);
+                    await reservationRepository.DeleteReservation(reservation);
                     TempData["Message"] = "Cancel reservation successfully.";
                 }               
             }
@@ -88,7 +88,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             {
                 TempData["ErrorMessage"] = "There is an error. Please try again later.";
             }
-            return RedirectToPage("/Reservation/History");
+            return LocalRedirect("/Reservation/History");
 
         }
 
@@ -130,7 +130,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
             }
 
-            return RedirectToPage("/Reservation/History");
+            return LocalRedirect("/Reservation/History");
         }
 
        

@@ -9,16 +9,16 @@ namespace DataAccess.Interfaces
 {
     public interface IReservationRepository
     {
-        public Reservation GetReservationById(int id);
-        public IEnumerable<Reservation> GetReservations();
-        public IEnumerable<Reservation> GetReservationsByCustomerId(int customerId);
-        public IEnumerable<Reservation> GetReservationsByCustomerId(int page, int itemPerPage, int customerId);
-        public IEnumerable<Reservation> GetReservationsByDentistId(int dentistId);
-        public IEnumerable<Reservation> GetReservationsByServiceId(int serviceId);
-        public IEnumerable<Reservation> GetReservationsByDateTime(DateTime dateTime);
-        public Reservation GetReservationByCustomerIdAndDateTime(int customerId, DateTime dateTime);
-        public void AddNewReservation(Reservation reservation);
-        public void UpdateReservation(Reservation reservation);
-        public void DeleteReservation(Reservation reservation);
+        public Task<Reservation> GetReservationById(int id);
+        public Task<IEnumerable<Reservation>> GetReservations();
+        public Task<IEnumerable<Reservation>> GetReservationsByCustomerId(int customerId);
+        public Task<IEnumerable<Reservation>> GetReservationsByCustomerId(int page, int itemPerPage, int customerId);
+        public Task<IEnumerable<Reservation>> GetReservationsByDentistId(int dentistId);
+        public Task<IEnumerable<Reservation>> GetReservationsByServiceId(int serviceId);
+        public Task<IEnumerable<Reservation>> GetReservationsByDateTime(DateTime dateTime);
+        public Task<Reservation> GetReservationByCustomerIdAndDateTime(int customerId, DateTime dateTime);
+        public Task AddNewReservation(Reservation reservation);
+        public Task UpdateReservation(Reservation reservation);
+        public Task DeleteReservation(Reservation reservation);
     }
 }

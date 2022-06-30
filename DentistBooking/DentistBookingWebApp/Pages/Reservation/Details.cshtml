@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-        @if (Model.Role == "Admin")
+        @if (Model.Role != "Customer")
         {
             <div class="text-center">
                 @if (Model.Status.Equals("Accepted"))

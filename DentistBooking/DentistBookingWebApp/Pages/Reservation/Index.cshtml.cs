@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Reservation
 {
@@ -48,14 +49,14 @@ namespace DentistBookingWebApp.Pages.Reservation
 
 
 
-        public IActionResult OnGet([FromQuery] int? serviceId)
+        public async Task<IActionResult> OnGet([FromQuery] int? serviceId)
         {
             var dateTimeNow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
 
             try
             {
                 IEnumerable<Service> services = serviceRepository.GetActiveServiceList();
-                IEnumerable<BusinessObject.Dentist> dentists = GetAvailableDentist(dateTimeNow);
+                IEnumerable<BusinessObject.Dentist> dentists = await GetAvailableDentist(dateTimeNow);
 
                 if(serviceId != null)
                 {
@@ -74,7 +75,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostSubmit()
         {
             string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
             var dateTimeString = Date + " " + Time;
@@ -96,9 +97,9 @@ namespace DentistBookingWebApp.Pages.Reservation
 
                 Customer customer = customerRepository.GetCustomerByUserId(int.Parse(userId));
 
-                if(!string.IsNullOrEmpty(ValidationReservation(customer.Id, dateTime)))
+                if(!string.IsNullOrEmpty(await ValidationReservation(customer.Id, dateTime)))
                 {
-                    throw new Exception(ValidationReservation(customer.Id, dateTime));
+                    throw new Exception(await ValidationReservation(customer.Id, dateTime));
                 }
                 //---------------------------------------------------------------------
 
@@ -106,7 +107,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 //    // Auto choose random dentist if user not demand specific
                 if (DentistId == 0)
                 {
-                    IEnumerable<BusinessObject.Dentist> availableDentists = GetAvailableDentist(dateTime);
+                    IEnumerable<BusinessObject.Dentist> availableDentists = await GetAvailableDentist(dateTime);
                     int indexRandom = new Random().Next(availableDentists.Count());
                     BusinessObject.Dentist randomDentist = availableDentists.ElementAt(indexRandom);
                     dentistId = randomDentist.Id;
@@ -125,14 +126,14 @@ namespace DentistBookingWebApp.Pages.Reservation
                     Status = "Waiting",
                 };
 
-                reservationRepository.AddNewReservation(reservation);
+                await reservationRepository.AddNewReservation(reservation);
                 TempData["Message"] = "Make reservation successfully. Keep up checking your reservation status.";
             }
             catch (Exception ex)
             {
                 DateTime dateTime = DateTime.ParseExact(dateTimeString, "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);
                 IEnumerable<Service> services = serviceRepository.GetServiceList();
-                IEnumerable<BusinessObject.Dentist> availableDentists = GetAvailableDentist(dateTime);
+                IEnumerable<BusinessObject.Dentist> availableDentists = await GetAvailableDentist(dateTime);
                 TempData["ErrorMessage"] = ex.Message;
                 ViewData["Service"] = new SelectList(services, "Id", "Name");
                 ViewData["DentistList"] = new SelectList(availableDentists, "Id", "FullName");
@@ -143,7 +144,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             return RedirectToPage("/Reservation/History");
         }
 
-        public IActionResult OnPostLoadDentist([FromForm] string date, string time)
+        public async Task<IActionResult> OnPostLoadDentist([FromForm] string date, string time)
         {
             IEnumerable<BusinessObject.Dentist> dentists;
             IEnumerable<Service> services;
@@ -155,7 +156,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 {
                     var dateTimeString = date + " " + time;
                     DateTime dateTime = DateTime.ParseExact(dateTimeString, "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);
-                    dentists = GetAvailableDentist(dateTime);
+                    dentists = await GetAvailableDentist(dateTime);
                 }
                 else
                 {
@@ -175,22 +176,24 @@ namespace DentistBookingWebApp.Pages.Reservation
             return Page();
         }
 
-        private IEnumerable<BusinessObject.Dentist> GetAvailableDentist(DateTime dateTime)
+
+        //-------------------------------------------------------------
+        private async Task<IEnumerable<BusinessObject.Dentist>> GetAvailableDentist(DateTime dateTime)
         {
-            IEnumerable<BusinessObject.Dentist> dentists;
+            IList<BusinessObject.Dentist> dentists;
             try
             {
-                dentists = dentistRepository.GetDentistList();
+                dentists = dentistRepository.GetDentistList().ToList();
                 IList<BusinessObject.Dentist> busyDentists = new List<BusinessObject.Dentist>().ToList();
 
-                IEnumerable<BusinessObject.Reservation> reservations = reservationRepository.GetReservationsByDateTime(dateTime);
+                IEnumerable<BusinessObject.Reservation> reservations = await reservationRepository.GetReservationsByDateTime(dateTime);
                 if (reservations.Count() > 0)
                 {
                     foreach (var item in reservations)
                     {
-                        busyDentists.Add(item.Dentist);
+                        BusinessObject.Dentist busyDentist = dentists.FirstOrDefault(i => i.Id == item.DentistId);
+                        bool result = dentists.Remove(busyDentist);
                     }
-                    dentists = dentists.Where(i => !busyDentists.Contains(i));
                 }
             }
             catch(Exception ex)
@@ -215,12 +218,12 @@ namespace DentistBookingWebApp.Pages.Reservation
             return "";
         }
 
-        private string CheckDuplicateReservation(DateTime dateTime, int customerId)
+        private async Task<string> CheckDuplicateReservation(DateTime dateTime, int customerId)
         {
             string error = "";
             try
             {
-                BusinessObject.Reservation reservation = reservationRepository.GetReservationByCustomerIdAndDateTime(customerId, dateTime);
+                BusinessObject.Reservation reservation = await reservationRepository.GetReservationByCustomerIdAndDateTime(customerId, dateTime);
                 if(reservation != null)
                 {
                     error = "You have make a reservation request at this time before. Please choose another date and time to make other reservation.";
@@ -233,12 +236,12 @@ namespace DentistBookingWebApp.Pages.Reservation
             return error;
         }
 
-        private string MaximumAllowReservationValidation(int customerId) {
+        private async Task<string> MaximumAllowReservationValidation(int customerId) {
             string error = "";
             
             try
             {
-                IEnumerable<BusinessObject.Reservation> reservations = reservationRepository.GetReservationsByCustomerId(customerId);
+                IEnumerable<BusinessObject.Reservation> reservations = await reservationRepository.GetReservationsByCustomerId(customerId);
                 reservations = reservations.Where(r => r.Status == "Waiting");
                 if(reservations.Count() >= 3)
                 {
@@ -252,7 +255,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             return error;
         }
     
-        private string ValidationReservation(int customerId, DateTime dateTime)
+        private async Task<string> ValidationReservation(int customerId, DateTime dateTime)
         {
             string error = "";
             try
@@ -261,13 +264,13 @@ namespace DentistBookingWebApp.Pages.Reservation
                 {
                     error = ValidateReservationTime(dateTime);
                 }
-                else if (!string.IsNullOrEmpty(CheckDuplicateReservation(dateTime, customerId)))
+                else if (!string.IsNullOrEmpty(await CheckDuplicateReservation(dateTime, customerId)))
                 {
-                    error = CheckDuplicateReservation(dateTime, customerId);
+                    error = await CheckDuplicateReservation(dateTime, customerId);
                 }
-                else if (string.IsNullOrEmpty(MaximumAllowReservationValidation(customerId)))
+                else if (string.IsNullOrEmpty(await MaximumAllowReservationValidation(customerId)))
                 {
-                    error = MaximumAllowReservationValidation(customerId);
+                    error = await MaximumAllowReservationValidation(customerId);
                 }
             }
             catch (Exception ex)

@@ -31,17 +31,17 @@ namespace DataAccess
         }
         //-------------------------------------------------
 
-        public Reservation GetReservationById(int id)
+        public async Task<Reservation> GetReservationById(int id)
         {
             Reservation reservation;
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservation = dbContext.Reservations
+                reservation = await dbContext.Reservations
                     .Include(r => r.Service)
                     .Include(r => r.Customer.User)
                     .Include(r => r.Dentist.User)
-                    .SingleOrDefault(r => r.Id == id);
+                    .SingleOrDefaultAsync(r => r.Id == id);
             }
             catch(Exception ex)
             {
@@ -50,17 +50,17 @@ namespace DataAccess
             return reservation;
         }
 
-        public IEnumerable<Reservation> GetReservations()
+        public async Task<IEnumerable<Reservation>> GetReservations()
         {
             IEnumerable<Reservation> reservations;
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservations = dbContext.Reservations
+                reservations = await dbContext.Reservations
                     .Include(r => r.Service)
                     .Include(r => r.Customer)
                     .Include(r => r.Dentist)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -69,17 +69,17 @@ namespace DataAccess
             return reservations;
         }
 
-        public IEnumerable<Reservation> GetReservationsByCustomerId(int customerId) {
+        public async Task<IEnumerable<Reservation>> GetReservationsByCustomerId(int customerId) {
             IEnumerable<Reservation> reservations;
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservations = dbContext.Reservations
+                reservations = await dbContext.Reservations
                     .Include(r => r.Service)
                     .Include(r => r.Customer.User)
                     .Include(r => r.Dentist.User)
                     .Where(r => r.CustomerId == customerId)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -88,20 +88,20 @@ namespace DataAccess
             return reservations;
         }
 
-        public IEnumerable<Reservation> GetReservationsByCustomerId(int page, int itemPerPage, int customerId)
+        public async Task<IEnumerable<Reservation>> GetReservationsByCustomerId(int page, int itemPerPage, int customerId)
         {
             IEnumerable<Reservation> reservations;
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservations = dbContext.Reservations
+                reservations = await dbContext.Reservations
                     .Include(r => r.Service)
                     .Include(r => r.Customer.User)
                     .Include(r => r.Dentist.User)
                     .Where(r => r.CustomerId == customerId)
                     .Skip((page - 1) * itemPerPage)
                     .Take(itemPerPage)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -110,13 +110,13 @@ namespace DataAccess
             return reservations;
         }
 
-        public Reservation GetReservationByDateTimeAndCustomerId(int customerId, DateTime dateTime)
+        public async Task<Reservation> GetReservationByDateTimeAndCustomerId(int customerId, DateTime dateTime)
         {
             Reservation reservation;
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservation = dbContext.Reservations.SingleOrDefault(r => r.CustomerId == customerId
+                reservation = await dbContext.Reservations.SingleOrDefaultAsync(r => r.CustomerId == customerId
                                                                             && r.ResevrationDate == dateTime);
             }
             catch(Exception ex)
@@ -126,18 +126,18 @@ namespace DataAccess
             return reservation;
         }
 
-        public IEnumerable<Reservation> GetReservationsByDentistId(int dentistId)
+        public async Task<IEnumerable<Reservation>> GetReservationsByDentistId(int dentistId)
         {
             IEnumerable<Reservation> reservations;
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservations = dbContext.Reservations
+                reservations = await dbContext.Reservations
                     .Include(r => r.Service)
                     .Include(r => r.Customer)
                     .Include(r => r.Dentist)
                     .Where(r => r.DentistId == dentistId)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -146,18 +146,18 @@ namespace DataAccess
             return reservations;
         }
 
-        public IEnumerable<Reservation> GetReservationsByServiceId(int serviceId)
+        public async Task<IEnumerable<Reservation>> GetReservationsByServiceId(int serviceId)
         {
             IEnumerable<Reservation> reservations;
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservations = dbContext.Reservations
+                reservations = await dbContext.Reservations
                     .Include(r => r.Service)
-                    .Include(r => r.Customer)
-                    .Include(r => r.Dentist)
+                    .Include(r => r.Customer.User)
+                    .Include(r => r.Dentist.User)
                     .Where(r => r.ServiceId == serviceId)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -166,18 +166,18 @@ namespace DataAccess
             return reservations;
         }
 
-        public IEnumerable<Reservation> GetReservationsByDate(DateTime dateTime)
+        public async Task<IEnumerable<Reservation>> GetReservationsByDate(DateTime dateTime)
         {
             IEnumerable<Reservation> reservations;
             try
             {
                 var dbContext = new DentistBookingContext();
-                reservations = dbContext.Reservations
+                reservations = await dbContext.Reservations
                     .Include(r => r.Service)
-                    .Include(r => r.Customer)
-                    .Include(r => r.Dentist)
+                    .Include(r => r.Customer.User)
+                    .Include(r => r.Dentist.User)
                     .Where(r => r.ResevrationDate == dateTime)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -186,13 +186,13 @@ namespace DataAccess
             return reservations;
         }
 
-        public void AddNewReservation(Reservation reservation)
+        public async Task AddNewReservation(Reservation reservation)
         {
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Reservations.Add(reservation);
-                dbContext.SaveChanges();
+                await dbContext.Reservations.AddAsync(reservation);
+                await dbContext.SaveChangesAsync();
             }
             catch(Exception ex)
             {
@@ -200,13 +200,13 @@ namespace DataAccess
             }
         }
 
-        public void UpdateReservation(Reservation reservation)
+        public async Task UpdateReservation(Reservation reservation)
         {
             try
             {
                 var dbContext = new DentistBookingContext();
                 dbContext.Entry<Reservation>(reservation).State = EntityState.Modified;
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -214,12 +214,12 @@ namespace DataAccess
             }
         }
 
-        public void DeleteReservation(Reservation reservation)
+        public async Task DeleteReservation(Reservation reservation)
         {
             try { 
                 var dbContext = new DentistBookingContext();
                 dbContext.Reservations.Remove(reservation);
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {

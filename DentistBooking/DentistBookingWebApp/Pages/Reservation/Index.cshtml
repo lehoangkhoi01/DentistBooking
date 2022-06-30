@@ -9,7 +9,7 @@
         <div class="col-12 right-section">
             <div class="container-fluid px-0 px-sm-4 mx-auto">
                 <div class="col-12">
-                    <form method="post" id="reservationForm">
+                    <form method="post" id="reservationForm" asp-page-handler="Submit">
                         <div class="form-group col-lg-6 mb-4 service-choose">
                             <label class="control-label">Choose a service</label>
                             <select class="form-control"
@@ -78,10 +78,10 @@
 
 
 <!-- Hidden form to request load dentist list-->
-@*<form method="post" asp-page-handler="LoadDentist" id="loadDentistForm">
+<form method="post" asp-page-handler="LoadDentist" id="loadDentistForm">
     <input type="hidden" name="date" id="dateInput" />
     <input type="hidden" name="time" id="timeInput" />
-</form>*@
+</form>
 
 <!-- Hidden form to submit reservation form -->
 @*<form method="post" asp-page-handler="MakeReservation" id="reservationForm">
@@ -173,6 +173,7 @@
 
     <script>
         function onClickSubmitForm() {
+            $(".btn").prop('disabled', true);
             $("#reservationForm").submit();
         }
     </script>

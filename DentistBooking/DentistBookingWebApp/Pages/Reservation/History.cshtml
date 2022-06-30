@@ -97,22 +97,26 @@
         }
     </div>
 
-    <nav aria-label="..." class="pagination mt-5">
-        <ul class="pagination">
-            <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
-                <a class="page-link" href="/Reservation/History?page=@prevPage" tabindex="-1">Previous</a>
-            </li>
-            @for (int i = 1; i <= ViewBag.PageCount; i++)
-            {
-                <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
-                    <a class="page-link" href="/Reservation/History?page=@i">@i</a>
+    @if (ViewBag.PageCount > 1)
+    {
+        <nav aria-label="..." class="pagination mt-5">
+            <ul class="pagination">
+                <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
+                    <a class="page-link" href="/Reservation/History?page=@prevPage" tabindex="-1">Previous</a>
                 </li>
-            }
-            <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
-                <a class="page-link" href="/Reservation/History?page=@nextPage">Next</a>
-            </li>
-        </ul>
-    </nav>
+                @for (int i = 1; i <= ViewBag.PageCount; i++)
+                {
+                    <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
+                        <a class="page-link" href="/Reservation/History?page=@i">@i</a>
+                    </li>
+                }
+                <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
+                    <a class="page-link" href="/Reservation/History?page=@nextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+
 </div>
 
 @* Feedback modal *@
