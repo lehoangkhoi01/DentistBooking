@@ -17,13 +17,18 @@ namespace DentistBookingWebApp.Pages.Reservation
         private readonly IReservationRepository reservationRepository;
         private readonly ICustomerRepository customerRepository;
         private readonly IUserRepository userRepository;
+        private readonly IFeedbackRepository feedbackRepository;
         private const int MAX_ITEM_PAGE = 4;
 
-        public HistoryModel(IReservationRepository reservationRepository, ICustomerRepository customerRepository, IUserRepository userRepository)
+        public HistoryModel(IReservationRepository reservationRepository, 
+                            ICustomerRepository customerRepository, 
+                            IUserRepository userRepository,
+                            IFeedbackRepository feedbackRepository)
         {
             this.reservationRepository = reservationRepository;
             this.customerRepository = customerRepository;
             this.userRepository = userRepository;
+            this.feedbackRepository = feedbackRepository;
         }
 
         public IList<BusinessObject.Reservation> Reservations { get; set; }
@@ -85,6 +90,47 @@ namespace DentistBookingWebApp.Pages.Reservation
             }
             return RedirectToPage("/Reservation/History");
 
+        }
+
+        public IActionResult OnPostSendFeedback([FromForm] int reservationId, int rate, string comment)
+        {
+            string email = User.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value;
+            string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            try
+            {
+                Customer customer = customerRepository.GetCustomerByUserId(int.Parse(userId));               
+                Feedback prevFeedback = feedbackRepository.GetFeedbackByReservationId(reservationId);
+                if(prevFeedback == null)
+                {
+                    Feedback feedback = new Feedback
+                    {
+                        CustomerId = customer.Id,
+                        Star = rate,
+                        Comment = comment,
+                        ReservationId = reservationId,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now
+                    };
+                    feedbackRepository.AddNewFeedback(feedback);
+                }
+                else
+                {
+                    prevFeedback.Star = rate;
+                    prevFeedback.Comment = comment;
+                    prevFeedback.UpdatedDate = DateTime.Now;
+                    feedbackRepository.UpdateFeedback(prevFeedback);
+                    
+                }
+                TempData["Message"] = "Send feedback successfully.";
+
+            }
+            catch(Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+
+            return RedirectToPage("/Reservation/History");
         }
 
        

@@ -16,20 +16,26 @@ namespace DentistBookingWebApp.Pages.Reservation
         private readonly IUserRepository userRepository;
         private readonly IDentistRepository dentistRepository;
         private readonly ICustomerRepository customerRepository;
+        private readonly IFeedbackRepository feedbackRepository;
 
         public DetailsModel(IReservationRepository reservationRepository,
                             IUserRepository userRepository,
                             IDentistRepository dentistRepository,
-                            ICustomerRepository customerRepository)
+                            ICustomerRepository customerRepository,
+                            IFeedbackRepository feedbackRepository)
         {
             this.reservationRepository = reservationRepository;
             this.dentistRepository = dentistRepository;
             this.userRepository = userRepository;
             this.customerRepository = customerRepository;
+            this.feedbackRepository = feedbackRepository;
         }
 
         [BindProperty]
         public BusinessObject.Reservation Reservation { get; set; }
+
+        [BindProperty]
+        public Feedback Feedback { get; set; }
 
         [BindProperty]
         public string Status { get; set; }
@@ -48,6 +54,12 @@ namespace DentistBookingWebApp.Pages.Reservation
             {
                 Role = User.FindFirstValue(ClaimTypes.Role);
                 Reservation = reservationRepository.GetReservationById((int)id);
+                if(Reservation == null)
+                {
+                    return NotFound();
+                } 
+
+                Feedback = feedbackRepository.GetFeedbackByReservationId(Reservation.Id);
                 Status = Reservation.Status;
                 if(Reservation.ResevrationDate < DateTime.Now)
                 {
@@ -65,7 +77,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
                 
             }
-            return RedirectToPage("/Reservation/Index");
+            return LocalRedirect("/Reservation/Index");
 
         }
 
@@ -90,7 +102,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
                 return Page();
             }
-            return RedirectToPage("/Reservation/Details", new { id = reservationId });
+            return LocalRedirect("/Reservation/Details", new { id = reservationId });
         }
 
         public IActionResult OnPostRejectReservation([FromForm] int reservationId, string rejectReason)
@@ -117,9 +129,76 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
                 return Page();
             }
-            return RedirectToPage("/Reservation/Details", new { id = reservationId });
-        } 
+            return LocalRedirect("/Reservation/Details", new { id = reservationId });
+        }
 
+        public IActionResult OnPostSendFeedback([FromForm] int reservationId, int rate, string comment)
+        {
+            string email = User.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value;
+            string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            try
+            {
+                Customer customer = customerRepository.GetCustomerByUserId(int.Parse(userId));
+                Feedback prevFeedback = feedbackRepository.GetFeedbackByReservationId(reservationId);
+                if (prevFeedback == null)
+                {
+                    Feedback feedback = new Feedback
+                    {
+                        CustomerId = customer.Id,
+                        Star = rate,
+                        Comment = comment,
+                        ReservationId = reservationId,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now
+                    };
+                    feedbackRepository.AddNewFeedback(feedback);
+                }
+                else
+                {
+                    prevFeedback.Star = rate;
+                    prevFeedback.Comment = comment;
+                    prevFeedback.UpdatedDate = DateTime.Now;
+                    feedbackRepository.UpdateFeedback(prevFeedback);
+
+                }
+                TempData["Message"] = "Send feedback successfully.";
+
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+
+            return LocalRedirect("/Reservation/Details?id="+ reservationId);
+        }
+
+        public IActionResult OnPostDeleteFeedback([FromForm] int reservationId)
+        {
+            string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+            string userId = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+            if(role != "Customer")
+            {
+                return LocalRedirect("/AccessDenied");
+            }
+            try
+            {
+                BusinessObject.Reservation reservation = reservationRepository.GetReservationById(reservationId);
+                Feedback feedback = feedbackRepository.GetFeedbackByReservationId(reservationId);
+                if(feedback != null)
+                {
+                    feedbackRepository.DeleteFeedback(feedback);
+                    TempData["Message"] = "Remove feedback successfully";
+                }
+            }
+            catch(Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+            return LocalRedirect("/Reservation/Details?id=" + reservationId);
+        }
+        
+        //-------------------------------------------------------------------------------
         private bool AuthorizeForAdminAndChosenDentist(BusinessObject.Reservation reservation)
         {
             string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;

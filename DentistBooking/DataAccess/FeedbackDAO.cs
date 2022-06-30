@@ -31,6 +31,56 @@ namespace DataAccess
         }
         //----------------------------------------------------------
 
+        public Feedback GetFeedbackById(int id)
+        {
+            Feedback feedback;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                feedback = dbContext.Feedbacks.FirstOrDefault(f => f.Id == id);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return feedback;
+        }
+
+        public Feedback GetFeedbackByReservationId(int id)
+        {
+            Feedback feedback;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                feedback = dbContext.Feedbacks.FirstOrDefault(f => f.ReservationId == id);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return feedback;
+        }
+
+        public IEnumerable<Feedback> GetFeedbackByServiceId(int id)
+        {
+            IEnumerable<Feedback> feedbacks;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                feedbacks = dbContext.Feedbacks
+                                    .Include(f => f.Customer)
+                                    .Include(f => f.Reservation.Service)
+                                    .Where(f => f.Reservation.ServiceId == id)
+                                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return feedbacks;
+        }
+
         public void AddFeedback(Feedback feedback)
         {
             try
@@ -79,7 +129,10 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                feedbacks = dbContext.Feedbacks.ToList();
+                feedbacks = dbContext.Feedbacks
+                                    .Include(f => f.Customer)
+                                    .Include(f => f.Reservation.Service)
+                                    .ToList();
             }
             catch(Exception ex)
             {
