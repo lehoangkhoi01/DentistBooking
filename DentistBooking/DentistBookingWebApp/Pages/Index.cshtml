@@ -4,7 +4,30 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <h1>Convenient and simple way to take care your teeth</h1>
+                <h2>We provide the online service to make appointments with our dentist.</h2>
+                <div class="d-flex">
+                    <a href="/Reservation/Index"  class="btn-get-started scrollto">Make reservation</a>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img">
+                <img src="https://firebasestorage.googleapis.com/v0/b/child-care-system-fa552.appspot.com/o/images%2Fcommon%2Fundraw_medicine_b-1-ol.svg?alt=media&token=cc7bdc53-ea08-4833-a002-11db48eeb809" class="img-fluid animated" alt="">
+            </div>
+        </div>
+    </div>
+
+</section><!-- End Hero -->
+
+@section Styles {
+    <link href="@Url.Content("~/css/home/index.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+}
