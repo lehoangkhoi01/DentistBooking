@@ -154,8 +154,8 @@ namespace DataAccess
                 var dbContext = new DentistBookingContext();
                 reservations = dbContext.Reservations
                     .Include(r => r.Service)
-                    .Include(r => r.Customer)
-                    .Include(r => r.Dentist)
+                    .Include(r => r.Customer.User)
+                    .Include(r => r.Dentist.User)
                     .Where(r => r.ServiceId == serviceId)
                     .ToList();
             }
@@ -174,8 +174,8 @@ namespace DataAccess
                 var dbContext = new DentistBookingContext();
                 reservations = dbContext.Reservations
                     .Include(r => r.Service)
-                    .Include(r => r.Customer)
-                    .Include(r => r.Dentist)
+                    .Include(r => r.Customer.User)
+                    .Include(r => r.Dentist.User)
                     .Where(r => r.ResevrationDate == dateTime)
                     .ToList();
             }

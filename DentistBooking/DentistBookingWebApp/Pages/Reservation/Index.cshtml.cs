@@ -74,7 +74,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             return Page();
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPostSubmit()
         {
             string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
             var dateTimeString = Date + " " + Time;
@@ -175,12 +175,14 @@ namespace DentistBookingWebApp.Pages.Reservation
             return Page();
         }
 
+
+        //-------------------------------------------------------------
         private IEnumerable<BusinessObject.Dentist> GetAvailableDentist(DateTime dateTime)
         {
-            IEnumerable<BusinessObject.Dentist> dentists;
+            IList<BusinessObject.Dentist> dentists;
             try
             {
-                dentists = dentistRepository.GetDentistList();
+                dentists = dentistRepository.GetDentistList().ToList();
                 IList<BusinessObject.Dentist> busyDentists = new List<BusinessObject.Dentist>().ToList();
 
                 IEnumerable<BusinessObject.Reservation> reservations = reservationRepository.GetReservationsByDateTime(dateTime);
@@ -188,9 +190,9 @@ namespace DentistBookingWebApp.Pages.Reservation
                 {
                     foreach (var item in reservations)
                     {
-                        busyDentists.Add(item.Dentist);
+                        BusinessObject.Dentist busyDentist = dentists.FirstOrDefault(i => i.Id == item.DentistId);
+                        bool result = dentists.Remove(busyDentist);
                     }
-                    dentists = dentists.Where(i => !busyDentists.Contains(i));
                 }
             }
             catch(Exception ex)

@@ -102,7 +102,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
                 return Page();
             }
-            return LocalRedirect("/Reservation/Details", new { id = reservationId });
+            return LocalRedirect("/Reservation/Details?id="+reservationId);
         }
 
         public IActionResult OnPostRejectReservation([FromForm] int reservationId, string rejectReason)
@@ -129,7 +129,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
                 return Page();
             }
-            return LocalRedirect("/Reservation/Details", new { id = reservationId });
+            return LocalRedirect("/Reservation/Details?id=" + reservationId);
         }
 
         public IActionResult OnPostSendFeedback([FromForm] int reservationId, int rate, string comment)
