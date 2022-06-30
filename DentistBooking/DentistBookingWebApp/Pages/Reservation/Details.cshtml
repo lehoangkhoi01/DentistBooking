@@ -116,7 +116,7 @@
                 </button>
                 @if(Model.Feedback != null)
                 {
-                    <button class="btn btn-outline-success col-6 my-3"
+                    <button class="btn btn-outline-danger col-6 my-3"
                             data-toggle="modal" data-target="#deleteFeedbackModal"
                             data-reservation="@Model.Reservation.Id">
                     Remove feedback
@@ -160,22 +160,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Are you sure to remove your feedback</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close btnClose" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" asp-page-handler="RejectReservation" id="rejectForm">
-                    <input name="reservationId" value="@Model.Reservation.Id" hidden />
-                    <textarea class="col-12" name="rejectReason"></textarea>
+                <h5>Are you sure to remove your feedback</h5>
+                <form method="post" asp-page-handler="DeleteFeedback" id="deleteFeedbackForm">
+                    <input name="reservationId" id="reservationIdRemoveFeedback" hidden />
                 </form>
-
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                <button type="button" class="btn btn-danger" onclick="onClickSubmitRejectForm()">Reject</button>
+                <button type="button" class="btn btn-secondary btnClose" data-dismiss="modal">Close</button>
+                <button type="button" id="btnRemoveFeedback" class="btn btn-danger" onclick="onClickSubmitRemoveFeedbackForm()">Remove</button>
             </div>
         </div>
     </div>
@@ -185,10 +182,10 @@
 <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" asp-page-handler="SendFeedback" id="cancelForm">
+            <form method="post" asp-page-handler="SendFeedback" id="feedbackForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Feedback our service</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close btnClose" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -225,9 +222,12 @@
                     <textarea class="col-12" maxlength="200" name="comment"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btnClose" data-dismiss="modal">Close</button>
                     <input type="hidden" name="reservationId" id="reservationIdInputFeedback" />
-                    <button class="btn btn-outline-success" type="submit">Send feedback</button>
+                    <button id="btnSendFeedback" 
+                            class="btn btn-outline-success" 
+                            type="button"
+                            onclick="onClickSendFeedback()">Send feedback</button>
                 </div>
             </form>
         </div>
@@ -242,8 +242,20 @@
     @section Scripts {
     <script src="~/js/feedback/feedback.js"></script>
     <script>
-        function onClickSubmitRejectForm() {
-            $("#rejectForm").submit();
+        function onClickSubmitRejectForm() {           
+            $("#rejectForm").submit();        
+        }
+
+        function onClickSubmitRemoveFeedbackForm() {
+            $("#btnRemoveFeedback").prop('disabled', true);
+            $(".btnClose").prop('disabled', true);
+            $("#deleteFeedbackForm").submit();
+        }
+
+        function onClickSendFeedback() {
+            $("#btnSendFeedback").prop('disabled', true);
+            $(".btnClose").prop('disabled', true);
+            $("#feedbackForm").submit();
         }
     </script>
 
@@ -263,6 +275,12 @@
             var button = $(event.relatedTarget);
             var reservationId = button.data('reservation');
             $("#reservationIdInputFeedback").val(reservationId);
+            $()
+        })
+        $('#deleteFeedbackModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var reservationId = button.data('reservation');
+            $("#reservationIdRemoveFeedback").val(reservationId);
         })
     </script>
 }

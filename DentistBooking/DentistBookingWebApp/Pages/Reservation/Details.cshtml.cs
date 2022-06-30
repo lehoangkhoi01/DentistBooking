@@ -77,7 +77,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
                 
             }
-            return RedirectToPage("/Reservation/Index");
+            return LocalRedirect("/Reservation/Index");
 
         }
 
@@ -102,7 +102,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
                 return Page();
             }
-            return RedirectToPage("/Reservation/Details", new { id = reservationId });
+            return LocalRedirect("/Reservation/Details", new { id = reservationId });
         }
 
         public IActionResult OnPostRejectReservation([FromForm] int reservationId, string rejectReason)
@@ -129,7 +129,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 TempData["ErrorMessage"] = ex.Message;
                 return Page();
             }
-            return RedirectToPage("/Reservation/Details", new { id = reservationId });
+            return LocalRedirect("/Reservation/Details", new { id = reservationId });
         }
 
         public IActionResult OnPostSendFeedback([FromForm] int reservationId, int rate, string comment)
@@ -173,6 +173,32 @@ namespace DentistBookingWebApp.Pages.Reservation
             return LocalRedirect("/Reservation/Details?id="+ reservationId);
         }
 
+        public IActionResult OnPostDeleteFeedback([FromForm] int reservationId)
+        {
+            string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+            string userId = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+            if(role != "Customer")
+            {
+                return LocalRedirect("/AccessDenied");
+            }
+            try
+            {
+                BusinessObject.Reservation reservation = reservationRepository.GetReservationById(reservationId);
+                Feedback feedback = feedbackRepository.GetFeedbackByReservationId(reservationId);
+                if(feedback != null)
+                {
+                    feedbackRepository.DeleteFeedback(feedback);
+                    TempData["Message"] = "Remove feedback successfully";
+                }
+            }
+            catch(Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+            return LocalRedirect("/Reservation/Details?id=" + reservationId);
+        }
+        
+        //-------------------------------------------------------------------------------
         private bool AuthorizeForAdminAndChosenDentist(BusinessObject.Reservation reservation)
         {
             string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
