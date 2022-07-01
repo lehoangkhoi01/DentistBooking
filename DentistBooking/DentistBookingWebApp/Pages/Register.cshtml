@@ -4,20 +4,21 @@
     ViewData["Title"] = "Register";
     var customer = Model.customer;
 }
+<!--
 <div class="container">
-    @if (ViewBag.Message != null)
-    {
-        <div class="alert alert-danger text-center" role="alert">
-            @ViewBag.Message
-        </div>
-    }
+@if (ViewBag.Message != null)
+{
+                    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.Message
+                    </div>
+}
 
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card border-0 shadow rounded-3 my-5">
                 <div class="card-body p-4 p-sm-5">
                     <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
-                    @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+@*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
                     <form method="post">
                         <div class="form-floating mb-3">
                             <label for="floatingInput" asp-for="customer.FullName"></label>
@@ -59,4 +60,84 @@
             </div>
         </div>
     </div>
+</div>-->
+
+<div class="wrapper container py-3 px-4">
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.Message
+        </div>
+    }
+    <h2>Register</h2>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form method="POST">
+        <div class="form-row col-md-6">
+            <div class="form-group col">
+                <label for="fullNanme">Full name</label>
+                <input asp-for="customer.FullName" class="form-control" id="fullName">
+                <span asp-validation-for="customer.FullName" class="text-danger"></span>
+            </div>           
+        </div>
+        <div class="form-row col-md-6">
+            <div class="form-group col">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-row col-md-6">
+            <div class="form-group col">
+                <label for="phoneNumber">Phone number</label>
+                <input type="text" class="form-control" id="phoneNumber" asp-for="customer.PhoneNumber">
+                <span asp-validation-for="customer.PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-row col-md-6">
+                <div class="form-group col">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            
+        </div>
+
+        <div class="form-row col-md-6">
+                <div class="form-group col">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+        <div class="text-center col-md-4">
+            <button type="submit" class="btn btn-success col">Sign up</button>
+        </div>
+    </form>
 </div>
+
+
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+    }
+
+        .wrapper form {
+            width: 100%;
+        }
+
+        .wrapper h1 {
+            margin-bottom: 20px;
+        }
+</style>
