@@ -1,10 +1,10 @@
-﻿﻿.page-wrapper {
+﻿.page-wrapper {
     display: flex;
     width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 1rem;
+    background-color: #f9f9fa;
 }
 
 .section-title {
@@ -34,7 +34,6 @@
 .service-wrapper {
     display: flex;
     justify-content: space-between;
-    width: 70%;
     flex-wrap: wrap;
     margin: 0 auto;
 }
@@ -92,7 +91,7 @@
 
 @media screen and (max-width: 1199px) {
     .service-preview {
-        width: 80%;
+        width: 90%;
     }
 
     .service-name h4 {

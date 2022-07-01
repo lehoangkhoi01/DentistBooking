@@ -20,14 +20,14 @@
 
 
 .service-thumb img {
-    width: 50vw;
+    width: 75vw;
     height: auto;
     border-radius: 15px;
 }
 
 .service-des {
     margin: 0 auto;
-    width: 50vw;
+    width: 75%;
     font-size: 1.2rem;
 }
 
