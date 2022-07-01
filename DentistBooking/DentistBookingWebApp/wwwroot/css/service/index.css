@@ -34,7 +34,6 @@
 .service-wrapper {
     display: flex;
     justify-content: space-between;
-    width: 70%;
     flex-wrap: wrap;
     margin: 0 auto;
 }
@@ -92,7 +91,7 @@
 
 @media screen and (max-width: 1199px) {
     .service-preview {
-        width: 80%;
+        width: 90%;
     }
 
     .service-name h4 {
