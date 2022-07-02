@@ -1,6 +1,23 @@
 ﻿@page
 @model DentistBookingWebApp.Pages.AccessDeniedModel
 @{
+    ViewData["Title"] = "Error";
 }
 
-<h1>You can access this page</h1>
+<div class="text-wrapper">
+    <div class="title" data-content="404">
+        403 - ACCESS DENIED
+    </div>
+
+    <div class="subtitle">
+        Oops, You don't have permission to access this page.
+    </div>
+
+    <div class="buttons">
+        <a class="button" href="/Index">Go to homepage</a>
+    </div>
+</div>
+
+@section Styles {
+    <link href="@Url.Content("~/css/home/accessDenied.css")" rel="stylesheet" type="text/css" />
+}
