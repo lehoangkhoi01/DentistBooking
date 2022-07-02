@@ -15,7 +15,20 @@
                     <div><span class="text-secondary">Phone number:</span> @Model.Reservation.Customer.PhoneNumber</div>
                 </div>
                 <div class="col mb-3">
-                    <div><span class="text-secondary">Status:</span> @Model.Reservation.Status</div>
+                    <div>
+                        <span class="text-secondary">Status:</span> 
+                        @if(Model.Reservation.Status == "Rejected")
+                        {
+                            <span class="text-danger">Rejected</span>
+                        }
+                        else if(Model.Reservation.Status == "Accepted")
+                        {
+                            <span class="text-success">Accepted</span>
+                        } else if(Model.Reservation.Status == "Waiting")
+                        {
+                            <span class="text-warning">Waiting</span>
+                        }
+                    </div>
                     <div>
                         <span class="text-secondary">Note:</span>
                         @if (string.IsNullOrEmpty(Model.Reservation.NoteMessage))
