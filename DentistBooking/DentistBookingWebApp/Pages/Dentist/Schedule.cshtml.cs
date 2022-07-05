@@ -30,6 +30,7 @@ namespace DentistBookingWebApp.Pages.Dentist
 
         public IList<BusinessObject.Reservation> Reservations { get; set; }
 
+        //Get reservation list base on dentist ID
         public async Task<IActionResult> OnGet(int? id)
         {
 
@@ -39,18 +40,42 @@ namespace DentistBookingWebApp.Pages.Dentist
                 string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
                 if(!string.IsNullOrEmpty(email))
                 {
-                    if (id == null && role == "Dentist")
+                    if (id != null)
+                    {
+                        BusinessObject.Dentist dentist = dentistRepository.GetDentistByDentistId((int)id);
+                        if(dentist != null)
+                        {
+                            ViewData["DentistName"] = dentist.FullName;
+                        }
+
+                        if(role == "Dentist")
+                        {
+                            if (id == dentist.Id)
+                            {
+                                Reservations = (await reservationRepository.GetReservationsByDentistId((int)id)).ToList();
+                            }
+                            else return NotFound();
+                        }
+                        else if(role == "Admin")
+                        {
+                            Reservations = (await reservationRepository.GetReservationsByDentistId((int)id)).ToList();
+                        }
+                        
+                    }
+                    else if (id == null && role == "Dentist")
                     {
                         BusinessObject.Dentist dentist = GetDentist(email);
+                        ViewData["DentistName"] = dentist.FullName;
                         Reservations = (await reservationRepository.GetReservationsByDentistId(dentist.Id)).ToList();
                     }
-                    else if (id != null && role == "Admin")
+                    else
                     {
-                        Reservations = (await reservationRepository.GetReservationsByDentistId((int)id)).ToList();
+                        return NotFound();
                     }
-                    else return NotFound();
-                }
-                               
+
+
+                    
+                }                              
             }
             catch (Exception ex)
             {

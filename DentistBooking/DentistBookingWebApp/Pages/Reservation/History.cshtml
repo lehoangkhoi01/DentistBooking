@@ -73,25 +73,16 @@
                     </div>
                 </div>
 
-                <div class="card-button mt-3 px-3">
-                    @*@if ((datenow - item.resevrationdate).totalminutes >= 0)
-                {
-                <a class="btn btn-success button-card"
-                asp-controller="feedbacks"
-                asp-action="create"
-                asp-route-reservationid="@item.id">
-                feedback
-                </a>
-                }
-                else
-                {
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletemodal">
-                cancel
-                </button>
-                }*@
+                <div class="card-button px-3">
+                    @if ((DateTime.Now - item.ResevrationDate).TotalMinutes >= 0)
+                    {
+                        <button type="button" class="btn btn-success button-card mx-3" dt data-toggle="modal" data-target="#feedbackModal" data-reservation="@item.Id">Feedback</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger button-card" dt data-toggle="modal" data-reservation="@item.Id" data-target="#deleteModal">Cancel</button>
+                    }
                     <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-primary button-card mx-3">Detail</a>
-                    <button type="button" class="btn btn-danger button-card" dt data-toggle="modal" data-reservation="@item.Id" data-target="#deleteModal">Cancel</button>
-                    <button type="button" class="btn btn-success button-card mx-3" dt data-toggle="modal" data-target="#feedbackModal" data-reservation="@item.Id">Feedback</button>
                 </div>
             </div>
         }
