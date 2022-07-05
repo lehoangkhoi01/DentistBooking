@@ -36,8 +36,8 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dbContext.Services.AddAsync(service);
-                dbContext.SaveChangesAsync();
+                dbContext.Services.Add(service);
+                dbContext.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -91,13 +91,31 @@ namespace DataAccess
                 else
                 {
                     dbContext.Entry<Service>(service).State = EntityState.Modified;
-                    dbContext.SaveChangesAsync();
+                    dbContext.SaveChanges();
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public IEnumerable<Service> GetActiveServiceList()
+        {
+            IEnumerable<Service> serviceList;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                serviceList = dbContext.Services
+                    .Include(s => s.Admin)
+                    .Where(s => s.Status == "Active")
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return serviceList;
         }
 
         public IEnumerable<Service> GetServiceList()
@@ -108,6 +126,25 @@ namespace DataAccess
                 var dbContext = new DentistBookingContext();
                 serviceList = dbContext.Services
                     .Include(s => s.Admin)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return serviceList;
+        }
+
+        public IEnumerable<Service> GetServiceListByPage(int page, int itemPerPage)
+        {
+            IEnumerable<Service> serviceList;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                serviceList = dbContext.Services
+                    .Include(s => s.Admin)
+                    .Skip((page - 1) * itemPerPage)
+                    .Take(itemPerPage)
                     .ToList();
             }
             catch (Exception ex)

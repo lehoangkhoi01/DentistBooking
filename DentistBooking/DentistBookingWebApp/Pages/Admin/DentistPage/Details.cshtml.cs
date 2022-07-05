@@ -7,35 +7,54 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using BusinessObject.Data;
+using DataAccess.Interfaces;
 
 namespace DentistBookingWebApp.Pages.Admin.DentistPage
 {
     public class DetailsModel : PageModel
     {
-        private readonly BusinessObject.Data.DentistBookingContext _context;
+        private readonly IUserRepository userRepository;
+        private readonly IDentistRepository dentistRepository;
 
-        public DetailsModel(BusinessObject.Data.DentistBookingContext context)
+        public DetailsModel(IUserRepository userRepository, IDentistRepository dentistRepository)
         {
-            _context = context;
+            this.userRepository = userRepository;
+            this.dentistRepository = dentistRepository;
         }
-
-        public Dentist Dentist { get; set; }
+        [BindProperty]
+        public ViewModels.Dentist Dentist { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+                BusinessObject.Dentist dentist = dentistRepository.GetDentistByDentistId((int)id);
+                Dentist = new ViewModels.Dentist
+                {
+                    Id = dentist.Id,
+                    PhoneNumber = dentist.PhoneNumber,
+                    FullName = dentist.FullName,
+                    UserId = dentist.UserId,
+                    User = dentist.User,
+                };
+
+
+                if (Dentist == null)
+                {
+                    return NotFound();
+                }
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return Page();
             }
 
-            Dentist = await _context.Dentists
-                .Include(d => d.User).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Dentist == null)
-            {
-                return NotFound();
-            }
-            return Page();
         }
     }
 }

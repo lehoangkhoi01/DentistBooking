@@ -1,0 +1,190 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Reservation.IndexModel
+@{
+    ViewData["Title"] = "Reservation";
+}
+
+<div class="reservation-wrapper px-5 my-3">
+    <div class="form-row col-12 reservation-top pb-4">
+        <div class="col-12 right-section">
+            <div class="container-fluid px-0 px-sm-4 mx-auto">
+                <div class="col-12">
+                    <form method="post" id="reservationForm" asp-page-handler="Submit">
+                        <div class="form-group col-lg-6 mb-4 service-choose">
+                            <label class="control-label">Choose a service</label>
+                            <select class="form-control"
+                                    asp-items="ViewBag.Service"
+                                    asp-for="ServiceId"
+                                    id="serviceSelectBox"></select>
+                        </div>
+
+                        <div class="card border-0">
+                            <div class="card-header bg-primary">
+                                <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                                    <input asp-for="Date"
+                                           onchange="onChangeDatePicker()"
+                                           type="text"
+                                           id="date-picker"
+                                           class="datepicker"
+                                           placeholder="Pick Date"
+                                           readonly>
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+
+                            <div class="card-body p-3 p-sm-5">
+                                <div class="row text-center mx-0 col-12">
+                                    <div class="col-12 col-lg-6">
+                                        <label class="control-label">Time</label>
+                                        <select class="form-control"
+                                                asp-items="ViewBag.TimeList"
+                                                asp-for="Time"
+                                                id="timeSelectBox"
+                                                onchange="onChangeTimeSelectBox()"></select>
+                                    </div>
+
+                                    <div class="text-center mx-0 col-12 col-lg-6">
+                                        <label class="control-label">Dentist Options</label>
+                                        <select id="chosenDentist" 
+                                                class="form-control mb-3" 
+                                                asp-items="ViewBag.DentistList" 
+                                                asp-for="DentistId"
+                                                onchange="onChangeDentistSelectBox()">
+                                            <option value="0">Auto choose</option>
+                                        </select>
+                                        @*<button type="button" class="col-12 btn btn-success" onclick="onClickChooseAutoDentist()">Auto choose dentist</button>*@
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <h5>Detail</h5>
+        <h6>Date & Time: <span id="datetimeDetail"></span></h6>
+        <h6>Dentist: <span id="dentistDetail"></span></h6>
+        <input type="hidden" id="dentistIdDetail" />
+    </div>
+    <div class="reservation-bottom col-12">
+        <div class="text-center">
+            <button type="button" onclick="onClickSubmitForm()" class="btn btn-outline-success col-6">Complete</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Hidden form to request load dentist list-->
+<form method="post" asp-page-handler="LoadDentist" id="loadDentistForm">
+    <input type="hidden" name="date" id="dateInput" />
+    <input type="hidden" name="time" id="timeInput" />
+</form>
+
+<!-- Hidden form to submit reservation form -->
+@*<form method="post" asp-page-handler="MakeReservation" id="reservationForm">
+    <input hidden name="serviceId" id="serviceIdForm" />
+    <input hidden name="date" id="dateForm" />
+    <input hidden name="time" id="timeForm" />
+    <input hidden name="dentistId" id="dentistIdForm" />
+</form>*@
+
+
+@section Styles {
+    <link href="@Url.Content("~/css/reservation/index.css")" rel="stylesheet" type="text/css" />
+}
+
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.datepicker').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                startDate: '0d'
+            });
+            var date = moment();
+            var currentDate = date.format('DD-MM-YYYY');
+            if ('@ViewBag.Date' != "") {
+                $("#date-picker").val('@ViewBag.Date');
+            }
+            else $("#date-picker").val(currentDate);
+
+            var date = $("#date-picker").val();
+            var time = $("#timeSelectBox").val();
+            var dateTimeString = date + " " + time;
+            var dentistId = $("#chosenDentist").val();
+            var dentistName = $("#chosenDentist option:selected").text();
+            $("#datetimeDetail").text(dateTimeString);
+            $("#dentistDetail").text(dentistName);
+            $("#timeInput").val(time);
+            $("#dateInput").val(date);
+
+            $('.cell').click(function() {
+                $('.cell').removeClass('select');
+                $(this).addClass('select');
+            });
+        });
+    </script>
+    <script>
+        function onClickChooseAutoDentist() {
+            $("#dentistDetail").text("Auto choose");
+            $("#dentistIdDetail").val(0);
+        }
+
+        function onChangeTimeSelectBox() {
+            var time = $("#timeSelectBox").val();
+            var date = $("#date-picker").val();
+            $("#timeInput").val(time);
+            $("#dateInput").val(date);
+
+            var date = $("#date-picker").val();
+            var time = $("#timeSelectBox").val();
+            var dateTimeString = date + " " + time;
+            $("#datetimeDetail").text(dateTimeString);
+
+            $("#loadDentistForm").submit();
+        }
+
+        function onChangeDatePicker() {
+            var date = $("#date-picker").val();
+            var time = $("#timeSelectBox").val();
+            var dateTimeString = date + " " + time;
+            $("#datetimeDetail").text(dateTimeString);
+            $("#timeInput").val(time);
+            $("#dateInput").val(date);
+
+            $("#loadDentistForm").submit();
+        }
+
+        function onChangeDentistSelectBox() {
+            var dentistId = $("#chosenDentist").val();
+            var dentistName = $("#chosenDentist option:selected").text();
+            $("#dentistDetail").text(dentistName);
+            $("#dentistIdDetail").val(dentistId);
+        }
+    </script>
+
+    <script>
+        function onClickSubmitForm() {
+            $(".btn").prop('disabled', true);
+            $("#reservationForm").submit();
+        }
+    </script>
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+}

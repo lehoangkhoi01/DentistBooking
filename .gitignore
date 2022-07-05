@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+*.json
+*.v2
+*.v2
+DentistBooking/.vs/ProjectEvaluation/dentistbooking.projects.v2
+*.json
+DentistBooking/DentistBookingWebApp/obj/Debug/net5.0/project.razor.vs.json

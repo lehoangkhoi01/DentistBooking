@@ -9,176 +9,229 @@
     ICustomerRepository customerRepository = new CustomerRepository();
 }
 
-<h1>Account</h1>
+<input type="checkbox" id="nav-toggle">
+<div class="sidebar" style: background="#3287a8">
+    <div class="sidebar-brand">
+        <a href="StartupServlet" class="link-primary" style="color: white">
+            <h3><span class="lab la-accusoft"></span><span class="lmao" style="font-size: 1.5rem">Dentist Booking</span></h3>
+        </a>
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Dashboard" class=" btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-tv"></span>
+                    <span>General Statistic</span>
+                </a>
+            </li>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Account" class="active btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fa fa-user"></span>
+                    <span>Account</span>
+                </a>
+            </li>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        User
-    </button>
-    <div class="dropdown-menu" role="tablist" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" onclick="toggleButton('all')" href="#all" onselect="true" role="tab">All</a>
-        <a class="dropdown-item" onclick="toggleButton('customer')" href="#customer" role="tab">Customer</a>
-        <a class="dropdown-item" onclick="toggleButton('dentist')" href="#dentist" role="tab">Dentist</a>
+            <li style="padding-left:0.25rem">
+                <a href="" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-first-aid"></span>
+                    <span>Service</span>
+                </a>
+
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a href="" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-notes-medical"></span>
+                    <span>Reservation</span>
+                </a>
+
+            </li>
+
+        </ul>
     </div>
 </div>
-<div class="tab-panel" id="all" role="tabpanel">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Customer.First().User.Email)
-                </th>
-                <th>
-                    Full Name
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Customer.First().User.Role)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Customer)
-            {
-                @*                if (item.RoleId == 2)
-            {*@
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Email)
-                    </td>
+<div class="main-content">
+    <header>
+        <h2>
+            <label for="nav-toggle">
+                <span class="las la-bars"></span>
+            </label>
+            Account
+        </h2>
+    </header>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
+    <main>
+        <div class="dropdown mb-5">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                User
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="nav flex-column nav-pills navbar-expand-lg bg-white" id="v-pills-tab" role="tablist"
+                     aria-orientation="vertical">
+                    <a class="dropdown-item nav-link" onclick="toggleButton('all')" href="#all" onselect="true" role="tab">All</a>
+                    <a class="dropdown-item nav-link" onclick="toggleButton('customer')" href="#customer" role="tab">Customer</a>
+                    <a class="dropdown-item nav-link" onclick="toggleButton('dentist')" href="#dentist" role="tab">Dentist</a>
+                </div>
+            </div>
+        </div>
+        <div class="tab-panel" id="all" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Customer.First().User.Email)
+                        </th>
+                        <th>
+                            Full Name
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Customer.First().User.Role)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Customer)
+                    {
+                        @*                if (item.RoleId == 2)
+                    {*@
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Email)
+                            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Role.Name)
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-                @*}*@
-            }
-            @foreach (var item in Model.Dentist)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Email)
-                    </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Role.Name)
+                            </td>
+                            <td>
+                                <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square" ></i></a> |
+                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> |
+                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can" style="color:red"></i></a>
+                            </td>
+                        </tr>
+                        @*}*@
+                    }
+                    @foreach (var item in Model.Dentist)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Email)
+                            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Role.Name)
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Role.Name)
+                            </td>
+                            <td>
+                                <a asp-page="./DentistPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
+                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> |
+                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can" style="color:red"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-panel" style="display:none" id="customer" role="tabpanel">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Customer.First().User.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Customer.First().FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Customer.First().User)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Customer)
+                    {
+                        @*                if (item.RoleId == 2)
+                    {*@
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Email)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Role.Name)
+                            </td>
+                            <td>
+                                <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
+                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> |
+                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can" style="color:red"></i></a>
+                            </td>
+                        </tr>
+                        @*}*@
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-panel" style="display:none" id="dentist" role="tabpanel">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dentist.First().User.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dentist.First().FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dentist.First().User.Role.Name)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Dentist)
+                    {
+                        @*                if (item.RoleId == 3)
+                    {*@
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Email)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Role.Name)
+                            </td>
+                            <td>
+                                <a asp-page="./DentistPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
+                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> |
+                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can" style="color:red"></i></a>
+                            </td>
+                        </tr>
+                        @*}*@
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </main>
 </div>
-<div class="tab-panel" style="display:none" id="customer" role="tabpanel">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Customer.First().User.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Customer.First().FullName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Customer.First().User)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Customer)
-            {
-                @*                if (item.RoleId == 2)
-            {*@
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Email)
-                    </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Role.Name)
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-                @*}*@
-            }
-
-        </tbody>
-    </table>
-</div>
-<div class="tab-panel" style="display:none" id="dentist" role="tabpanel">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Dentist.First().User.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Dentist.First().FullName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Dentist.First().User.Role.Name)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Dentist)
-            {
-                @*                if (item.RoleId == 3)
-            {*@
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Email)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Role.Name)
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-                @*}*@
-            }
-
-        </tbody>
-    </table>
-</div>
 <script>
     function toggleButton(id) {
         if (id == 'all') {
@@ -197,3 +250,35 @@
         }
     }
 </script>
+
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<!--Custom JS-->
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(".mydatatable").DataTable();
+</script>
+
+
+<script>
+    window.addEventListener('load', function() {
+        const loader = document.querySelector(".loader");
+        loader.className += " hidden"; // class "loader hidden"
+    });
+</script>
+
+
+
+@section Styles {
+    <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
+}

@@ -21,6 +21,6 @@ namespace DentistBookingWebApp.ViewModels
 
         [ForeignKey("Id")]
         public int UserId { get; set; }
-        public User User { get; set; }
+        public BusinessObject.User User { get; set; }
     }
 }

@@ -4,59 +4,79 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Service</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data">
+<div class="service-form-wrapper px-5 py-3">
+    <div class="form-wrapper col-12 col-lg-7">
+        <h2 class="text-center">Edit service information</h2>
+        <form asp-action="Edit" id="serviceForm" class="col-12" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ServiceViewModel.Id" />
             <input type="hidden" asp-for="ServiceViewModel.CreatedDate" />
-            <div class="form-group">
-                <label asp-for="ServiceViewModel.Name" class="control-label"></label>
-                <input asp-for="ServiceViewModel.Name" class="form-control" />
-                <span asp-validation-for="ServiceViewModel.Name" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group col-12 col-lg-6">
+                    <label class="control-label">Service name</label>
+                    <input asp-for="ServiceViewModel.Name" class="form-control" />
+                    <span asp-validation-for="ServiceViewModel.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-12 col-lg-6">
+                    <label asp-for="ServiceViewModel.Price" class="control-label"></label>
+                    <input asp-for="ServiceViewModel.Price" class="form-control" />
+                    <span asp-validation-for="ServiceViewModel.Price" class="text-danger"></span>
+                </div>
             </div>
+
             <div class="form-group">
                 <label asp-for="ServiceViewModel.Description" class="control-label"></label>
-                <textarea asp-for="ServiceViewModel.Description" class="form-control" id="text-content"></textarea>
+                <textarea asp-for="ServiceViewModel.Description" class="form-control" rows="3" id="service-content"></textarea>
                 <span asp-validation-for="ServiceViewModel.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ServiceViewModel.Price" class="control-label"></label>
-                <input asp-for="ServiceViewModel.Price" class="form-control" />
-                <span asp-validation-for="ServiceViewModel.Price" class="text-danger"></span>
-            </div>
 
-            <img src="~/images/@Model.ServiceViewModel.Image" width="300" height="300" />
-             <input asp-for="ServiceViewModel.Image" type="hidden" class="form-control" />
-
-            <div class="form-group">
-                <label class="control-label">Choose an image for this service (optional)</label>
-                <input asp-for="ServiceViewModel.ImageFile" class="form-control" />
-                <span asp-validation-for="ServiceViewModel.ImageFile" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="ServiceViewModel.Status" class="control-label"></label>
+                    <input asp-for="ServiceViewModel.Status" class="form-control checkbox-control" />
+                    <span asp-validation-for="ServiceViewModel.Status" class="text-danger"></span>
+                </div>
+                <div class="form-group col-12 col-lg-6">
+                    <label asp-for="ServiceViewModel.ImageFile" class="control-label"></label>
+                    <input type="hidden" asp-for="ServiceViewModel.Image"/>
+                    <input asp-for="ServiceViewModel.ImageFile" class="form-control" />
+                    <span asp-validation-for="ServiceViewModel.ImageFile" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ServiceViewModel.Status" class="control-label"></label>
-                <input class="form-check" asp-for="ServiceViewModel.Status" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="text-center">
+                <button class="btn btn-primary col-md-4 mb-3" type="submit">Update</button>
             </div>
         </form>
     </div>
+    <div class="image-wrapper mb-3 col-12 col-lg-5">        
+        <img src="~/images/service/@Model.ServiceViewModel.Image" />
+    </div>
+
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
 
-@section Scripts {
+
+
+
+@section Styles {
+    <link href="@Url.Content("~/css/service/edit.css")" rel="stylesheet" type="text/css" />
+}
+
+    @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
 
     <script src="https://cdn.tiny.cloud/1/2t4he0yxbmprjqhk0y813ygaxy9y5u0mjixyrmjobarrfcvj/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>

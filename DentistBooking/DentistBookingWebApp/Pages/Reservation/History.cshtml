@@ -1,0 +1,202 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Reservation.HistoryModel
+@{
+    ViewData["Title"] = "History";
+    int nextPage = ViewBag.CurrentPage + 1;
+    int prevPage = ViewBag.CurrentPage - 1;
+}
+
+<div class="wrapper">
+    <div class="section-title my-3">
+        <h2>History</h2>
+    </div>
+
+    <div class="reservation-wrapper row">
+        @foreach (var item in Model.Reservations)
+        {
+            DateTime dateNow = DateTime.Now;
+
+            <div class="reservation-preview d-flex col-12 col-lg-5">
+                <div class="row mb-2">
+                    <div class="col-12 col-lg-6">
+                        <span class="text-secondary" style="font-weight: 700">Reservation ID: </span>
+                        @item.Id
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <span class="text-secondary" style="font-weight: 700">Service: </span>
+                        @item.Service.Name
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 col-lg-6">
+                        <span class="text-secondary" style="font-weight: 700">Patient's name: </span>
+                        @item.Status
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <span class="text-secondary" style="font-weight: 700">Date: </span>
+                        @item.ResevrationDate
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 col-lg-6">
+                        <span class="text-secondary" style="font-weight: 700">Price: </span>
+                        @item.Price$
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <span class="text-secondary" style="font-weight: 700">Doctor: </span>
+                        @item.Dentist.FullName
+                    </div>
+
+                </div>
+
+                @* Confirm delete modal *@
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Cancel appointment</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure to cancel this reservation?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <form method="post" asp-page-handler="CancelReservation" id="cancelForm">
+                                    <input type="hidden" name="reservationId" id="reservationIdInput" />
+                                    <button class="btn btn-danger" type="submit">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-button px-3">
+                    @if ((DateTime.Now - item.ResevrationDate).TotalMinutes >= 0)
+                    {
+                        <button type="button" class="btn btn-success button-card mx-3" dt data-toggle="modal" data-target="#feedbackModal" data-reservation="@item.Id">Feedback</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger button-card" dt data-toggle="modal" data-reservation="@item.Id" data-target="#deleteModal">Cancel</button>
+                    }
+                    <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-primary button-card mx-3">Detail</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (ViewBag.PageCount > 1)
+    {
+        <nav aria-label="..." class="pagination mt-5">
+            <ul class="pagination">
+                <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
+                    <a class="page-link" href="/Reservation/History?page=@prevPage" tabindex="-1">Previous</a>
+                </li>
+                @for (int i = 1; i <= ViewBag.PageCount; i++)
+                {
+                    <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
+                        <a class="page-link" href="/Reservation/History?page=@i">@i</a>
+                    </li>
+                }
+                <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
+                    <a class="page-link" href="/Reservation/History?page=@nextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+
+</div>
+
+@* Feedback modal *@
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="SendFeedback" id="cancelForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Feedback our service</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="rating-section col-12">
+                        <div>Rating for us (from 1 to 5)</div>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="1one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star checked"></span>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="2one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star"></span>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="3one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star"></span>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="4one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star"></span>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="5one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star"></span><br>
+                    </div>
+                    <input class="form-control" hidden id="ratePoint" name="rate" />
+                    <textarea class="col-12" maxlength="200" name="comment"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="hidden" name="reservationId" id="reservationIdInputFeedback" />
+                    <button class="btn btn-outline-success" type="submit">Send feedback</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    <link href="@Url.Content("~/css/reservation/history.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/feedback/create.css")" rel="stylesheet" type="text/css" />
+}
+
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="~/js/feedback/feedback.js"></script>
+    }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var reservationId = button.data('reservation');
+            $("#reservationIdInput").val(reservationId);
+        })
+
+        $('#feedbackModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var reservationId = button.data('reservation');
+            $("#reservationIdInputFeedback").val(reservationId);
+        })
+    </script>
+
+    }

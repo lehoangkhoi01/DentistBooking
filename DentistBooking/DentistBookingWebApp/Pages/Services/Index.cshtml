@@ -1,25 +1,27 @@
-﻿@page
+﻿@page "{SearchString?}"
 @model DentistBookingWebApp.Pages.Services.IndexModel
 @{
     ViewData["Title"] = "Service";
+    int nextPage = ViewBag.CurrentPage + 1;
+    int prevPage = ViewBag.CurrentPage - 1;
 }
 
 
-<div class="page-wrapper">
+<div class="page-wrapper py-3 px-3">
     <div class="section-title">
         <h2>Our services</h2>
     </div>
 
     <div class="service-wrapper">
-        <form class="col-12" asp-page="./Create">
-            @if (!string.IsNullOrEmpty(Model.RoleId) && Model.RoleId == "1")
+        <form class="col-12">
+            @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
             {
                 <div class="form-row col-12 my-3">
                     <a asp-page="./Create" class="btn btn-primary">Add new service</a>
                 </div>
             }
             <div class="form-row col-12 col-lg-6">
-                <input type="text" class="form-control col-8" placeholder="Service's name" name="search">
+                <input type="text" class="form-control col-8 ml-3" placeholder="Service's name" asp-for="SearchString">
                 <div class="input-group-append">
                     <button class="btn btn-success" type="submit">Search</button>
                 </div>
@@ -29,7 +31,7 @@
         {
             <div class="service-preview d-flex my-4 mx-3">
                 <div class="service-thumbnail">
-                    <img src="/images/@item.Image" />
+                    <img src="/images/service/@item.Image" />
                 </div>
                 <div class="service-text my-3">
                     <div class="service-name px-3">
@@ -38,34 +40,56 @@
                     <div class="service-descript text-secondary px-3">
                         @Html.Raw(item.Description)
                     </div>
-                    <div class="card-bottom mt-3 px-3">
-                        <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
-                        <a href="#"
-                           class="btn btn-success button-card">
-                            Make reservation
-                        </a>
-                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
+                    {
+                        <div class="card-bottom mt-3 px-3">
+                            <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
+                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-success button-card">
+                                Edit
+                            </a>
+                        </div>
+                    }
+                    else if (string.IsNullOrEmpty(Model.Role) || Model.Role == "Customer")
+                    {
+                        <div class="card-bottom mt-3 px-3">
+                            <a asp-page="./Details" asp-route-id="@item.Id">Read more</a>
+                            <a href="/Reservation/Index?serviceId=@item.Id"
+                       class="btn btn-success button-card">
+                                Make reservation
+                            </a>
+                        </div>
+                    }
+                    else if (!string.IsNullOrEmpty(Model.Role) || Model.Role == "Dentist")
+                    {
+                        <div class="card-bottom mt-3 px-3">
+                            <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
+                        </div>
+                    }
                 </div>
             </div>
         }
     </div>
 
-    @*<nav aria-label="..." class="pagination">
-        <ul class="pagination">
-            <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
-                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })" tabindex="-1">Previous</a>
-            </li>
-            @for (int i = 1; i <= ViewBag.PageCount; i++)
-            {
-                <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
-                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+    @if (ViewBag.PageCount > 1)
+    {
+        <nav aria-label="..." class="pagination">
+            <ul class="pagination">
+                <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
+                    <a class="page-link" href="/Services/Index?page=@prevPage" tabindex="-1">Previous</a>
                 </li>
-            }
-            <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
-                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
-            </li>
-        </ul>
-    </nav>*@
+                @for (int i = 1; i <= ViewBag.PageCount; i++)
+                {
+                    <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
+                        <a class="page-link" href="/Services/Index?page=@i">@i</a>
+                    </li>
+                }
+                <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
+                    <a class="page-link" href="/Services/Index?page=@nextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+
 </div>
 
 
@@ -73,8 +97,21 @@
     <link href="@Url.Content("~/css/service/index.css")" rel="stylesheet" type="text/css" />
 }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+    }
 
 

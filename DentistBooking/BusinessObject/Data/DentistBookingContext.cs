@@ -35,6 +35,7 @@ namespace BusinessObject.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Service> Services { get; set;}
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
 
     }

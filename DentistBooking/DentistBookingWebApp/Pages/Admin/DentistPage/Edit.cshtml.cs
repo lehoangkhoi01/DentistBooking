@@ -8,72 +8,75 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using BusinessObject.Data;
+using DataAccess.Interfaces;
 
 namespace DentistBookingWebApp.Pages.Admin.DentistPage
 {
     public class EditModel : PageModel
     {
-        private readonly BusinessObject.Data.DentistBookingContext _context;
+        //private readonly IUserRepository userRepository;
+        private readonly IDentistRepository dentistRepository;
 
-        public EditModel(BusinessObject.Data.DentistBookingContext context)
+        public EditModel(/*IUserRepository userRepository,*/ IDentistRepository dentistRepository)
         {
-            _context = context;
+            //this.userRepository = userRepository;
+            this.dentistRepository = dentistRepository;
         }
 
         [BindProperty]
-        public Dentist Dentist { get; set; }
+        public ViewModels.Dentist Dentist { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            BusinessObject.Dentist dentist = dentistRepository.GetDentistByDentistId((int)id);
+            Dentist = new ViewModels.Dentist
+            {
+                Id = dentist.Id,
+                PhoneNumber = dentist.PhoneNumber,
+                FullName = dentist.FullName,
+                UserId = dentist.UserId,
+                User = dentist.User,
+            };
 
-            Dentist = await _context.Dentists
-                .Include(d => d.User).FirstOrDefaultAsync(m => m.Id == id);
 
             if (Dentist == null)
             {
                 return NotFound();
             }
-           ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
-            _context.Attach(Dentist).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                dentistRepository.UpdateDentist(new BusinessObject.Dentist
+                {
+                    Id = Dentist.Id,
+                    FullName = Dentist.FullName,
+                    PhoneNumber = Dentist.PhoneNumber,
+                    UserId = Dentist.UserId
+                });
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!DentistExists(Dentist.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                TempData["ErrorMessage"] = ex.Message;
+                return Page();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Details", new {id = Dentist.Id});
         }
 
-        private bool DentistExists(int id)
-        {
-            return _context.Dentists.Any(e => e.Id == id);
-        }
+      
     }
 }

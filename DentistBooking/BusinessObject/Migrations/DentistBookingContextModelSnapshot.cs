@@ -88,6 +88,40 @@ namespace BusinessObject.Migrations
                     b.ToTable("Dentists");
                 });
 
+            modelBuilder.Entity("BusinessObject.Feedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Star")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ReservationId");
+
+                    b.ToTable("Feedbacks");
+                });
+
             modelBuilder.Entity("BusinessObject.Reservation", b =>
                 {
                     b.Property<int>("Id")
@@ -103,6 +137,9 @@ namespace BusinessObject.Migrations
 
                     b.Property<int>("DentistId")
                         .HasColumnType("int");
+
+                    b.Property<string>("NoteMessage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -240,6 +277,25 @@ namespace BusinessObject.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BusinessObject.Feedback", b =>
+                {
+                    b.HasOne("BusinessObject.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusinessObject.Reservation", "Reservation")
+                        .WithMany()
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("BusinessObject.Reservation", b =>

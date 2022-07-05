@@ -50,7 +50,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dentist = dbContext.Dentists.FirstOrDefault(x => x.UserId == id);
+                dentist = dbContext.Dentists.Include(d => d.User).FirstOrDefault(x => x.UserId == id);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dentist = dbContext.Dentists.FirstOrDefault(x => x.Id == id);
+                dentist = dbContext.Dentists.Include(d => d.User).FirstOrDefault(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                dentist = dbContext.Dentists.FirstOrDefault(x => x.PhoneNumber == phone);
+                dentist = dbContext.Dentists.Include(d => d.User).FirstOrDefault(x => x.PhoneNumber == phone);
             }
             catch (Exception ex)
             {

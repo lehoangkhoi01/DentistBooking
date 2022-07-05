@@ -1,0 +1,299 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Reservation.DetailsModel
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="wrapper px-5">
+    <div class="formWrapper col-12 col-lg-8 mt-3 py-3">
+        <div class="customer-section col-12">
+            <div class="row">
+                <div class="col mb-3">
+                    <h5>Customer information</h5>
+                    <div><span class="text-secondary">Name: </span><a href="#">@Model.Reservation.Customer.FullName</a></div>
+                    <div><span class="text-secondary">Email:</span> @Model.Reservation.Customer.User.Email</div>
+                    <div><span class="text-secondary">Phone number:</span> @Model.Reservation.Customer.PhoneNumber</div>
+                </div>
+                <div class="col mb-3">
+                    <div>
+                        <span class="text-secondary">Status:</span> 
+                        @if(Model.Reservation.Status == "Rejected")
+                        {
+                            <span class="text-danger">Rejected</span>
+                        }
+                        else if(Model.Reservation.Status == "Accepted")
+                        {
+                            <span class="text-success">Accepted</span>
+                        } else if(Model.Reservation.Status == "Waiting")
+                        {
+                            <span class="text-warning">Waiting</span>
+                        }
+                    </div>
+                    <div>
+                        <span class="text-secondary">Note:</span>
+                        @if (string.IsNullOrEmpty(Model.Reservation.NoteMessage))
+                        {
+                            <span style="font-weight: normal">(No information)</span>
+                        }
+                        else
+                        {
+                            <span style="font-weight: normal">@Model.Reservation.NoteMessage</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <div class="service-section col-12">
+            <div class="row">
+                <div class="col mb-3">
+                    <h5>Service information</h5>
+                    <div>
+                        <span class="text-secondary">Service name:</span>
+                        <a href="/Services/Details?id=@Model.Reservation.ServiceId">@Model.Reservation.Service.Name</a>
+                    </div>
+                    <div><span class="text-secondary">Date:</span> @Model.Reservation.ResevrationDate</div>
+                </div>
+                <div class="col mb-3">
+                    <h5>Dentist information</h5>
+                    <div><span class="text-secondary">Doctor name:</span><a href="#"> @Model.Reservation.Dentist.FullName</a></div>
+                    <div><span class="text-secondary">Email:</span> @Model.Reservation.Dentist.User.Email</div>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <div class="feedback-section col-12">
+            <div class="row">
+                <div class="col"><h5>Feedback</h5></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span class="text-secondary">Rate:</span>
+                    @if (Model.Feedback != null && Model.Feedback.Star != 0)
+                    {
+                        <span style="font-weight: 400">@Model.Feedback.Star</span>
+                    }
+                    else
+                    {
+                        <span style="font-weight: 400">(Not have information yet)</span>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span class="text-secondary">Comment:</span>
+                    @if (Model.Feedback != null && !string.IsNullOrEmpty(Model.Feedback?.Comment))
+                    {
+                        <span style="font-weight: 400">@Model.Feedback.Comment</span>
+                    }
+                    else
+                    {
+                        <span style="font-weight: 400">(Not have information yet)</span>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model.Role != "Customer")
+        {
+            <div class="text-center">
+                @if (Model.Status.Equals("Accepted"))
+                {
+                    <button class="btn btn-outline-danger col-6 my-3" data-toggle="modal" data-target="#rejectModal">Reject</button>
+                }
+                else if (Model.Status.Equals("Waiting"))
+                {
+                    <form method="post" asp-page-handler="AcceptReservation">
+                        <input hidden name="reservationId" value="@Model.Reservation.Id" />
+                        <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
+                    </form>
+                    <button class="btn btn-outline-danger col-6" data-toggle="modal" data-target="#rejectModal">Reject</button>
+                }
+                else if (Model.Status.Equals("Rejected"))
+                {
+                    <form method="post" asp-page-handler="AcceptReservation">
+                        <input hidden name="reservationId" value="@Model.Reservation.Id" />
+                        <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
+                    </form>
+                }
+            </div>
+        }
+        else if (Model.Role == "Customer")
+        {
+            <div class="text-center">
+                <button class="btn btn-outline-success col-6 my-3"
+                    data-toggle="modal" data-target="#feedbackModal"
+                    data-reservation="@Model.Reservation.Id">
+                    Feedback
+                </button>
+                @if(Model.Feedback != null)
+                {
+                    <button class="btn btn-outline-danger col-6 my-3"
+                            data-toggle="modal" data-target="#deleteFeedbackModal"
+                            data-reservation="@Model.Reservation.Id">
+                    Remove feedback
+                </button>
+                }
+            </div>
+
+        }
+
+    </div>
+</div>
+
+<!--Reject modal-->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reason</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="RejectReservation" id="rejectForm">
+                    <input name="reservationId" value="@Model.Reservation.Id" hidden />
+                    <textarea class="col-12" name="rejectReason"></textarea>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                <button type="button" class="btn btn-danger" onclick="onClickSubmitRejectForm()">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete feedback modal-->
+<div class="modal fade" id="deleteFeedbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close btnClose" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Are you sure to remove your feedback</h5>
+                <form method="post" asp-page-handler="DeleteFeedback" id="deleteFeedbackForm">
+                    <input name="reservationId" id="reservationIdRemoveFeedback" hidden />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btnClose" data-dismiss="modal">Close</button>
+                <button type="button" id="btnRemoveFeedback" class="btn btn-danger" onclick="onClickSubmitRemoveFeedbackForm()">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Feedback modal *@
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="SendFeedback" id="feedbackForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Feedback our service</h5>
+                    <button type="button" class="close btnClose" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="rating-section col-12">
+                        <div>Rating for us (from 1 to 5)</div>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="1one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star checked"></span>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="2one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star"></span>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="3one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star"></span>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="4one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star"></span>
+                        <span onmouseover="starmark(this)"
+                              onclick="starmark(this)"
+                              id="5one"
+                              style="font-size: 25px; cursor: pointer"
+                              class="fa fa-star"></span><br>
+                    </div>
+                    <input class="form-control" hidden id="ratePoint" name="rate" />
+                    <textarea class="col-12" maxlength="200" name="comment"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btnClose" data-dismiss="modal">Close</button>
+                    <input type="hidden" name="reservationId" id="reservationIdInputFeedback" />
+                    <button id="btnSendFeedback" 
+                            class="btn btn-outline-success" 
+                            type="button"
+                            onclick="onClickSendFeedback()">Send feedback</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    <link href="@Url.Content("~/css/reservation/details.css")" rel="stylesheet" type="text/css" />
+}
+
+    @section Scripts {
+    <script src="~/js/feedback/feedback.js"></script>
+    <script>
+        function onClickSubmitRejectForm() {           
+            $("#rejectForm").submit();        
+        }
+
+        function onClickSubmitRemoveFeedbackForm() {
+            $("#btnRemoveFeedback").prop('disabled', true);
+            $(".btnClose").prop('disabled', true);
+            $("#deleteFeedbackForm").submit();
+        }
+
+        function onClickSendFeedback() {
+            $("#btnSendFeedback").prop('disabled', true);
+            $(".btnClose").prop('disabled', true);
+            $("#feedbackForm").submit();
+        }
+    </script>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        $('#feedbackModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var reservationId = button.data('reservation');
+            $("#reservationIdInputFeedback").val(reservationId);
+            $()
+        })
+        $('#deleteFeedbackModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var reservationId = button.data('reservation');
+            $("#reservationIdRemoveFeedback").val(reservationId);
+        })
+    </script>
+}

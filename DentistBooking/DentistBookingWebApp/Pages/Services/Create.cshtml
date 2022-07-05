@@ -4,54 +4,76 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Service</h1>
-
-<h4>Product</h4>
-<hr />
-
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-             <div class="form-group">
+<div class="service-wrapper">
+    @*    <div class="overlay-image overlay1 d-none d-lg-block d-xl-block">
+    <img src="~/images/image1.svg" />
+    </div>
+    <div class="overlay-image overlay2 d-none d-lg-block d-xl-block">
+    <img src="~/images/image3.svg" />
+    </div>*@
+    <h2>Create new service</h2>
+    <form method="post" enctype="multipart/form-data" class="col-md-6">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
                 <label asp-for="ServiceViewModel.Name" class="control-label"></label>
                 <input asp-for="ServiceViewModel.Name" class="form-control" />
                 <span asp-validation-for="ServiceViewModel.Name" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="ServiceViewModel.Description" class="control-label"></label>
-                <textarea asp-for="ServiceViewModel.Description" class="form-control" id="text-content"></textarea>
-                <span asp-validation-for="ServiceViewModel.Description" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 <label asp-for="ServiceViewModel.Price" class="control-label"></label>
                 <input asp-for="ServiceViewModel.Price" class="form-control" />
                 <span asp-validation-for="ServiceViewModel.Price" class="text-danger"></span>
             </div>
+        </div>
 
-            <input type="hidden" asp-for="ServiceViewModel.Status" value="Active">
+        <div class="form-group">
+            <label asp-for="ServiceViewModel.Description" class="control-label"></label>
+            <textarea asp-for="ServiceViewModel.Description" class="form-control" id="text-content"></textarea>
+            <span asp-validation-for="ServiceViewModel.Description" class="text-danger"></span>
+        </div>
 
-            <div class="form-group">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="ServiceViewModel.Status" class="control-label"></label>
+                <input asp-for="ServiceViewModel.Status" class="form-control checkbox-control" />
+                <span asp-validation-for="ServiceViewModel.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
                 <label asp-for="ServiceViewModel.ImageFile" class="control-label"></label>
                 <input asp-for="ServiceViewModel.ImageFile" class="form-control"/>
                 <span asp-validation-for="ServiceViewModel.ImageFile" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        <div class="text-center">
+            <button class="btn btn-primary col-md-3" type="submit" id="createButton">Create</button>
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
+
+@section Styles {
+    <link href="@Url.Content("~/css/service/create.css")" rel="stylesheet" type="text/css" /> 
+}
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+
 
     <script src="https://cdn.tiny.cloud/1/2t4he0yxbmprjqhk0y813ygaxy9y5u0mjixyrmjobarrfcvj/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>

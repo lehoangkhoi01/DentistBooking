@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,13 +7,18 @@
     <title>@ViewData["Title"] - DentistBooking</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
+    <link rel="stylesheet" href="~/css/home/footer.css" />
+    <link rel="stylesheet" href="~/css/notify.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/regular.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/solid.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="@Url.Content("~/css/")" rel="stylesheet" type="text/css" />
     @RenderSection("Styles", false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">Dentist Booking</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -21,15 +27,39 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        <li>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Services/Index">Service</a>
                         </li>
+                        @if (User.FindFirstValue(ClaimTypes.Role) == "Admin")
+                        {
+                            // Admin menu
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Dashboard">Dashboard</a>
+                            </li>
+                        }
+                        else if (User.FindFirstValue(ClaimTypes.Role) == "Dentist")
+                        {
+                            // Dentist menu
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Dentist/Schedule">Schedule</a>
+                            </li>
+                        }
+                        else if (User.FindFirstValue(ClaimTypes.Role) == "Customer")
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/History">History</a>
+                            </li>
+                        }
+                        else if (User.FindFirstValue(ClaimTypes.Role) == "Customer" ||
+                        User.FindFirstValue(ClaimTypes.Role) == null)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/Index">Booking</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -37,21 +67,75 @@
         </nav>
     </header>
     <div>
-        <main role="main" class="pb-3" style="min-height: 75vh">
+        <main role="main" class="pb-3" style="min-height: 75vh; background-color: #f9f9fa">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - DentistBookingWebApp - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <footer class="text-muted" id="footer">
+        <div class="footer-top">
+            <div class="footer-container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6 footer-contact">
+                        <h3>Clinic</h3>
+                        <p>
+                            Lô E2a-7, Đường D1, Khu Công nghệ cao <br />
+                            TP Hồ Chí Minh, Q9<br />
+                            Việt Nam <br /><br />
+                            <strong>Phone:</strong> 0909998888<br />
+                            <strong>Email:</strong> dentistbooking@gmail.com<br />
+                        </p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>About Us</h4>
+                        <ul>
+                            <li>
+                                <i class="bx bx-chevron-right"></i> <a href="#">System</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i>
+                                <a href="#">Dentists</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i> <a href="#">News</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i> <a href="#">Library</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>Our service</h4>
+                        <ul>
+                            <li>
+                                <i class="bx bx-chevron-right"></i> <a href="#">Infastructure</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i>
+                                <a href="#">Rating</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i>
+                                <a href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script src="~/js/notify.js"></script>
+    <script src="~/js/moment.js"></script>
+    <script src="~/js/loading.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

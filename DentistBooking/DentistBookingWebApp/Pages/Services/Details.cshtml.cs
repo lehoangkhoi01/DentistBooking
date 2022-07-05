@@ -1,9 +1,11 @@
 using BusinessObject;
 using DataAccess.Interfaces;
 using DentistBookingWebApp.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Services
 {
@@ -29,6 +31,9 @@ namespace DentistBookingWebApp.Pages.Services
             {
                 return NotFound();
             }
+
+            Role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+
 
             Service service = serviceRepository.GetServiceById((int)id);
 

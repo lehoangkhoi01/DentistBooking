@@ -12,6 +12,8 @@ namespace DataAccess.Interfaces
         public void AddNewService(Service service);
         public void UpdateService(Service service);
         public IEnumerable<Service> GetServiceList();
+        public IEnumerable<Service> GetActiveServiceList();
+        public IEnumerable<Service> GetServiceListByPage(int page, int itemPerPage);
         public Service GetServiceById(int id);
         public Service GetServiceByName(string name);   
 

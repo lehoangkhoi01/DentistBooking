@@ -1,11 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
 @inject IHttpContextAccessor HttpContextAccessor
 
 <ul class="navbar-nav">
-    @if (HttpContextAccessor.HttpContext.Session.GetString("EMAIL") != null)
+    @if (User.Identity.Name != null)
     {
-        <li class="nav-item mr-3">
-            @HttpContextAccessor.HttpContext.Session.GetString("EMAIL")
+        <li>
+            <a>@User.Identity.Name</a>
         </li>
         <li class="nav-item">
             <a asp-page="/Index" asp-page-handler="Logout">Logout</a>

@@ -10,7 +10,6 @@ using BusinessObject.Data;
 using DataAccess.Interfaces;
 using HashCode = DentistBookingWebApp.Validation.HashCode;
 using DentistBookingWebApp.Validation;
-using DataAccess.Repository;
 
 namespace DentistBookingWebApp.Pages.Admin.DentistPage
 {
@@ -19,7 +18,7 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
         private readonly IDentistRepository dentistRepository;
         private readonly IUserRepository userRepository;
 
-        public CreateModel(DentistRepository _dentist, IUserRepository _user)
+        public CreateModel(IDentistRepository _dentist, IUserRepository _user)
         {
             dentistRepository = _dentist;
             userRepository = _user;

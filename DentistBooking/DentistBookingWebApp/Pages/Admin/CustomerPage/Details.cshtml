@@ -1,0 +1,50 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Admin.CustomerPage.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div>
+        <h2 class="text-center">Account Information</h2>
+        <h3 class="text-primary text-center">@Html.DisplayFor(model => model.Customer.FullName)</h3>
+        <hr />
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="bg-light col-6 rounded pt-3">
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Customer.User.Email)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Customer.User.Email)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Customer.FullName)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Customer.FullName)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Customer.PhoneNumber)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Customer.PhoneNumber)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Customer.User.Role)
+                    </dt>
+                    <dd class="col-sm-8">
+                        Customer
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5">
+        <a asp-page="./CustomerPage/Edit" asp-route-id="@Model.Customer.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
+        <a asp-page="./Index">Back to List</a>
+    </div>
+</div>
