@@ -36,7 +36,7 @@
 
 .reservation-preview {
     flex-direction: column;
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.5rem 4rem 1.5rem;
     margin: 1rem 1.5rem;
     background-color: #fff;
     border-radius: 4px;
@@ -50,6 +50,7 @@
 }
 
 .card-button {
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    bottom: 15px;
+    right: 5px;
 }

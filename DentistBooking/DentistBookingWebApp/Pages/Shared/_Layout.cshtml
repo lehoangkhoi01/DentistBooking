@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,7 +7,7 @@
     <title>@ViewData["Title"] - DentistBooking</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/home/footer.css"/>
+    <link rel="stylesheet" href="~/css/home/footer.css" />
     <link rel="stylesheet" href="~/css/notify.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/regular.min.css" />
@@ -27,20 +28,38 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Services/Index">Service</a>
                         </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/Index">Reservation</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Dentist/Schedule">Schedule</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/History">History</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Dashboard">Dashboard</a>
-                        </li>
+                        @if (User.FindFirstValue(ClaimTypes.Role) == "Admin")
+                        {
+                            // Admin menu
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Dashboard">Dashboard</a>
+                            </li>
+                        }
+                        else if (User.FindFirstValue(ClaimTypes.Role) == "Dentist")
+                        {
+                            // Dentist menu
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Dentist/Schedule">Schedule</a>
+                            </li>
+                        }
+                        else if (User.FindFirstValue(ClaimTypes.Role) == "Customer")
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/History">History</a>
+                            </li>
+                        }
+                        else if (User.FindFirstValue(ClaimTypes.Role) == "Customer" ||
+                        User.FindFirstValue(ClaimTypes.Role) == null)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Reservation/Index">Booking</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -55,57 +74,57 @@
 
     <footer class="text-muted" id="footer">
         <div class="footer-top">
-                <div class="footer-container">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-6 footer-contact">
-                            <h3>Clinic</h3>
-                            <p>
-                                Lô E2a-7, Đường D1, Khu Công nghệ cao <br />
-                                TP Hồ Chí Minh, Q9<br />
-                                Việt Nam <br /><br />
-                                <strong>Phone:</strong> 0909998888<br />
-                                <strong>Email:</strong> dentistbooking@gmail.com<br />
-                            </p>
-                        </div>
+            <div class="footer-container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6 footer-contact">
+                        <h3>Clinic</h3>
+                        <p>
+                            Lô E2a-7, Đường D1, Khu Công nghệ cao <br />
+                            TP Hồ Chí Minh, Q9<br />
+                            Việt Nam <br /><br />
+                            <strong>Phone:</strong> 0909998888<br />
+                            <strong>Email:</strong> dentistbooking@gmail.com<br />
+                        </p>
+                    </div>
 
-                        <div class="col-lg-2 col-md-6 footer-links">
-                            <h4>About Us</h4>
-                            <ul>
-                                <li>
-                                    <i class="bx bx-chevron-right"></i> <a href="#">System</a>
-                                </li>
-                                <li>
-                                    <i class="bx bx-chevron-right"></i>
-                                    <a href="#">Dentists</a>
-                                </li>
-                                <li>
-                                    <i class="bx bx-chevron-right"></i> <a href="#">News</a>
-                                </li>
-                                <li>
-                                    <i class="bx bx-chevron-right"></i> <a href="#">Library</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>About Us</h4>
+                        <ul>
+                            <li>
+                                <i class="bx bx-chevron-right"></i> <a href="#">System</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i>
+                                <a href="#">Dentists</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i> <a href="#">News</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i> <a href="#">Library</a>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <div class="col-lg-2 col-md-6 footer-links">
-                            <h4>Our service</h4>
-                            <ul>
-                                <li>
-                                    <i class="bx bx-chevron-right"></i> <a href="#">Infastructure</a>
-                                </li>
-                                <li>
-                                    <i class="bx bx-chevron-right"></i>
-                                    <a href="#">Rating</a>
-                                </li>
-                                <li>
-                                    <i class="bx bx-chevron-right"></i>
-                                    <a href="#">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>Our service</h4>
+                        <ul>
+                            <li>
+                                <i class="bx bx-chevron-right"></i> <a href="#">Infastructure</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i>
+                                <a href="#">Rating</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevron-right"></i>
+                                <a href="#">Contact</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
+        </div>
 
     </footer>
 
