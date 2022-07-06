@@ -12,7 +12,7 @@
     <img src="~/images/image3.svg" />
     </div>*@
     <h2>Create new service</h2>
-    <form method="post" enctype="multipart/form-data" class="col-md-6">
+    <form method="post" enctype="multipart/form-data" class="col-md-6" id="createForm">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -48,7 +48,11 @@
         </div>
 
         <div class="text-center">
-            <button class="btn btn-primary col-md-3" type="submit" id="createButton">Create</button>
+            <button class="btn btn-primary col-md-3" 
+                    type="button" onclick="onclickSubmit()" 
+                    id="createButton">
+                    Create
+            </button>
         </div>
     </form>
 </div>
@@ -71,6 +75,11 @@
             else if ('@TempData["ErrorMessage"]' != "") {
                 $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
             }
+        }
+
+        function onclickSubmit() {
+            $("#createForm").submit();
+            $("btn").prop('disabled', true);
         }
     </script>
 
