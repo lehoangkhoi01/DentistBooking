@@ -53,14 +53,14 @@
                 @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
                 {
                     <a class="btn btn-success col-4"
-                   asp-page="/Services/Edit"
-                   asp-route-id="@Model.serviceViewModel.Id">
+                        asp-page="/Services/Edit"
+                        asp-route-id="@Model.serviceViewModel.Id">
                         Edit
                     </a>
                     <a class="btn btn-danger col-4"
-                   asp-page="/Services/Details"
-                   asp-page-handler="Delete"
-                   asp-route-id="@Model.serviceViewModel.Id">
+                        asp-page="/Services/Details"
+                        asp-page-handler="Delete"
+                        asp-route-id="@Model.serviceViewModel.Id">
                         Delete
                     </a>
                     <br>

@@ -16,15 +16,16 @@
                 </div>
                 <div class="col mb-3">
                     <div>
-                        <span class="text-secondary">Status:</span> 
-                        @if(Model.Reservation.Status == "Rejected")
+                        <span class="text-secondary">Status:</span>
+                        @if (Model.Reservation.Status == "Rejected")
                         {
                             <span class="text-danger">Rejected</span>
                         }
-                        else if(Model.Reservation.Status == "Accepted")
+                        else if (Model.Reservation.Status == "Accepted")
                         {
                             <span class="text-success">Accepted</span>
-                        } else if(Model.Reservation.Status == "Waiting")
+                        }
+                        else if (Model.Reservation.Status == "Waiting")
                         {
                             <span class="text-warning">Waiting</span>
                         }
@@ -104,9 +105,9 @@
                 }
                 else if (Model.Status.Equals("Waiting"))
                 {
-                    <form method="post" asp-page-handler="AcceptReservation">
+                    <form method="post" id="acceptReservationForm" asp-page-handler="AcceptReservation">
                         <input hidden name="reservationId" value="@Model.Reservation.Id" />
-                        <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
+                        <button type="button" class="btn btn-outline-success col-6 my-3" onclick="onclickAcceptReservation()">Accept</button>
                     </form>
                     <button class="btn btn-outline-danger col-6" data-toggle="modal" data-target="#rejectModal">Reject</button>
                 }
@@ -127,13 +128,13 @@
                     data-reservation="@Model.Reservation.Id">
                     Feedback
                 </button>
-                @if(Model.Feedback != null)
+                @if (Model.Feedback != null)
                 {
                     <button class="btn btn-outline-danger col-6 my-3"
-                            data-toggle="modal" data-target="#deleteFeedbackModal"
-                            data-reservation="@Model.Reservation.Id">
-                    Remove feedback
-                </button>
+                    data-toggle="modal" data-target="#deleteFeedbackModal"
+                    data-reservation="@Model.Reservation.Id">
+                        Remove feedback
+                    </button>
                 }
             </div>
 
@@ -237,10 +238,12 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btnClose" data-dismiss="modal">Close</button>
                     <input type="hidden" name="reservationId" id="reservationIdInputFeedback" />
-                    <button id="btnSendFeedback" 
-                            class="btn btn-outline-success" 
+                    <button id="btnSendFeedback"
+                            class="btn btn-outline-success"
                             type="button"
-                            onclick="onClickSendFeedback()">Send feedback</button>
+                            onclick="onClickSendFeedback()">
+                        Send feedback
+                    </button>
                 </div>
             </form>
         </div>
@@ -255,20 +258,28 @@
     @section Scripts {
     <script src="~/js/feedback/feedback.js"></script>
     <script>
-        function onClickSubmitRejectForm() {           
-            $("#rejectForm").submit();        
+        function onClickSubmitRejectForm() {
+            $(".btn").prop('disabled', true);
+            $("#rejectForm").submit();
         }
 
         function onClickSubmitRemoveFeedbackForm() {
-            $("#btnRemoveFeedback").prop('disabled', true);
-            $(".btnClose").prop('disabled', true);
+            //$("#btnRemoveFeedback").prop('disabled', true);
+            //$(".btnClose").prop('disabled', true);
+            $(".btn").prop('disabled', true);
             $("#deleteFeedbackForm").submit();
         }
 
         function onClickSendFeedback() {
-            $("#btnSendFeedback").prop('disabled', true);
-            $(".btnClose").prop('disabled', true);
+            //$("#btnSendFeedback").prop('disabled', true);
+            //$(".btnClose").prop('disabled', true);
+            $(".btn").prop('disabled', true);
             $("#feedbackForm").submit();
+        }
+
+        function onclickAcceptReservation() {
+            $("#acceptReservationForm").submit();
+            $(".btn").prop('disabled', true);
         }
     </script>
 
