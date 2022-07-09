@@ -14,6 +14,7 @@ namespace DataAccess.Interfaces
         public IEnumerable<Service> GetServiceList();
         public IEnumerable<Service> GetActiveServiceList();
         public IEnumerable<Service> GetServiceListByPage(int page, int itemPerPage);
+        public IEnumerable<Service> GetActiveServiceListByPage(int page, int itemPerPage);
         public Service GetServiceById(int id);
         public Service GetServiceByName(string name);   
 
