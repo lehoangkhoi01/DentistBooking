@@ -20,5 +20,7 @@ namespace DataAccess.Repository
 
         public IEnumerable<User> GetUsers()
         => UserDAO.Instance.GetUsers();
+
+        public void Update(User user) => UserDAO.Instance.UpdateUser(user);
     }
 }

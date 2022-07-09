@@ -11,5 +11,7 @@ namespace DataAccess.Repository
     public class AdminRepository : IAdminRepository
     {
         public Admin GetAdminByUserId(int userId) => AdminDAO.Instance.GetAdminByUserId(userId);
+
+        public void UpdateAdmin(Admin admin) => AdminDAO.Instance.Update(admin);
     }
 }

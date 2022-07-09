@@ -46,6 +46,6 @@ namespace DentistBookingWebApp.ViewModels
         [Display(Name = "Status")]
         public bool Status { get; set; }
 
-        public Admin Admin { get; set; }
+        public BusinessObject.Admin Admin { get; set; }
     }
 }
