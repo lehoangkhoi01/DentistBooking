@@ -39,7 +39,7 @@ namespace DentistBookingWebApp.Pages.Services
             try
             {
                 List<Service> services = serviceRepository
-                            .GetServiceListByPage((int)page, MAX_ITEM_PAGE)
+                            .GetActiveServiceListByPage((int)page, MAX_ITEM_PAGE)
                             .ToList();
 
                 if (serviceList == null)
@@ -56,7 +56,7 @@ namespace DentistBookingWebApp.Pages.Services
                 }
                 else
                 {
-                    pageCount = (int)Math.Ceiling(serviceRepository.GetServiceList().Count() / (double)MAX_ITEM_PAGE);
+                    pageCount = (int)Math.Ceiling(serviceRepository.GetActiveServiceList().Count() / (double)MAX_ITEM_PAGE);
                 }
 
                 if (page <= 0 || page > pageCount)

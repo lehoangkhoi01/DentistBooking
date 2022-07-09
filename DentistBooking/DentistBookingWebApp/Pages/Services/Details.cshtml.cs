@@ -23,6 +23,7 @@ namespace DentistBookingWebApp.Pages.Services
 
         [BindProperty]
         public string Role { get; set; }
+        public string Status { get; set; }
 
 
         public IActionResult OnGet(int? id)
@@ -53,16 +54,17 @@ namespace DentistBookingWebApp.Pages.Services
                     Status = service.Status == "Active" ? true : false,
                     Admin = service.Admin
                 };
+
+                return Page();
             }
-            return Page();
         }
 
-        //public IActionResult OnPostDelete([FromForm] int serviceId)
+        //public IActionResult OnPostDisableService([FromForm] int serviceId)
         //{
         //    try
         //    {
         //        Service _service = serviceRepository.GetServiceById(serviceId);
-        //        if(_service == null)
+        //        if (_service == null)
         //        {
         //            return NotFound();
         //        }
@@ -82,11 +84,13 @@ namespace DentistBookingWebApp.Pages.Services
         //                Status = "Inactive"
         //            };
         //            serviceRepository.UpdateService(service);
+        //            TempData["Message"] = "Disable service successfully";
+        //            return RedirectToPage("/Services/Index");
         //        }
         //    }
-        //    catch (Exception ex)
+        //    catch (Exception)
         //    {
-        //        TempData["ErrorMessage"] = ex.InnerException;
+        //        TempData["ErrorMessage"] = "There is an error. Please try again later";
         //        return Page();
         //    }
         //}
