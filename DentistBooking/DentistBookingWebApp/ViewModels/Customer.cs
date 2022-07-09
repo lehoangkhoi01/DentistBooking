@@ -10,13 +10,14 @@ namespace DentistBookingWebApp.ViewModels
 {
     public class Customer
     {
-        [Key]
         [Required]
         public int Id { get; set; }
+
         [Required]
         [StringLength(50, ErrorMessage = "Name must have from 6 to 50 characters", MinimumLength = 6)]
         [Display(Name = "Full name")]
         public string FullName { get; set; }
+
         [Required]
         [Phone]
         [DataType(DataType.PhoneNumber)]
@@ -24,9 +25,8 @@ namespace DentistBookingWebApp.ViewModels
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
-        [ForeignKey("Id")]
         public int UserId { get; set; }
-        public BusinessObject.User User { get; set; }
+        public ViewModels.User User { get; set; }
 
     }
 }

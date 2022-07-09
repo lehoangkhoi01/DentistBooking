@@ -1,5 +1,6 @@
 ﻿using BusinessObject;
 using BusinessObject.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,13 +37,27 @@ namespace DataAccess
             try
             {
                 var dbContext = new DentistBookingContext();
-                admin = dbContext.Admins.FirstOrDefault(a => a.UserId == userId);
+                admin = dbContext.Admins.Include(a => a.User).FirstOrDefault(a => a.UserId == userId);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
             return admin;
+        }
+
+        public void Update(Admin admin)
+        {
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                dbContext.Entry<Admin>(admin).State = EntityState.Modified;
+                dbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

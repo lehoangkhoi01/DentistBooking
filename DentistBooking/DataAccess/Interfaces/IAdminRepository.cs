@@ -10,5 +10,6 @@ namespace DataAccess.Interfaces
     public interface IAdminRepository
     {
         public Admin GetAdminByUserId(int userId);
+        public void UpdateAdmin(Admin admin);
     }
 }

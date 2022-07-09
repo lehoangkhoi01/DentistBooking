@@ -70,6 +70,20 @@ namespace DataAccess
             return result;
         }
 
+        public void UpdateUser(User user)
+        {
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                dbContext.Entry<User>(user).State = EntityState.Modified;
+                dbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public User GetUser(int id)
         {
             User user;

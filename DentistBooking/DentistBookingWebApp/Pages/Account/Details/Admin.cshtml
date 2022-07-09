@@ -1,0 +1,72 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Account.Details.AdminModel
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="container">
+    <div>
+        <h2 class="text-center">Customer Information</h2>
+        <h3 class="text-primary text-center">@Html.DisplayFor(model => model.Admin.FullName)</h3>
+        <hr />
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="bg-light col-6 rounded pt-3">
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Admin.User.Email)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Admin.User.Email)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Admin.FullName)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Admin.FullName)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Admin.PhoneNumber)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Admin.PhoneNumber)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Admin.User.Role)
+                    </dt>
+                    <dd class="col-sm-8">
+                        Admin
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5">
+        <a class="btn btn-primary col-4" href="/Account/Edit/Admin?id=@Model.Admin.User.Id"><i class="fa-solid fa-pen-to-square"></i> | Edit</a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .row {
+            font-size: 1.2rem;
+        }
+    </style>
+}
+
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+}
