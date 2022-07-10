@@ -12,7 +12,7 @@
                 <h1>Convenient and simple way to take care your teeth</h1>
                 <h2>We provide the online service to make appointments with our dentist.</h2>
                 <div class="d-flex">
-                    <a href="/Reservation/Index"  class="btn-get-started scrollto">Make reservation</a>
+                    <a href="/Reservation/Index" class="btn-get-started scrollto">Make reservation</a>
                 </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img">
@@ -22,7 +22,6 @@
     </div>
 
 </section><!-- End Hero -->
-
 <!-- ======= Services Section ======= -->
 <section id="services" class="services section-bg">
     <div class="container">
@@ -41,7 +40,7 @@
                         <div class="icon-box">
                             <h4>
                                 <a asp-page="/Services/Details"
-                                   asp-route-id="@item.Id">
+                           asp-route-id="@item.Id">
                                     @item.Name
                                 </a>
                             </h4>
@@ -54,12 +53,24 @@
         <a href="/Services/Index" class="float-right mt-3">View all services</a>
     </div>
 </section><!-- End Services Section -->
-
 @section Styles {
     <link href="@Url.Content("~/css/home/index.css")" rel="stylesheet" type="text/css" />
 }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
 }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
