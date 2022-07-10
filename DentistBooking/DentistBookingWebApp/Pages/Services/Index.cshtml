@@ -14,12 +14,6 @@
 
     <div class="service-wrapper">
         <form class="col-12">
-            @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
-            {
-                <div class="form-row col-12 my-3">
-                    <a asp-page="./Create" class="btn btn-primary">Add new service</a>
-                </div>
-            }
             <div class="form-row col-12 col-lg-6">
                 <input type="text" class="form-control col-8 ml-3" placeholder="Service's name" asp-for="SearchString">
                 <div class="input-group-append">
@@ -44,7 +38,7 @@
                     {
                         <div class="card-bottom mt-3 px-3">
                             <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
-                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-success button-card">
+                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-info button-card">
                                 Edit
                             </a>
                         </div>

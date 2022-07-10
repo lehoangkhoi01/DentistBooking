@@ -38,17 +38,21 @@
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label asp-for="ServiceViewModel.ImageFile" class="control-label"></label>
-                    <input type="hidden" asp-for="ServiceViewModel.Image"/>
+                    <input type="hidden" asp-for="ServiceViewModel.Image" />
                     <input asp-for="ServiceViewModel.ImageFile" class="form-control" />
                     <span asp-validation-for="ServiceViewModel.ImageFile" class="text-danger"></span>
                 </div>
             </div>
             <div class="text-center">
-                <button class="btn btn-primary col-md-4 mb-3" type="submit">Update</button>
+                <button class="btn btn-primary col-md-4 mb-3" 
+                        type="button" 
+                        onclick="onClickSubmit()">
+                        Update
+                </button>
             </div>
         </form>
     </div>
-    <div class="image-wrapper mb-3 col-12 col-lg-5">        
+    <div class="image-wrapper mb-3 col-12 col-lg-5">
         <img src="~/images/service/@Model.ServiceViewModel.Image" />
     </div>
 
@@ -75,6 +79,10 @@
             else if ('@TempData["ErrorMessage"]' != "") {
                 $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
             }
+        }
+        function onClickSubmit() {
+            $("#serviceForm").submit();
+            $(".btn").prop('disabled', true);
         }
     </script>
 

@@ -2,14 +2,27 @@
 @using System.Security.Claims
 @inject IHttpContextAccessor HttpContextAccessor
 
+
 <ul class="navbar-nav">
     @if (User.Identity.Name != null)
     {
-        <li>
-            <a>@User.Identity.Name</a>
+        int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        <li class="nav-item">
+            @if(User.FindFirstValue(ClaimTypes.Role) == "Customer")
+            {
+                <a class="nav-link" href="/Account/Details/Customer?id=@userId">@User.Identity.Name</a>
+            }
+            else if(User.FindFirstValue(ClaimTypes.Role) == "Dentist")
+            {
+                <a class="nav-link" href="/Account/Details/Dentist?id=@userId">@User.Identity.Name</a>
+            }
+            else if(User.FindFirstValue(ClaimTypes.Role) == "Admin")
+            {
+                <a class="nav-link" href="/Account/Details/Admin?id=@userId">@User.Identity.Name</a>
+            }
         </li>
         <li class="nav-item">
-            <a asp-page="/Index" asp-page-handler="Logout">Logout</a>
+            <a class="nav-link" asp-page="/Index" asp-page-handler="Logout">Logout</a>
         </li>
     }
     else

@@ -52,17 +52,12 @@
             <div class="funct-button text-center mt-5">
                 @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
                 {
-                    <a class="btn btn-success col-4"
-                   asp-page="/Services/Edit"
-                   asp-route-id="@Model.serviceViewModel.Id">
+                    <a class="btn btn-outline-primary col-4"
+                        asp-page="/Services/Edit"
+                        asp-route-id="@Model.serviceViewModel.Id">
                         Edit
                     </a>
-                    <a class="btn btn-danger col-4"
-                   asp-page="/Services/Details"
-                   asp-page-handler="Delete"
-                   asp-route-id="@Model.serviceViewModel.Id">
-                        Delete
-                    </a>
+                    @*<button type="button" class="btn btn-outline-danger col-4" dt data-toggle="modal" data-target="#serviceModal">Disable</button>*@
                     <br>
                 }
                 else if (string.IsNullOrEmpty(Model.Role) || Model.Role == "Customer")
@@ -80,6 +75,31 @@
     </div>
 </div>
 
+
+@* Delete service modal *@
+@*<div class="modal fade" id="serviceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="DisableService" id="serviceForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Disable service</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Are you sure to disable this service</h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="hidden" name="serviceId" value="@Model.serviceViewModel.Id" />
+                    <button class="btn btn-outline-danger" type="button" onclick="onRemoveService()">Disable</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>*@
+
 @section Styles {
     <link href="@Url.Content("~/css/service/detail.css")" rel="stylesheet" type="text/css" />
 }
@@ -88,4 +108,10 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        function onRemoveService() {
+            $("#serviceForm").submit();
+            $(".btn").prop("disabled", true);
+        }
+    </script>
     }

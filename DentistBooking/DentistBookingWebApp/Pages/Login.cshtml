@@ -16,7 +16,7 @@
                         <div class="mb-4">
                             <h3 class="text-center">Login</h3>
                         </div>
-                        <form method="post">
+                        <form method="post" id="loginForm">
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -34,7 +34,7 @@
                                 </a>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary col-md-6">Log in</button>
+                                <button type="button" class="btn btn-primary col-md-6" onclick="onClickSubmit()">Log in</button>
                             </div>
                         </form>
                     </div>
@@ -48,4 +48,20 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        function onClickSubmit() {
+            $("#loginForm").submit();
+            $(".btn").prop('disabled', true);
+        }
+    </script>
 }
+<script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>

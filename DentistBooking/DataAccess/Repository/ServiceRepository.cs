@@ -23,5 +23,7 @@ namespace DataAccess.Repository
         public IEnumerable<Service> GetServiceList() => ServiceDAO.Instance.GetServiceList();
 
         public IEnumerable<Service> GetActiveServiceList() => ServiceDAO.Instance.GetActiveServiceList();
+
+        public IEnumerable<Service> GetActiveServiceListByPage(int page, int itemPerPage) => ServiceDAO.Instance.GetActiveServiceListByPage(page, itemPerPage);
     }
 }

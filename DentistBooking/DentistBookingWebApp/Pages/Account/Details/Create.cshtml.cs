@@ -1,20 +1,25 @@
-using DataAccess.Interfaces;
-using BusinessObject;
-using DentistBookingWebApp.Validation;
-using DentistBookingWebApp.ViewModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using BusinessObject;
+using BusinessObject.Data;
+using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
-using HashCode = DentistBookingWebApp.Validation.HashCode;
+using DentistBookingWebApp.Validation;
 
-namespace DentistBookingWebApp.Pages
+namespace DentistBookingWebApp.Pages.Admin.CustomerPage
 {
-    public class RegisterModel : PageModel
+    [Authorize(Roles ="Admin")]
+    public class CreateModel : PageModel
     {
         private readonly IUserRepository userRepository;
         private readonly ICustomerRepository customerRepository;
-        public RegisterModel(IUserRepository _userRepository, ICustomerRepository _customerRepository)
+        public CreateModel(IUserRepository _userRepository, ICustomerRepository _customerRepository)
         {
             userRepository = _userRepository;
             customerRepository = _customerRepository;
@@ -34,14 +39,9 @@ namespace DentistBookingWebApp.Pages
         public string Password { get; set; }
 
         [BindProperty]
-        public ViewModels.Customer customer { get; set; }
+        public ViewModels.Customer Customer { get; set; }
 
-        [BindProperty]
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "The password and confirm password do not match.")]
-        public string ConfirmPassword { get; set; }
+       
         public void OnGet()
         {
         }
@@ -53,35 +53,34 @@ namespace DentistBookingWebApp.Pages
                 {
                     ModelState.AddModelError("Email", "This email already exists");
                 }
-                if (SignUpValidation.CheckPhoneCustomer(customer.PhoneNumber))
+                if (SignUpValidation.CheckPhoneCustomer(Customer.PhoneNumber))
                 {
-                    ModelState.AddModelError("customer.PhoneNumber", "This phone number already exists");
+                    ModelState.AddModelError("Customer.PhoneNumber", "This phone number already exists");
                 }
                 if (ModelState.IsValid)
                 {
-                    BusinessObject.User userObj = new BusinessObject.User
+                    User userObj = new User
                     {
                         Email = Email,
-                        Password = HashCode.HashPassword(Password),
+                        Password = Validation.HashCode.HashPassword(Password),
                         RoleId = 2
                     };
-                   
+
                     int userId = userRepository.SignUp(userObj);
                     if (userId > 0)
                     {
                         BusinessObject.Customer customerObj = new BusinessObject.Customer
                         {
-                            FullName = customer.FullName,
-                            PhoneNumber = customer.PhoneNumber,
+                            FullName = Customer.FullName,
+                            PhoneNumber = Customer.PhoneNumber,
                             UserId = userId
                         };
                         customerRepository.AddNewCustomer(customerObj);
-                        TempData["Message"] = "Signup new account successfully. Please login.";
-                        return RedirectToPage("./Login");
+                        return RedirectToPage("/Admin/Account");
                     }
                     else
                     {
-                        ViewData["Message"] = "There is an error. Please try again later";
+                        ViewData["Message"] = "Cannot add customer!";
                         return Page();
                     }
                 }
@@ -96,6 +95,5 @@ namespace DentistBookingWebApp.Pages
                 return Page();
             }
         }
-        
     }
 }
