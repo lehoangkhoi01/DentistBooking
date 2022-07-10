@@ -10,9 +10,11 @@ using BusinessObject.Data;
 using DataAccess.Interfaces;
 using HashCode = DentistBookingWebApp.Validation.HashCode;
 using DentistBookingWebApp.Validation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DentistBookingWebApp.Pages.Admin.DentistPage
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly IDentistRepository dentistRepository;
@@ -60,7 +62,7 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
                             PhoneNumber = Dentist.PhoneNumber
                         };
                         dentistRepository.AddNewDentist(dentist);
-                        return RedirectToPage("./Index");
+                        return RedirectToPage("/Admin/Account");
                     }
                 }
                 return Page();

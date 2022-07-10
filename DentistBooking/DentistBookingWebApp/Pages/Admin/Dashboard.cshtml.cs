@@ -1,4 +1,5 @@
 using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class DashboardModel : PageModel
     {
         private readonly IUserRepository userRepository;

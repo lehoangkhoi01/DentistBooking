@@ -47,9 +47,11 @@
             </dl>
         </div>
     </div>
-    <div class="text-center mt-5">
-    <a asp-page="./DentistPage/Edit" asp-route-id="@Model.Dentist.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="text-center mt-5 col-4">
+            <a asp-page="./Edit" asp-route-id="@Model.Dentist.Id" class="btn btn-primary btn-block">Edit</a>
+        </div>
+    </div>
 </div>
 

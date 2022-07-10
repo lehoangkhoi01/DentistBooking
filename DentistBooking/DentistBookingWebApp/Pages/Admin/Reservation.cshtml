@@ -1,0 +1,381 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Admin.ReservationModel
+@{
+    ViewData["Title"] = "Reservation";
+}
+<input type="checkbox" id="nav-toggle">
+<div class="sidebar" style: background="#3287a8">
+    <div class="sidebar-brand">
+        <a asp-page="/Index" class="link-primary" style="color: white">
+            <h3><span class="lab la-accusoft"></span><span class="lmao" style="font-size: 1.5rem">Dentist Booking</span></h3>
+        </a>
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Dashboard" class=" btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-tv"></span>
+                    <span>General Statistic</span>
+                </a>
+            </li>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Account" class=" btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fa fa-user"></span>
+                    <span>Account</span>
+                </a>
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Services" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-first-aid"></span>
+                    <span>Service</span>
+                </a>
+
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Reservation" class="btn btn-outline-light active" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-notes-medical"></span>
+                    <span>Reservation</span>
+                </a>
+
+            </li>
+
+        </ul>
+    </div>
+</div>
+<div class="main-content">
+    <header>
+        <h2>
+            <label for="nav-toggle">
+                <span class="las la-bars"></span>
+            </label>
+            Reservation
+        </h2>
+    </header>
+
+    <main>
+        <div class="dropdown mb-5">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Status
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="nav flex-column nav-pills navbar-expand-lg bg-white" id="v-pills-tab" role="tablist"
+                     aria-orientation="vertical">
+                    <a class="dropdown-item nav-link" onclick="toggleButton('all')" href="#all" onselect="true" role="tab">All</a>
+                    <a class="dropdown-item nav-link" onclick="toggleButton('accepted')" href="#accepted" role="tab">Accepted</a>
+                    <a class="dropdown-item nav-link" onclick="toggleButton('waiting')" href="#waiting" role="tab">Waiting</a>
+                    <a class="dropdown-item nav-link" onclick="toggleButton('rejected')" href="#rejected" role="tab">Rejected</a>
+                </div>
+            </div>
+        </div>
+        <div class="tab-panel" id="all" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Service)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Customer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Price)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().ResevrationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Dentist)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Reservations)
+                    {
+                        @*                if (item.RoleId == 2)
+                    {*@
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Service.Name)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.FullName)
+                            </td>
+
+                            <td>
+                                $@Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ResevrationDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Dentist.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                <a asp-page="/Reservation/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
+                            </td>
+                        </tr>
+                        @*}*@
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-panel" style="display:none" id="accepted" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Service)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Customer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Price)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().ResevrationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Dentist)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Reservations)
+                    {
+                        if (item.Status == "Accepted")
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Service.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.FullName)
+                                </td>
+
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ResevrationDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dentist.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    <a asp-page="/Reservation/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-panel" style="display:none" id="waiting" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Service)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Customer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Price)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().ResevrationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Dentist)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Reservations)
+                    {
+                        if (item.Status == "Waiting")
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Service.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.FullName)
+                                </td>
+
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ResevrationDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dentist.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    <a asp-page="/Reservation/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-panel" style="display:none" id="rejected" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Service)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Customer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Price)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().ResevrationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Dentist)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations.First().Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Reservations)
+                    {
+                        if (item.Status == "Rejected")
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Service.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.FullName)
+                                </td>
+
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ResevrationDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dentist.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    <a asp-page="/Reservation/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+
+
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<!--Custom JS-->
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(".mydatatable").DataTable();
+</script>
+
+
+<script>
+    window.addEventListener('load', function() {
+        const loader = document.querySelector(".loader");
+        loader.className += " hidden"; // class "loader hidden"
+    });
+</script>
+
+
+
+@section Styles {
+    <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
+}
+
+<script>
+    function toggleButton(id) {
+        if (id == 'all') {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('accepted').style.display = 'none';
+            document.getElementById('waiting').style.display = 'none';
+            document.getElementById('rejected').style.display = 'none';
+        } else if (id == 'accepted') {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('all').style.display = 'none';
+            document.getElementById('waiting').style.display = 'none';
+            document.getElementById('rejected').style.display = 'none';
+        }
+        else if (id == 'waiting') {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('all').style.display = 'none';
+            document.getElementById('accepted').style.display = 'none';
+            document.getElementById('rejected').style.display = 'none';
+        }
+        else {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('all').style.display = 'none';
+            document.getElementById('accepted').style.display = 'none';
+            document.getElementById('waiting').style.display = 'none';
+        }
+    }
+</script>

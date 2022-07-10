@@ -43,8 +43,11 @@
             </div>
         </div>
     </div>
-    <div class="text-center mt-5">
-        <a asp-page="./CustomerPage/Edit" asp-route-id="@Model.Customer.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-        <a asp-page="./Index">Back to List</a>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="text-center mt-5 col-4">
+            <a asp-page="./Edit" asp-route-id="@Model.Customer.Id" class="btn btn-primary btn-block">Edit</a>
+        </div>
     </div>
+
 </div>

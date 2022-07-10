@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using BusinessObject.Data;
 using DataAccess.Interfaces;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Admin.CustomerPage
 {
@@ -24,9 +25,24 @@ namespace DentistBookingWebApp.Pages.Admin.CustomerPage
 
         public IActionResult OnGet(int? id)
         {
+            string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
             if (id == null)
             {
-                return NotFound();
+                id = Int32.Parse(userId);
+                Customer customer = customerRepository.GetCustomerByUserId((int)id);
+                if (customer == null)
+                {
+                    return NotFound();
+                }
+                Customer = new ViewModels.Customer
+                {
+                    Id = customer.Id,
+                    FullName = customer.FullName,
+                    PhoneNumber = customer.PhoneNumber,
+                    UserId = customer.UserId,
+                    User = customer.User
+                };
+                return Page();
             }
             try
             {

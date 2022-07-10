@@ -9,9 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using BusinessObject.Data;
 using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Admin.DentistPage
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         //private readonly IUserRepository userRepository;
@@ -28,11 +31,32 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
 
         public IActionResult OnGet(int? id)
         {
+            string role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+            string userId = User.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
             if (id == null)
             {
-                return NotFound();
+                id = Int32.Parse(userId);
+                BusinessObject.Dentist dent = dentistRepository.GetDentistByUserId((int)id);
+                if (dent == null)
+                {
+                    return NotFound();
+                }
+                Dentist = new ViewModels.Dentist
+                {
+                    Id = dent.Id,
+                    PhoneNumber = dent.PhoneNumber,
+                    FullName = dent.FullName,
+                    UserId = dent.UserId,
+                    User = dent.User,
+                };
+                return Page();
             }
             BusinessObject.Dentist dentist = dentistRepository.GetDentistByDentistId((int)id);
+
+            if (userId != dentist.UserId.ToString() && role != "Admin")
+            {
+                return LocalRedirect("/AccessDenied");
+            }
             Dentist = new ViewModels.Dentist
             {
                 Id = dentist.Id,
@@ -74,9 +98,9 @@ namespace DentistBookingWebApp.Pages.Admin.DentistPage
                 return Page();
             }
 
-            return RedirectToPage("./Details", new {id = Dentist.Id});
+            return RedirectToPage("./Details", new { id = Dentist.Id });
         }
 
-      
+
     }
 }

@@ -6,9 +6,21 @@
     @if (User.Identity.Name != null)
     {
         <li>
-            <a>@User.Identity.Name</a>
+            @if (User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value == "Customer")
+            {
+                <a asp-page="/Admin/CustomerPage/Details">@User.Identity.Name</a>
+            }
+            else if (User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value == "Dentist")
+            {
+                <a asp-page="/Admin/DentistPage/Details">@User.Identity.Name</a>
+            }
+            else
+            {
+                <a>@User.Identity.Name</a>
+            }
+
         </li>
-        <li class="nav-item">
+        <li class="nav-item ml-3">
             <a asp-page="/Index" asp-page-handler="Logout">Logout</a>
         </li>
     }
