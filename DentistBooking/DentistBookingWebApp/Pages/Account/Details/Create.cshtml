@@ -1,9 +1,10 @@
 ﻿@page
-@model DentistBookingWebApp.Pages.Admin.DashboardModel
-@{
-        ViewData["Title"] = "Dashboard";
+@model DentistBookingWebApp.Pages.Admin.CustomerPage.CreateModel
 
+@{
+    ViewData["Title"] = "Create";
 }
+
 <input type="checkbox" id="nav-toggle">
 <div class="sidebar" style: background="#3287a8">
     <div class="sidebar-brand">
@@ -14,13 +15,13 @@
     <div class="sidebar-menu">
         <ul>
             <li style="padding-left:0.25rem">
-                <a asp-page="/Admin/Dashboard" class="active btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                <a asp-page="/Admin/Dashboard" class=" btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
                     <span id="side-bar-icon" class="fas fa-tv"></span>
                     <span>General Statistic</span>
                 </a>
             </li>
             <li style="padding-left:0.25rem">
-                <a asp-page="/Admin/Account" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                <a asp-page="/Admin/Account" class="active btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
                     <span id="side-bar-icon" class="fa fa-user"></span>
                     <span>Account</span>
                 </a>
@@ -45,58 +46,58 @@
         </ul>
     </div>
 </div>
-
 <div class="main-content">
     <header>
         <h2>
             <label for="nav-toggle">
                 <span class="las la-bars"></span>
             </label>
-            General Statistic
+            Account
         </h2>
     </header>
-    <main style="margin-top:85px">
-        <div class="cards">
-            <div class="card-single">
-                <div>
-                    <h1>@Model.Account</h1>
-                    <span>Account</span>
-                </div>
-                <div>
-                    <span class="fas fa-users"></span>
-                </div>
-            </div>
-            <div class="card-single">
-                <div>
-                    <h1>@Model.Service</h1>
-                    <span>Service</span>
-                </div>
-                <div>
-                    <span class="fas fa-first-aid"></span>
-                </div>
-            </div>
+    <main>
+        <div class="wrapper container my-5 px-4">
+            <h1 class="text-center">Create customer profile</h1>
 
-            <div class="card-single">
-                <div>
-                    <h1>@Model.Reservation</h1>
-                    <span>Reservation</span>
+            @*<h4>Dentist</h4>*@
+            <hr />
+            <div class="form-row">
+                <div class="col-3"></div>
+                <div class="col-md-6">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Customer.FullName" class="control-label"></label>
+                            <input asp-for="Customer.FullName" class="form-control" />
+                            <span asp-validation-for="Customer.FullName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Customer.PhoneNumber" class="control-label"></label>
+                            <input asp-for="Customer.PhoneNumber" class="form-control" />
+                            <span asp-validation-for="Customer.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" value="Create" class="btn btn-primary btn-block btn-lg" />
+                        </div>
+                    </form>
                 </div>
-                <div>
-                    <span class="fas fa-notes-medical"></span>
-                </div>
-            </div>
-
-        </div>
-        <div class="recent-grid">
-            <div class="projects">
-                <div class="card">
-                </div>
-
             </div>
         </div>
     </main>
 </div>
-<!--JQuery-->
+@*<div>
+    <a asp-page="Index">Back to List</a>
+</div>*@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -123,7 +124,11 @@
 </script>
 
 
-
-@*@section Styles {
+@section Styles {
     <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
-}*@
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

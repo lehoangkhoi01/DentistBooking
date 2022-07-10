@@ -46,12 +46,40 @@ namespace DataAccess
             return admin;
         }
 
+        public Admin GetAdminByPhone(string phone)
+        {
+            Admin admin;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                admin = dbContext.Admins.Include(d => d.User).FirstOrDefault(x => x.PhoneNumber == phone);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return admin;
+        }
         public void Update(Admin admin)
         {
             try
             {
                 var dbContext = new DentistBookingContext();
                 dbContext.Entry<Admin>(admin).State = EntityState.Modified;
+                dbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void Add(Admin admin)
+        {
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                dbContext.Admins.Add(admin);
                 dbContext.SaveChanges();
             }
             catch(Exception ex)

@@ -1,0 +1,116 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Admin.CreateAdminModel
+@{
+}
+@{
+    ViewData["Title"] = "Create";
+}
+<input type="checkbox" id="nav-toggle">
+<div class="sidebar" style: background="#3287a8">
+    <div class="sidebar-brand">
+        <a asp-page="/Index" class="link-primary" style="color: white">
+            <h3><span class="lab la-accusoft"></span><span class="lmao" style="font-size: 1.5rem">Dentist Booking</span></h3>
+        </a>
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Dashboard" class=" btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-tv"></span>
+                    <span>General Statistic</span>
+                </a>
+            </li>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Account" class="active btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fa fa-user"></span>
+                    <span>Account</span>
+                </a>
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Services" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-first-aid"></span>
+                    <span>Service</span>
+                </a>
+
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Reservation" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-notes-medical"></span>
+                    <span>Reservation</span>
+                </a>
+
+            </li>
+
+        </ul>
+    </div>
+</div>
+<div class="main-content">
+    <header>
+        <h2>
+            <label for="nav-toggle">
+                <span class="las la-bars"></span>
+            </label>
+            Account
+        </h2>
+    </header>
+    <main>
+        <div class="wrapper container my-5 px-4">
+            <h1 class="text-center">Add new admin</h1>
+
+            @*<h4>Dentist</h4>*@
+            <hr />
+            <div class="form-row">
+                <div class="col-3"></div>
+                <div class="col-md-6">
+                    <form method="post" id="adminForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="AdminViewModel.FullName" class="control-label"></label>
+                            <input asp-for="AdminViewModel.FullName" class="form-control" />
+                            <span asp-validation-for="AdminViewModel.FullName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AdminViewModel.PhoneNumber" class="control-label"></label>
+                            <input asp-for="AdminViewModel.PhoneNumber" class="form-control" />
+                            <span asp-validation-for="AdminViewModel.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserViewModel.Email" class="control-label"></label>
+                            <input asp-for="UserViewModel.Email" class="form-control" />
+                            <span asp-validation-for="UserViewModel.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserViewModel.Password" class="control-label"></label>
+                            <input type="password" asp-for="UserViewModel.Password" class="form-control" />
+                            <span asp-validation-for="UserViewModel.Password" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-ountline-primary col-6" onclick="onSubmitForm()">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+
+@*@section Styles {
+    <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
+}*@
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function onSubmitForm() {
+            $("#adminForm").submit();
+            $(".btn").prop("disabled", true);
+        }
+    </script>
+    }

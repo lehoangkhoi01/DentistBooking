@@ -13,12 +13,6 @@
     </div>
 
     <div class="service-wrapper">
-        @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
-            {
-                <div class="col-12 text-center mb-3">
-                    <a asp-page="./Create" class="btn btn-primary">Add new service</a>
-                </div>
-            }
         <form class="col-12">
             <div class="form-row col-12 col-lg-6">
                 <input type="text" class="form-control col-8 ml-3" placeholder="Service's name" asp-for="SearchString">

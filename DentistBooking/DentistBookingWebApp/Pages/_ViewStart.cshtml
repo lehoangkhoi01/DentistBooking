@@ -1,3 +1,12 @@
 ﻿@{
-    Layout = "_Layout";
+    var routeUrl = ViewContext.RouteData.Values["Page"].ToString();
+    var pages = new List<string> { "/Admin"};
+
+    if (pages.Any(routeUrl.Contains))
+    {
+        Layout = "_DashboardLayout";
+    }
+    else {
+        Layout = "_Layout";
+    }
 }

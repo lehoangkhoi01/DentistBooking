@@ -1,0 +1,265 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Admin.ServicesModel
+@{
+    ViewData["Title"] = "Service";
+}
+<input type="checkbox" id="nav-toggle">
+<div class="sidebar" style: background="#3287a8">
+    <div class="sidebar-brand">
+        <a asp-page="/Index" class="link-primary" style="color: white">
+            <h3><span class="lab la-accusoft"></span><span class="lmao" style="font-size: 1.5rem">Dentist Booking</span></h3>
+        </a>
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Dashboard" class=" btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-tv"></span>
+                    <span>General Statistic</span>
+                </a>
+            </li>
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Account" class=" btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fa fa-user"></span>
+                    <span>Account</span>
+                </a>
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Services" class="btn btn-outline-light active" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-first-aid"></span>
+                    <span>Service</span>
+                </a>
+
+            </li>
+
+            <li style="padding-left:0.25rem">
+                <a asp-page="/Admin/Reservation" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                    <span id="side-bar-icon" class="fas fa-notes-medical"></span>
+                    <span>Reservation</span>
+                </a>
+
+            </li>
+
+        </ul>
+    </div>
+</div>
+<div class="main-content">
+    <header>
+        <h2>
+            <label for="nav-toggle">
+                <span class="las la-bars"></span>
+            </label>
+            Service
+        </h2>
+    </header>
+
+    <main>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="text-center col-4 mb-5">
+                <a asp-page="/Services/Create" class="btn btn-primary btn-lg btn-block text-center" role="button">Create new service</a>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="dropdown mb-5">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Status
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="nav flex-column nav-pills navbar-expand-lg bg-white" id="v-pills-tab" role="tablist"
+                     aria-orientation="vertical">
+                    <a class="dropdown-item nav-link" onclick="toggleButton('all')" href="#all" onselect="true" role="tab">All</a>
+                    <a class="dropdown-item nav-link" onclick="toggleButton('active')" href="#active" role="tab">Active</a>
+                    <a class="dropdown-item nav-link" onclick="toggleButton('inactive')" href="#inactive" role="tab">Inactive</a>
+                </div>
+            </div>
+        </div>
+        <div class="tab-panel" id="all" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().UpdatedDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Services)
+                    {
+                        @*                if (item.RoleId == 2)
+                    {*@
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+
+                            <td>
+                                $@Html.DisplayFor(modelItem => item.Price)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdatedDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                <a asp-page="/Services/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
+                                <a asp-page="/Services/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                            </td>
+                        </tr>
+                        @*}*@
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-panel" style="display:none" id="active" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().UpdatedDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Services)
+                    {
+                        if (item.Status == "Active")
+                        {
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.Price)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    <a asp-page="/Services/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
+                                    <a asp-page="/Services/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-panel" style="display:none" id="inactive" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().UpdatedDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Services.First().Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Services)
+                    {
+                        if (item.Status == "Inactive")
+                        {
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.Price)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    <a asp-page="/Services/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
+                                    <a asp-page="/Services/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+    $(".mydatatable").DataTable();
+</script>
+}
+
+<script>
+    function toggleButton(id) {
+        if (id == 'all') {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('active').style.display = 'none';
+            document.getElementById('inactive').style.display = 'none';
+        } else if (id == 'active') {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('all').style.display = 'none';
+            document.getElementById('inactive').style.display = 'none';
+        }
+        else {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('active').style.display = 'none';
+            document.getElementById('all').style.display = 'none';
+        }
+    }
+</script>
+
+
+
+@*@section Styles {
+    <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
+}*@

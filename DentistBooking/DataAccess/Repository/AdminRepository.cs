@@ -13,5 +13,8 @@ namespace DataAccess.Repository
         public Admin GetAdminByUserId(int userId) => AdminDAO.Instance.GetAdminByUserId(userId);
 
         public void UpdateAdmin(Admin admin) => AdminDAO.Instance.Update(admin);
+        public void AddAdmin(Admin admin) => AdminDAO.Instance.Add(admin);
+
+        public Admin GetAdminByPhone(string phone) => AdminDAO.Instance.GetAdminByPhone(phone);
     }
 }

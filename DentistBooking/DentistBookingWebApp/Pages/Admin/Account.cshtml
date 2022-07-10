@@ -1,18 +1,14 @@
 ﻿@page
-@using DataAccess.Interfaces
-@using DataAccess.Repository
 @model DentistBookingWebApp.Pages.Admin.CustomerPage.AccountModel
 
 @{
     ViewData["Title"] = "Account";
-    IDentistRepository dentistRepository = new DentistRepository();
-    ICustomerRepository customerRepository = new CustomerRepository();
 }
 
 <input type="checkbox" id="nav-toggle">
 <div class="sidebar" style: background="#3287a8">
     <div class="sidebar-brand">
-        <a href="StartupServlet" class="link-primary" style="color: white">
+        <a asp-page="/Index" class="link-primary" style="color: white">
             <h3><span class="lab la-accusoft"></span><span class="lmao" style="font-size: 1.5rem">Dentist Booking</span></h3>
         </a>
     </div>
@@ -32,7 +28,7 @@
             </li>
 
             <li style="padding-left:0.25rem">
-                <a href="" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                <a asp-page="/Admin/Services" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
                     <span id="side-bar-icon" class="fas fa-first-aid"></span>
                     <span>Service</span>
                 </a>
@@ -40,7 +36,7 @@
             </li>
 
             <li style="padding-left:0.25rem">
-                <a href="" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
+                <a asp-page="/Admin/Reservation" class="btn btn-outline-light" style="border: none; border-radius: 30px 0px 0px 30px;text-align: left">
                     <span id="side-bar-icon" class="fas fa-notes-medical"></span>
                     <span>Reservation</span>
                 </a>
@@ -50,6 +46,7 @@
         </ul>
     </div>
 </div>
+
 <div class="main-content">
     <header>
         <h2>
@@ -61,6 +58,21 @@
     </header>
 
     <main>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="dropdown mb-5 col-4">
+                <button class="btn btn-primary btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Create new user
+                </button>
+                <div class="dropdown-menu btn-lg">
+                    <div class="nav flex-column nav-pills navbar-expand-lg bg-white" id="v-pills-tab" role="tablist"
+                         aria-orientation="vertical">
+                        <a class="dropdown-item nav-link" asp-page="./DentistPage/Create" role="tab">Dentist</a>
+                        <a class="dropdown-item nav-link" asp-page="./CreateAdmin" role="tab">Admin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="dropdown mb-5">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 User
@@ -108,9 +120,8 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square" ></i></a> |
-                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> |
-                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can" style="color:red"></i></a>
+                                <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
+                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
                             </td>
                         </tr>
                         @*}*@
@@ -131,8 +142,7 @@
                             </td>
                             <td>
                                 <a asp-page="./DentistPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> |
-                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can" style="color:red"></i></a>
+                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
                             </td>
                         </tr>
                     }
@@ -140,7 +150,7 @@
             </table>
         </div>
         <div class="tab-panel" style="display:none" id="customer" role="tabpanel">
-            <table class="table">
+            <table class="table table-striped table-bordered mydatatable">
                 <thead>
                     <tr>
                         <th>
@@ -174,8 +184,7 @@
                             </td>
                             <td>
                                 <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> |
-                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can" style="color:red"></i></a>
+                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
                             </td>
                         </tr>
                         @*}*@
@@ -185,7 +194,7 @@
             </table>
         </div>
         <div class="tab-panel" style="display:none" id="dentist" role="tabpanel">
-            <table class="table">
+            <table class="table table-striped table-bordered mydatatable">
                 <thead>
                     <tr>
                         <th>
@@ -219,8 +228,7 @@
                             </td>
                             <td>
                                 <a asp-page="./DentistPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> |
-                                <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can" style="color:red"></i></a>
+                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
                             </td>
                         </tr>
                         @*}*@
@@ -231,6 +239,17 @@
         </div>
     </main>
 </div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+    $(".mydatatable").DataTable();
+</script>
+}
+
 
 <script>
     function toggleButton(id) {
@@ -251,34 +270,6 @@
     }
 </script>
 
-<!--JQuery-->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-<!--Custom JS-->
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-<script>
-    $(".mydatatable").DataTable();
-</script>
-
-
-<script>
-    window.addEventListener('load', function() {
-        const loader = document.querySelector(".loader");
-        loader.className += " hidden"; // class "loader hidden"
-    });
-</script>
-
-
-
-@section Styles {
+@*@section Styles {
     <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
-}
+}*@
