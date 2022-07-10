@@ -76,11 +76,12 @@ namespace DentistBookingWebApp.Pages
                             UserId = userId
                         };
                         customerRepository.AddNewCustomer(customerObj);
+                        TempData["Message"] = "Signup new account successfully. Please login.";
                         return RedirectToPage("./Login");
                     }
                     else
                     {
-                        ViewData["Message"] = "Cannot sign up!";
+                        ViewData["Message"] = "There is an error. Please try again later";
                         return Page();
                     }
                 }

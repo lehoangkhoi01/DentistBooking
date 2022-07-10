@@ -132,7 +132,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             catch (Exception ex)
             {
                 DateTime dateTime = DateTime.ParseExact(dateTimeString, "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);
-                IEnumerable<Service> services = serviceRepository.GetServiceList();
+                IEnumerable<Service> services = serviceRepository.GetActiveServiceList();
                 IEnumerable<BusinessObject.Dentist> availableDentists = await GetAvailableDentist(dateTime);
                 TempData["ErrorMessage"] = ex.Message;
                 ViewData["Service"] = new SelectList(services, "Id", "Name");
@@ -150,7 +150,7 @@ namespace DentistBookingWebApp.Pages.Reservation
             IEnumerable<Service> services;
             try
             {
-                services = serviceRepository.GetServiceList();
+                services = serviceRepository.GetActiveServiceList();
 
                 if (!string.IsNullOrEmpty(date) && !string.IsNullOrEmpty(time))
                 {
