@@ -46,14 +46,14 @@ namespace DentistBookingWebApp.Pages.Reservation
                                 .ToList();
                 
                 int pageCount = (int)Math.Ceiling((await reservationRepository.GetReservationsByCustomerId(customer.Id)).Count() / (double)MAX_ITEM_PAGE);
-                if (page <= 0 || page > pageCount)
+                if (pageCount > 0 && page > pageCount)
                 {
                    return NotFound();
                 }
                 ViewData["PageCount"] = pageCount;
                 ViewData["CurrentPage"] = page;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 TempData["ErrorMessage"] = "There is an error. Please try again later";
             }

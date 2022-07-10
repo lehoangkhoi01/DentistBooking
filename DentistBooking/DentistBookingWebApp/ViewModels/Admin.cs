@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DentistBookingWebApp.ViewModels
 {
-    public class Dentist
+    public class Admin
     {
         public int Id { get; set; }
 
@@ -18,7 +17,6 @@ namespace DentistBookingWebApp.ViewModels
         [StringLength(10, ErrorMessage = "Phone number must contain 10 characters", MinimumLength = 10)]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
-
         public int UserId { get; set; }
         public User User { get; set; }
     }

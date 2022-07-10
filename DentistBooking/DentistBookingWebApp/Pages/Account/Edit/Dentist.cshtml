@@ -1,0 +1,89 @@
+﻿@page
+@model DentistBookingWebApp.Pages.Account.Edit.DentistModel
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="wrapper container py-3 px-4">
+    <h2>Edit dentist information</h2>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form method="POST" id="signupForm">
+        <input type="hidden" asp-for="Dentist.Id" />
+        <input type="hidden" asp-for="Dentist.UserId" />
+        <div class="form-row col-md-6">
+            <div class="form-group col">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="form-row col-md-6">
+            <div class="form-group col">
+                <label asp-for="Dentist.FullName" class="control-label"></label>
+                <input asp-for="Dentist.FullName" class="form-control" />
+                <span asp-validation-for="Dentist.FullName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row col-md-6">
+            <div class="form-group col">
+                <label asp-for="Dentist.PhoneNumber" class="control-label"></label>
+                <input asp-for="Dentist.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Dentist.PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row col-md-6">
+            <div class="form-group col">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="text-center col-md-4">
+            <button type="button" class="btn btn-success col" onclick="onClickSubmit()">Save</button>
+        </div>
+    </form>
+</div>
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+    }
+
+        .wrapper form {
+            width: 100%;
+        }
+
+        .wrapper h1 {
+            margin-bottom: 20px;
+        }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+    <script>
+        function onClickSubmit() {
+            $("#signupForm").submit();
+            $(".btn").prop('disabled', true);
+        }
+    </script>
+}

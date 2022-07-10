@@ -2,26 +2,27 @@
 @using System.Security.Claims
 @inject IHttpContextAccessor HttpContextAccessor
 
+
 <ul class="navbar-nav">
     @if (User.Identity.Name != null)
     {
-        <li>
-            @if (User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value == "Customer")
+        int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        <li class="nav-item">
+            @if(User.FindFirstValue(ClaimTypes.Role) == "Customer")
             {
-                <a asp-page="/Admin/CustomerPage/Details">@User.Identity.Name</a>
+                <a class="nav-link" href="/Account/Details/Customer?id=@userId">@User.Identity.Name</a>
             }
-            else if (User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value == "Dentist")
+            else if(User.FindFirstValue(ClaimTypes.Role) == "Dentist")
             {
-                <a asp-page="/Admin/DentistPage/Details">@User.Identity.Name</a>
+                <a class="nav-link" href="/Account/Details/Dentist?id=@userId">@User.Identity.Name</a>
             }
-            else
+            else if(User.FindFirstValue(ClaimTypes.Role) == "Admin")
             {
-                <a>@User.Identity.Name</a>
+                <a class="nav-link" href="/Account/Details/Admin?id=@userId">@User.Identity.Name</a>
             }
-
         </li>
-        <li class="nav-item ml-3">
-            <a asp-page="/Index" asp-page-handler="Logout">Logout</a>
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Index" asp-page-handler="Logout">Logout</a>
         </li>
     }
     else
