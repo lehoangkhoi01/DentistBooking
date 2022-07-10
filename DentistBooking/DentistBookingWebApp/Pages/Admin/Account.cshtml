@@ -46,6 +46,7 @@
         </ul>
     </div>
 </div>
+
 <div class="main-content">
     <header>
         <h2>
@@ -67,7 +68,7 @@
                     <div class="nav flex-column nav-pills navbar-expand-lg bg-white" id="v-pills-tab" role="tablist"
                          aria-orientation="vertical">
                         <a class="dropdown-item nav-link" asp-page="./DentistPage/Create" role="tab">Dentist</a>
-                        <a class="dropdown-item nav-link" asp-page="./CustomerPage/Create" role="tab">Customer</a>
+                        <a class="dropdown-item nav-link" asp-page="./CreateAdmin" role="tab">Admin</a>
                     </div>
                 </div>
             </div>
@@ -240,32 +241,15 @@
 </div>
 
 
-
-<!--JQuery-->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-<!--Custom JS-->
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-<script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
     $(".mydatatable").DataTable();
 </script>
+}
 
-
-<script>
-    window.addEventListener('load', function() {
-        const loader = document.querySelector(".loader");
-        loader.className += " hidden"; // class "loader hidden"
-    });
-</script>
 
 <script>
     function toggleButton(id) {
@@ -286,6 +270,6 @@
     }
 </script>
 
-@section Styles {
+@*@section Styles {
     <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
-}
+}*@

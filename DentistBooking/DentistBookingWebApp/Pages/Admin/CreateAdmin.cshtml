@@ -1,6 +1,7 @@
 ﻿@page
-@model DentistBookingWebApp.Pages.Admin.DentistPage.CreateModel
-
+@model DentistBookingWebApp.Pages.Admin.CreateAdminModel
+@{
+}
 @{
     ViewData["Title"] = "Create";
 }
@@ -45,7 +46,6 @@
         </ul>
     </div>
 </div>
-
 <div class="main-content">
     <header>
         <h2>
@@ -57,37 +57,39 @@
     </header>
     <main>
         <div class="wrapper container my-5 px-4">
-            <h1 class="text-center">Add new dentist</h1>
+            <h1 class="text-center">Add new admin</h1>
+
+            @*<h4>Dentist</h4>*@
             <hr />
             <div class="form-row">
                 <div class="col-3"></div>
                 <div class="col-md-6">
-                    <form method="post" id="dentistForm">
+                    <form method="post" id="adminForm">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            <label asp-for="Dentist.FullName" class="control-label"></label>
-                            <input asp-for="Dentist.FullName" class="form-control" />
-                            <span asp-validation-for="Dentist.FullName" class="text-danger"></span>
+                            <label asp-for="AdminViewModel.FullName" class="control-label"></label>
+                            <input asp-for="AdminViewModel.FullName" class="form-control" />
+                            <span asp-validation-for="AdminViewModel.FullName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Dentist.PhoneNumber" class="control-label"></label>
-                            <input asp-for="Dentist.PhoneNumber" class="form-control" />
-                            <span asp-validation-for="Dentist.PhoneNumber" class="text-danger"></span>
+                            <label asp-for="AdminViewModel.PhoneNumber" class="control-label"></label>
+                            <input asp-for="AdminViewModel.PhoneNumber" class="form-control" />
+                            <span asp-validation-for="AdminViewModel.PhoneNumber" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="User.Email" class="control-label"></label>
-                            <input asp-for="User.Email" class="form-control" />
-                            <span asp-validation-for="User.Email" class="text-danger"></span>
+                            <label asp-for="UserViewModel.Email" class="control-label"></label>
+                            <input asp-for="UserViewModel.Email" class="form-control" />
+                            <span asp-validation-for="UserViewModel.Email" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="User.Password" class="control-label"></label>
-                            <input type="password" asp-for="User.Password" class="form-control" />
-                            <span asp-validation-for="User.Password" class="text-danger"></span>
+                            <label asp-for="UserViewModel.Password" class="control-label"></label>
+                            <input type="password" asp-for="UserViewModel.Password" class="form-control" />
+                            <span asp-validation-for="UserViewModel.Password" class="text-danger"></span>
                         </div>
 
 
                         <div class="form-group text-center">
-                            <button onclick="onClickSubmitForm()" type="button" class="btn btn-outline-primary col-6">Add</button>
+                            <button type="button" class="btn btn-ountline-primary col-6" onclick="onSubmitForm()">Add</button>
                         </div>
                     </form>
                 </div>
@@ -97,14 +99,18 @@
 </div>
 
 
+
+@*@section Styles {
+    <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
+}*@
     @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        function onClickSubmitForm() {
-            $("#dentistForm").submit();
-            $(".btn").prop('disabled', true);
+        function onSubmitForm() {
+            $("#adminForm").submit();
+            $(".btn").prop("disabled", true);
         }
     </script>
     }

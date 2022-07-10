@@ -9,6 +9,7 @@ namespace DentistBookingWebApp.Validation
         static IUserRepository userRepository = new UserRepository();
         static ICustomerRepository customerRepository = new CustomerRepository();
         static IDentistRepository dentistRepository = new DentistRepository();
+        static IAdminRepository adminRepository = new AdminRepository();
 
         public static bool CheckEmail(String email)
         {
@@ -32,6 +33,16 @@ namespace DentistBookingWebApp.Validation
         {
             bool result = false;
             if (dentistRepository.GetDentistByPhone(phoneDentist) != null)
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        public static bool CheckPhoneAdmin(String phone)
+        {
+            bool result = false;
+            if (adminRepository.GetAdminByPhone(phone) != null)
             {
                 result = true;
             }

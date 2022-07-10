@@ -33,9 +33,19 @@ namespace DentistBookingWebApp.Pages.Admin.CustomerPage
 
         public IActionResult OnGetAsync()
         {
-            Customer = customerRepository.GetCustomerList();
-            Dentist = dentistRepository.GetDentistList();
-            return Page();
+            try
+            {
+                Customer = customerRepository.GetCustomerList();
+                Dentist = dentistRepository.GetDentistList();
+                return Page();
+            }
+            catch(Exception ex)
+            {
+                TempData["Message"] = "There is an error. Please try again later";
+                return RedirectToPage("/Index");
+            }
+            
+            
         }
     }
 }
