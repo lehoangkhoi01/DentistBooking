@@ -17,13 +17,13 @@
                 <div class="col mb-3">
                     <div>
                         <span class="text-secondary">Status:</span>
-                        @if (Model.Reservation.Status == "Rejected")
+                        @if (Model.Reservation.Status == "Rejected" || Model.Reservation.Status == "Canceled")
                         {
-                            <span class="text-danger">Rejected</span>
+                            <span class="text-danger">@Model.Reservation.Status</span>
                         }
-                        else if (Model.Reservation.Status == "Accepted")
+                        else if (Model.Reservation.Status == "Accepted" || Model.Reservation.Status == "Completed")
                         {
-                            <span class="text-success">Accepted</span>
+                            <span class="text-success">@Model.Reservation.Status</span>
                         }
                         else if (Model.Reservation.Status == "Waiting")
                         {
@@ -118,6 +118,20 @@
                         <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
                     </form>
                 }
+                else if(Model.Status.Equals("Invalid"))
+                {
+                    if (Model.Reservation.Status.Equals("Accepted"))
+                    {
+                        <form method="post" id="completeForm" asp-page-handler="CompleteReservation">
+                            <input hidden name="reservationId" value="@Model.Reservation.Id" />
+                            <button type="button" class="btn btn-outline-success col-6 my-3" onclick="onCompleteReservation()">Complete</button>
+                        </form>
+                    }
+                    else if (Model.Reservation.Status.Equals("Waiting")) {
+                        <button class="btn btn-outline-danger col-6 my-3" data-toggle="modal" data-target="#cancelModal">Cancel</button>
+                    }
+
+                }
             </div>
         }
         else if (Model.Role == "Customer")
@@ -133,8 +147,8 @@
                     @if (Model.Feedback != null)
                     {
                         <button class="btn btn-outline-danger col-6 my-3"
-                                data-toggle="modal" data-target="#deleteFeedbackModal"
-                                data-reservation="@Model.Reservation.Id">
+                    data-toggle="modal" data-target="#deleteFeedbackModal"
+                    data-reservation="@Model.Reservation.Id">
                             Remove feedback
                         </button>
                     }
@@ -172,6 +186,33 @@
         </div>
     </div>
 </div>
+
+<!--Cancel modal-->
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reason</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="CancelReservation" id="cancelForm">
+                    <input name="reservationId" value="@Model.Reservation.Id" hidden />
+                    <textarea class="col-12" name="rejectReason"></textarea>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                <button type="button" class="btn btn-danger" onclick="onSubmitCancelForm()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!--Delete feedback modal-->
 <div class="modal fade" id="deleteFeedbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -267,6 +308,11 @@
             $("#rejectForm").submit();
         }
 
+        function onSubmitCancelForm() {
+            $(".btn").prop('disabled', true);
+            $("#cancelForm").submit();
+        }
+
         function onClickSubmitRemoveFeedbackForm() {
             //$("#btnRemoveFeedback").prop('disabled', true);
             //$(".btnClose").prop('disabled', true);
@@ -284,6 +330,11 @@
         function onclickAcceptReservation() {
             $("#acceptReservationForm").submit();
             $(".btn").prop('disabled', true);
+        }
+
+        function onCompleteReservation() {
+            $("#completeForm").submit();
+             $(".btn").prop('disabled', true);
         }
     </script>
 

@@ -42,6 +42,9 @@ namespace DentistBookingWebApp.Pages.Reservation
         public string Status { get; set; }
 
         [BindProperty]
+        public string ReservationStatus { get; set; }
+
+        [BindProperty]
         public string Role { get; set; }
 
         public async Task<IActionResult> OnGet(int? id)
@@ -62,6 +65,7 @@ namespace DentistBookingWebApp.Pages.Reservation
 
                 Feedback = feedbackRepository.GetFeedbackByReservationId(Reservation.Id);
                 Status = Reservation.Status;
+                ReservationStatus = Reservation.Status;
                 if(Reservation.ResevrationDate < DateTime.Now)
                 {
                     Status = "Invalid";
@@ -101,9 +105,30 @@ namespace DentistBookingWebApp.Pages.Reservation
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
-                return Page();
             }
             return LocalRedirect("/Reservation/Details?id="+reservationId);
+        }
+
+        public async Task<IActionResult> OnPostCompleteReservation([FromForm] int reservationId)
+        {
+            try
+            {
+                BusinessObject.Reservation reservation = await reservationRepository.GetReservationById(reservationId);
+                if (reservation == null)
+                {
+                    return NotFound();
+                }
+
+                AuthorizeForAdminAndChosenDentist(reservation);
+                reservation.Status = "Completed";
+                await reservationRepository.UpdateReservation(reservation);
+                TempData["Message"] = "Update successfully";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+            return LocalRedirect("/Reservation/Details?id=" + reservationId);
         }
 
         public async Task<IActionResult> OnPostRejectReservation([FromForm] int reservationId, string rejectReason)
@@ -128,7 +153,31 @@ namespace DentistBookingWebApp.Pages.Reservation
             catch(Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
-                return Page();
+            }
+            return LocalRedirect("/Reservation/Details?id=" + reservationId);
+        }
+
+        public async Task<IActionResult> OnPostCancelReservation([FromForm] int reservationId, string rejectReason)
+        {
+            try
+            {
+                BusinessObject.Reservation reservation = await reservationRepository.GetReservationById(reservationId);
+                if (reservation == null)
+                {
+                    return NotFound();
+                }
+                AuthorizeForAdminAndChosenDentist(reservation);
+                reservation.Status = "Canceled";
+                if (!string.IsNullOrEmpty(rejectReason.Trim()))
+                {
+                    reservation.NoteMessage = rejectReason;
+                }
+                await reservationRepository.UpdateReservation(reservation);
+                TempData["Message"] = "Cancel successfully";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
             }
             return LocalRedirect("/Reservation/Details?id=" + reservationId);
         }
