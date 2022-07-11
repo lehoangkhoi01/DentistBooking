@@ -4,101 +4,101 @@
     ViewData["Title"] = "Detail";
 }
 
-<div class="">
-    <div class="body-top mt-3">
-        <div class="service-name text-center mb-4">
-            <h2>@Model.serviceViewModel.Name</h2>
+<div class="service_detail_wrapper col-12">
+    <div class="left-section col-9">
+        <div class="body-top mt-3">
+            <div class="service-name text-center mb-4">
+                <h2>@Model.serviceViewModel.Name</h2>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Role) && Model.Role != "Customer")
+        {
+            <div class="row col-12">
+                <div class="specialty-section col-4 mb-3">
+                    <span style="font-weight: bold" class="mr-1">Status:</span>
+                    @if (@Model.serviceViewModel.Status)
+                    {
+                        <span>Active</span>
+                    }
+                    else
+                    {
+                        <span>Inactive</span>
+                    }
+                </div>
+                <div class="specialty-section col-4 mb-3">
+                    <span style="font-weight: bold" class="mr-1">Created by: </span>
+                    <span>@Model.serviceViewModel.Admin.FullName</span>
+                </div>
+                <div class="specialty-section col-4 mb-3">
+                    <span style="font-weight: bold" class="mr-1">Latest update: </span>
+                    <span>@Model.serviceViewModel.UpdatedDate</span>
+                </div>
+            </div>
+        }
+
+        <div class="mb-5">
+            <div class="body-left">
+                <div>
+                    <div class="service-thumb mb-3">
+                        <img src="~/images/service/@Model.serviceViewModel.Image" alt="service-image" />
+                    </div>
+                    <div class="service-des">
+                        @Html.Raw(Model.serviceViewModel.Description)
+                    </div>
+                    <div class="price text-center float-lg-right col-6">
+                        <span style="font-weight: bold">Price:</span> $@Model.serviceViewModel.Price
+                    </div>
+                </div>
+                <div class="funct-button text-center mt-5">
+                    @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
+                    {
+                        <a class="btn btn-outline-primary col-4"
+                       asp-page="/Services/Edit"
+                       asp-route-id="@Model.serviceViewModel.Id">
+                            Edit
+                        </a>
+                        @*<button type="button" class="btn btn-outline-danger col-4" dt data-toggle="modal" data-target="#serviceModal">Disable</button>*@
+                        <br>
+                    }
+                    else if (string.IsNullOrEmpty(Model.Role) || Model.Role == "Customer")
+                    {
+                        <a class="btn btn-outline-success col-4"
+                       href="/Reservation/Index?serviceId=@Model.serviceViewModel.Id">
+                            Make reservation
+                        </a>
+                        <br>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-section col-3 mt-3">
+        <div class="service-name text-center my-4">
+            <h3>Top services</h3>
+            @if (Model.TopServiceList != null && Model.TopServiceList.Count > 0)
+            {
+                <div class="list-group">
+                    @foreach (var item in Model.TopServiceList)
+                    {
+                        <a href="/Services/Details?id=@item.Id" class="list-group-item list-group-item-action  flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1 text-primary">@item.Name</h5>
+                            </div>
+                            <div class="service_description_short">
+                                @Html.Raw(item.Description)
+                            </div>
+                            
+                            @*<small>Donec id elit non mi porta.</small>*@
+                        </a>
+                    }
+                </div>
+            }
         </div>
     </div>
 
-    @if (!string.IsNullOrEmpty(Model.Role) && Model.Role != "Customer")
-    {
-        <div class="row col-12">
-            <div class="specialty-section col-4 mb-3">
-                <span style="font-weight: bold" class="mr-1">Status:</span>
-                @if (@Model.serviceViewModel.Status)
-                {
-                    <span>Active</span>
-                }
-                else
-                {
-                    <span>Inactive</span>
-                }
-            </div>
-            <div class="specialty-section col-4 mb-3">
-                <span style="font-weight: bold" class="mr-1">Created by: </span>
-                <span>@Model.serviceViewModel.Admin.FullName</span>
-            </div>
-            <div class="specialty-section col-4 mb-3">
-                <span style="font-weight: bold" class="mr-1">Latest update: </span>
-                <span>@Model.serviceViewModel.UpdatedDate</span>
-            </div>
-        </div>
-    }
-
-    <div class="mb-5">
-        <div class="body-left">
-            <div>
-                <div class="service-thumb mb-3">
-                    <img src="~/images/service/@Model.serviceViewModel.Image" alt="service-image"/>
-                </div>
-                <div class="service-des">
-                    @Html.Raw(Model.serviceViewModel.Description)
-                </div>
-                <div class="price text-center float-lg-right col-6">
-                    <span style="font-weight: bold">Price:</span> $@Model.serviceViewModel.Price
-                </div>
-            </div>
-            <div class="funct-button text-center mt-5">
-                @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
-                {
-                    <a class="btn btn-outline-primary col-4"
-                        asp-page="/Services/Edit"
-                        asp-route-id="@Model.serviceViewModel.Id">
-                        Edit
-                    </a>
-                    @*<button type="button" class="btn btn-outline-danger col-4" dt data-toggle="modal" data-target="#serviceModal">Disable</button>*@
-                    <br>
-                }
-                else if (string.IsNullOrEmpty(Model.Role) || Model.Role == "Customer")
-                {
-                    <a class="btn btn-outline-success col-4"
-                   href="/Reservation/Index?serviceId=@Model.serviceViewModel.Id">
-                        Make reservation
-                    </a>
-
-                    <br>
-                }
-
-            </div>
-        </div>
-    </div>
 </div>
-
-
-@* Delete service modal *@
-@*<div class="modal fade" id="serviceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form method="post" asp-page-handler="DisableService" id="serviceForm">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Disable service</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h6>Are you sure to disable this service</h6>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <input type="hidden" name="serviceId" value="@Model.serviceViewModel.Id" />
-                    <button class="btn btn-outline-danger" type="button" onclick="onRemoveService()">Disable</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>*@
 
 @section Styles {
     <link href="@Url.Content("~/css/service/detail.css")" rel="stylesheet" type="text/css" />
