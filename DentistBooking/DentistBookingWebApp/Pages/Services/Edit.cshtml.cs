@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DentistBookingWebApp.Pages.Services
@@ -71,8 +72,9 @@ namespace DentistBookingWebApp.Pages.Services
 
             try
             {
-                BusinessObject.User user = userRepository.GetUserByEmail(HttpContext.Session.GetString("EMAIL"));
-                BusinessObject.Admin admin = adminRepository.GetAdminByUserId(user.Id);
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //BusinessObject.User user = userRepository.GetUserByEmail(HttpContext.Session.GetString("EMAIL"));
+                BusinessObject.Admin admin = adminRepository.GetAdminByUserId(int.Parse(userId));
 
                 Service service = new Service
                 {
@@ -97,7 +99,7 @@ namespace DentistBookingWebApp.Pages.Services
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
+                TempData["ErrorMessage"] = ex.Message;
                 return Page();
             }
             return RedirectToPage("Edit", "Get", new {id = ServiceViewModel.Id});

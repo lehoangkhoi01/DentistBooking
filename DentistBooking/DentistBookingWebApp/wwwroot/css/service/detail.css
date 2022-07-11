@@ -1,5 +1,15 @@
-﻿
-﻿.top_title {
+﻿.service_detail_wrapper {
+    display: flex;
+}
+
+.service_description_short {
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+}
+
+.top-title {
     font-size: 2rem;
 }
 
@@ -20,7 +30,7 @@
 
 
 .service-thumb img {
-    width: 65vw;
+    width: 55vw;
     height: auto;
     border-radius: 15px;
 }
