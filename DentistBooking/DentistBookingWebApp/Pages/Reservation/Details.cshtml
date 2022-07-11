@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col mb-3">
                     <h5>Customer information</h5>
-                    <div><span class="text-secondary">Name: </span><a href="#">@Model.Reservation.Customer.FullName</a></div>
+                    <div><span class="text-secondary">Name: </span><a href="/Account/Details/Customer?id=@Model.Reservation.Customer.UserId">@Model.Reservation.Customer.FullName</a></div>
                     <div><span class="text-secondary">Email:</span> @Model.Reservation.Customer.User.Email</div>
                     <div><span class="text-secondary">Phone number:</span> @Model.Reservation.Customer.PhoneNumber</div>
                 </div>
@@ -58,7 +58,12 @@
                 </div>
                 <div class="col mb-3">
                     <h5>Dentist information</h5>
-                    <div><span class="text-secondary">Doctor name:</span><a href="#"> @Model.Reservation.Dentist.FullName</a></div>
+                    <div>
+                        <span class="text-secondary">Doctor name:</span>
+                        <a href="/Account/Details/Dentist?id=@Model.Reservation.Dentist.UserId">
+                            @Model.Reservation.Dentist.FullName
+                        </a>
+                    </div>
                     <div><span class="text-secondary">Email:</span> @Model.Reservation.Dentist.User.Email</div>
                 </div>
             </div>
@@ -118,7 +123,7 @@
                         <button type="submit" class="btn btn-outline-success col-6 my-3">Accept</button>
                     </form>
                 }
-                else if(Model.Status.Equals("Invalid"))
+                else if (Model.Status.Equals("Invalid"))
                 {
                     if (Model.Reservation.Status.Equals("Accepted"))
                     {
@@ -127,7 +132,8 @@
                             <button type="button" class="btn btn-outline-success col-6 my-3" onclick="onCompleteReservation()">Complete</button>
                         </form>
                     }
-                    else if (Model.Reservation.Status.Equals("Waiting")) {
+                    else if (Model.Reservation.Status.Equals("Waiting"))
+                    {
                         <button class="btn btn-outline-danger col-6 my-3" data-toggle="modal" data-target="#cancelModal">Cancel</button>
                     }
 
@@ -334,7 +340,7 @@
 
         function onCompleteReservation() {
             $("#completeForm").submit();
-             $(".btn").prop('disabled', true);
+            $(".btn").prop('disabled', true);
         }
     </script>
 

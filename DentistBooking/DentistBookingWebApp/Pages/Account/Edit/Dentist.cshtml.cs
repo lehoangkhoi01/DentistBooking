@@ -1,5 +1,6 @@
 using BusinessObject;
 using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Account.Edit
 {
+    [Authorize(Roles = "Dentist")]
     public class DentistModel : PageModel
     {
         private readonly IDentistRepository dentistRepository;

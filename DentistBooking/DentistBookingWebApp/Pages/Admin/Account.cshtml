@@ -120,8 +120,7 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                <a href="/Account/Details/Customer?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
                             </td>
                         </tr>
                         @*}*@
@@ -141,8 +140,7 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./DentistPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                <a href="/Account/Details/Dentist?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
                             </td>
                         </tr>
                     }
@@ -183,8 +181,7 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                <a href="/Account/Details/Customer?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
                             </td>
                         </tr>
                         @*}*@
@@ -227,8 +224,7 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./DentistPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                <a href="/Account/Details/Dentist?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
                             </td>
                         </tr>
                         @*}*@
