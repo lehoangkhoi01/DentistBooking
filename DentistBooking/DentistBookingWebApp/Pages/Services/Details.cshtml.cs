@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Services
@@ -20,6 +22,8 @@ namespace DentistBookingWebApp.Pages.Services
 
         [BindProperty]
         public ServiceViewModel serviceViewModel { get; set; }
+
+        public IList<Service> TopServiceList { get; set; }
 
         [BindProperty]
         public string Role { get; set; }
@@ -37,6 +41,7 @@ namespace DentistBookingWebApp.Pages.Services
 
 
             Service service = serviceRepository.GetServiceById((int)id);
+            TopServiceList = serviceRepository.GetActiveServiceList().Take(4).ToList();
 
             if(service == null)
             {
@@ -52,7 +57,9 @@ namespace DentistBookingWebApp.Pages.Services
                     Image = service.Image,
                     Price = service.Price,
                     Status = service.Status == "Active" ? true : false,
-                    Admin = service.Admin
+                    Admin = service.Admin,
+                    CreatedDate = service.CreatedDate,
+                    UpdatedDate = service.UpdatedDate
                 };
 
                 return Page();

@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Account.Details
 {
-    [Authorize(Roles = "Admin, Dentist")]
+    [Authorize]
     public class DentistModel : PageModel
     {
         private readonly IDentistRepository dentistRepository;

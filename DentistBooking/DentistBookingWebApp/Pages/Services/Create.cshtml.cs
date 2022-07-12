@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 
@@ -49,8 +50,8 @@ namespace DentistBookingWebApp.Pages.Services
                 var _service = serviceRepository.GetServiceByName(ServiceViewModel.Name);
                 if (_service == null) //Check if service is already existed
                 {
-                    BusinessObject.User user = userRepository.GetUserByEmail(HttpContext.Session.GetString("EMAIL"));
-                    BusinessObject.Admin admin = adminRepository.GetAdminByUserId(user.Id);
+                    int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    BusinessObject.Admin admin = adminRepository.GetAdminByUserId(userId);
 
                     string filePath = await fileUploadService.UploadFileAsync(ServiceViewModel.ImageFile);
                     Service service = new Service

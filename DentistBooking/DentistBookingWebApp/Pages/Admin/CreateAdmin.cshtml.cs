@@ -8,7 +8,7 @@ using HashCode = DentistBookingWebApp.Validation.HashCode;
 
 namespace DentistBookingWebApp.Pages.Admin
 {
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CreateAdminModel : PageModel
     {
         private readonly IAdminRepository adminRepository;
@@ -61,6 +61,7 @@ namespace DentistBookingWebApp.Pages.Admin
                             PhoneNumber = AdminViewModel.PhoneNumber
                         };
                         adminRepository.AddAdmin(admin);
+                        TempData["Message"] = "Add new admin successfully";
                         return RedirectToPage("/Admin/Account");
                     }
                 }

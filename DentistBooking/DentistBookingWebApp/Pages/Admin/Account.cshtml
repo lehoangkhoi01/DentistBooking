@@ -120,8 +120,7 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                <a href="/Account/Details/Customer?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
                             </td>
                         </tr>
                         @*}*@
@@ -141,8 +140,7 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./DentistPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                <a href="/Account/Details/Dentist?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
                             </td>
                         </tr>
                     }
@@ -183,8 +181,7 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./CustomerPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./CustomerPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                <a href="/Account/Details/Customer?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
                             </td>
                         </tr>
                         @*}*@
@@ -227,8 +224,7 @@
                                 @Html.DisplayFor(modelItem => item.User.Role.Name)
                             </td>
                             <td>
-                                <a asp-page="./DentistPage/Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a> |
-                                <a asp-page="./DentistPage/Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a> 
+                                <a href="/Account/Details/Dentist?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
                             </td>
                         </tr>
                         @*}*@
@@ -246,30 +242,41 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-    $(".mydatatable").DataTable();
-</script>
+        $(".mydatatable").DataTable();
+    </script>
 }
 
 
-<script>
-    function toggleButton(id) {
-        if (id == 'all') {
-            document.getElementById(id).style.display = 'block';
-            document.getElementById('customer').style.display = 'none';
-            document.getElementById('dentist').style.display = 'none';
-        } else if (id == 'customer') {
-            document.getElementById(id).style.display = 'block';
-            document.getElementById('all').style.display = 'none';
-            document.getElementById('dentist').style.display = 'none';
+    <script>
+        function toggleButton(id) {
+            if (id == 'all') {
+                document.getElementById(id).style.display = 'block';
+                document.getElementById('customer').style.display = 'none';
+                document.getElementById('dentist').style.display = 'none';
+            } else if (id == 'customer') {
+                document.getElementById(id).style.display = 'block';
+                document.getElementById('all').style.display = 'none';
+                document.getElementById('dentist').style.display = 'none';
+            }
+            else {
+                document.getElementById(id).style.display = 'block';
+                document.getElementById('customer').style.display = 'none';
+                document.getElementById('all').style.display = 'none';
+            }
         }
-        else {
-            document.getElementById(id).style.display = 'block';
-            document.getElementById('customer').style.display = 'none';
-            document.getElementById('all').style.display = 'none';
-        }
-    }
-</script>
+    </script>
 
-@*@section Styles {
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
+
+    @*@section Styles {
     <link href="@Url.Content("~/css/admin/dashboard.css")" rel="stylesheet" type="text/css" />
 }*@

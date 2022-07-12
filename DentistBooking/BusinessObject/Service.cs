@@ -19,8 +19,9 @@ namespace BusinessObject
 
         public string Status { get; set; }
 
-        [ForeignKey("Id")]
+        
         public int CreatedPersonId { get; set; }
+        [ForeignKey("CreatedPersonId")]
         public Admin Admin { get; set; }
 
     }

@@ -1,10 +1,23 @@
-﻿
-﻿.top_title {
+﻿.service_detail_wrapper {
+    display: flex;
+}
+
+.service_description_short {
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+}
+
+.top-title {
     font-size: 2rem;
 }
 
 .price {
+    margin: 0 auto;
     font-size: 1.2rem;
+    width: 75%;
+    text-align: right;
 }
 
 .service-thumb {
@@ -20,7 +33,7 @@
 
 
 .service-thumb img {
-    width: 75vw;
+    width: 55vw;
     height: auto;
     border-radius: 15px;
 }

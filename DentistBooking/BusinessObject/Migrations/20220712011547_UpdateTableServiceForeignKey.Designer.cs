@@ -4,14 +4,16 @@ using BusinessObject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BusinessObject.Migrations
 {
     [DbContext(typeof(DentistBookingContext))]
-    partial class DentistBookingContextModelSnapshot : ModelSnapshot
+    [Migration("20220712011547_UpdateTableServiceForeignKey")]
+    partial class UpdateTableServiceForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

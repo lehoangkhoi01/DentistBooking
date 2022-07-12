@@ -75,10 +75,10 @@ namespace DentistBookingWebApp.Pages.Reservation
                 }
                 else
                 {
-                    var timeDiff = (reservation.ResevrationDate - DateTime.Now).TotalDays;
-                    if(timeDiff < 1)
+                    var timeDiff = (reservation.ResevrationDate - DateTime.Now).TotalHours;
+                    if(timeDiff < 12)
                     {
-                        TempData["ErrorMessage"] = "Reservation can only be canceled before 1 day.";
+                        TempData["ErrorMessage"] = "Reservation can only be canceled before at least 12 hours.";
                     }
                     await reservationRepository.DeleteReservation(reservation);
                     TempData["Message"] = "Cancel reservation successfully.";

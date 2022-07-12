@@ -1,5 +1,6 @@
 using BusinessObject;
 using DataAccess.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 
 namespace DentistBookingWebApp.Pages.Account.Edit
 {
+    [Authorize(Roles = "Dentist, Admin")]
     public class DentistModel : PageModel
     {
         private readonly IDentistRepository dentistRepository;
@@ -40,7 +42,8 @@ namespace DentistBookingWebApp.Pages.Account.Edit
             }
 
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            if (userId != id)
+            string role = User.FindFirstValue(ClaimTypes.Role);
+            if (role == "Dentist" && userId != id)
             {
                 return NotFound();
             }

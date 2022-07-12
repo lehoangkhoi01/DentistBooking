@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Security.Claims
 @model DentistBookingWebApp.Pages.Account.Details.DentistModel
 @{
     ViewData["Title"] = "Details";
@@ -41,9 +42,13 @@
             </div>
         </div>
     </div>
-    <div class="text-center mt-5">
-        <a class="btn btn-primary col-4" href="/Account/Edit/Dentist?id=@Model.Dentist.User.Id"><i class="fa-solid fa-pen-to-square"></i> | Edit</a>
-    </div>
+    @if (User.FindFirstValue(ClaimTypes.Role) != "Customer")
+    {
+        <div class="text-center mt-5">
+            <a class="btn btn-primary col-4" href="/Account/Edit/Dentist?id=@Model.Dentist.User.Id"><i class="fa-solid fa-pen-to-square"></i> | Edit</a>
+        </div>
+    }
+
 </div>
 
 @section Styles {
