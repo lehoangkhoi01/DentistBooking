@@ -33,7 +33,7 @@ namespace DentistBookingWebApp.ViewModels
 
 
         [Display(Name = "Service's price")]
-        [ServicePriceValidation]
+        [Range(0, 1000, ErrorMessage = "Range for service price should be between 0 - 1000")]
         public double Price { get; set; }
 
 
