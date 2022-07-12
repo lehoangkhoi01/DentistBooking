@@ -166,6 +166,12 @@ namespace DentistBookingWebApp.Pages.Reservation
                 {
                     return NotFound();
                 }
+                var timeDiff = DateTime.Now - reservation.ResevrationDate;
+                if(timeDiff.TotalHours < 1)
+                {
+                    TempData["ErrorMessage"] = "Only cancel customer's reservation if customer is late for 1 hour.";
+                    return LocalRedirect("/Reservation/Details?id=" + reservationId);
+                }
                 AuthorizeForAdminAndChosenDentist(reservation);
                 reservation.Status = "Canceled";
                 if (!string.IsNullOrEmpty(rejectReason.Trim()))
@@ -175,9 +181,9 @@ namespace DentistBookingWebApp.Pages.Reservation
                 await reservationRepository.UpdateReservation(reservation);
                 TempData["Message"] = "Cancel successfully";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                TempData["ErrorMessage"] = "There is an error. Please try again later";
             }
             return LocalRedirect("/Reservation/Details?id=" + reservationId);
         }

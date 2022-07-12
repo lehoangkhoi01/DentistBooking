@@ -2,8 +2,14 @@
 @model DentistBookingWebApp.Pages.Services.IndexModel
 @{
     ViewData["Title"] = "Service";
-    int nextPage = ViewBag.CurrentPage + 1;
-    int prevPage = ViewBag.CurrentPage - 1;
+    int nextPage = 0;
+    int prevPage = 0;
+    if (ViewBag.PageCount != null && ViewBag.PageCount > 1)
+    {
+        nextPage = ViewBag.CurrentPage + 1;
+        prevPage = ViewBag.CurrentPage - 1;
+    }
+
 }
 
 
@@ -21,64 +27,96 @@
                 </div>
             </div>
         </form>
-        @foreach (var item in Model.serviceList)
+        @if (Model.serviceList != null && Model.serviceList.Count > 0)
         {
-            <div class="service-preview d-flex my-4 mx-3">
-                <div class="service-thumbnail">
-                    <img src="/images/service/@item.Image" />
-                </div>
-                <div class="service-text my-3">
-                    <div class="service-name px-3">
-                        <h4>@item.Name</h4>
+            @foreach (var item in Model.serviceList)
+            {
+                <div class="service-preview d-flex my-4 mx-3">
+                    <div class="service-thumbnail">
+                        <img src="/images/service/@item.Image" />
                     </div>
-                    <div class="service-descript text-secondary px-3">
-                        @Html.Raw(item.Description)
-                    </div>
-                    @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
-                    {
-                        <div class="card-bottom mt-3 px-3">
-                            <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
-                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-info button-card">
-                                Edit
-                            </a>
+                    <div class="service-text my-3">
+                        <div class="service-name px-3">
+                            <h4>@item.Name</h4>
                         </div>
-                    }
-                    else if (string.IsNullOrEmpty(Model.Role) || Model.Role == "Customer")
-                    {
-                        <div class="card-bottom mt-3 px-3">
-                            <a asp-page="./Details" asp-route-id="@item.Id">Read more</a>
-                            <a href="/Reservation/Index?serviceId=@item.Id"
+                        <div class="service-descript text-secondary px-3">
+                            @Html.Raw(item.Description)
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.Role) && Model.Role == "Admin")
+                        {
+                            <div class="card-bottom mt-3 px-3">
+                                <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
+                                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-info button-card">
+                                    Edit
+                                </a>
+                            </div>
+                        }
+                        else if (string.IsNullOrEmpty(Model.Role) || Model.Role == "Customer")
+                        {
+                            <div class="card-bottom mt-3 px-3">
+                                <a asp-page="./Details" asp-route-id="@item.Id">Read more</a>
+                                <a href="/Reservation/Index?serviceId=@item.Id"
                        class="btn btn-success button-card">
-                                Make reservation
-                            </a>
-                        </div>
-                    }
-                    else if (!string.IsNullOrEmpty(Model.Role) || Model.Role == "Dentist")
-                    {
-                        <div class="card-bottom mt-3 px-3">
-                            <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
-                        </div>
-                    }
+                                    Make reservation
+                                </a>
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(Model.Role) || Model.Role == "Dentist")
+                        {
+                            <div class="card-bottom mt-3 px-3">
+                                <a class="" asp-page="./Details" asp-route-id="@item.Id">Read more</a>
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
+            }
         }
+        else
+        {
+            <h2 class="text-center col-12 my-3">There is no available service.</h2>
+        }
+
     </div>
 
-    @if (ViewBag.PageCount > 1)
+    @if (ViewBag.PageCount != null && ViewBag.PageCount > 1)
     {
         <nav aria-label="..." class="pagination">
             <ul class="pagination">
                 <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
-                    <a class="page-link" href="/Services/Index?page=@prevPage" tabindex="-1">Previous</a>
+                    @if (!string.IsNullOrEmpty(ViewBag.SearchString))
+                    {
+                        <a class="page-link" href="/Services/Index?SearchString=@ViewBag.SearchString&page=@prevPage" tabindex="-1">Previous</a>
+                    }
+                    else
+                    {
+                        <a class="page-link" href="/Services/Index?page=@prevPage" tabindex="-1">Previous</a>
+                    }
+
                 </li>
                 @for (int i = 1; i <= ViewBag.PageCount; i++)
                 {
                     <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
-                        <a class="page-link" href="/Services/Index?page=@i">@i</a>
+                        @if (!string.IsNullOrEmpty(ViewBag.SearchString))
+                        {
+                            <a class="page-link" href="/Services/Index?SearchString=@ViewBag.SearchString&page=@i">@i</a>
+                        }
+                        else
+                        {
+                            <a class="page-link" href="/Services/Index?page=@i">@i</a>
+                        }
+                        
                     </li>
                 }
                 <li class="@(ViewBag.CurrentPage == ViewBag.PageCount ? "page-item disabled" : "page-item")">
-                    <a class="page-link" href="/Services/Index?page=@nextPage">Next</a>
+                    @if (!string.IsNullOrEmpty(ViewBag.SearchString))
+                    {
+                        <a class="page-link" href="/Services/Index?SearchString=@ViewBag.SearchString&page=@nextPage">Next</a>
+                    }
+                    else
+                    {
+                        <a class="page-link" href="/Services/Index?page=@nextPage">Next</a>
+                    }
+
                 </li>
             </ul>
         </nav>

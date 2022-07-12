@@ -206,9 +206,9 @@ namespace DentistBookingWebApp.Pages.Reservation
         private string ValidateReservationTime(DateTime dateTime)
         {
             var timeDiff = (dateTime - DateTime.Now);
-            if (timeDiff.TotalHours < 2) //must make request before at least 2 hour
+            if (timeDiff.TotalHours < 24) //must make request before at least 24 hour
             {
-                return "You should make reservation before at least 2 hours";
+                return "You should make reservation before at least 24 hours";
             }
             else if (timeDiff.TotalDays > 30) //Can not make reservation before 30 days
             {
