@@ -4,14 +4,16 @@ using BusinessObject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BusinessObject.Migrations
 {
     [DbContext(typeof(DentistBookingContext))]
-    partial class DentistBookingContextModelSnapshot : ModelSnapshot
+    [Migration("20220712011149_UpdateTableService")]
+    partial class UpdateTableService
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,6 +191,9 @@ namespace BusinessObject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -215,7 +220,7 @@ namespace BusinessObject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedPersonId");
+                    b.HasIndex("AdminId");
 
                     b.ToTable("Services");
                 });
@@ -326,7 +331,7 @@ namespace BusinessObject.Migrations
                 {
                     b.HasOne("BusinessObject.Admin", "Admin")
                         .WithMany()
-                        .HasForeignKey("CreatedPersonId")
+                        .HasForeignKey("AdminId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
