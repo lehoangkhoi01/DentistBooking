@@ -30,7 +30,6 @@ namespace DentistBookingWebApp.Pages.Admin.CustomerPage
         public IEnumerable<BusinessObject.Dentist> Dentist { get; set; }
         public IEnumerable<Customer> Customer { get; set; }
 
-
         public IActionResult OnGetAsync()
         {
             try

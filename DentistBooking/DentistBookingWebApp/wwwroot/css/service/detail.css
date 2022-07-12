@@ -14,7 +14,10 @@
 }
 
 .price {
+    margin: 0 auto;
     font-size: 1.2rem;
+    width: 75%;
+    text-align: right;
 }
 
 .service-thumb {

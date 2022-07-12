@@ -46,7 +46,7 @@
                     <div class="service-des">
                         @Html.Raw(Model.serviceViewModel.Description)
                     </div>
-                    <div class="price text-center float-lg-right col-6">
+                    <div class="price col-12">
                         <span style="font-weight: bold">Price:</span> $@Model.serviceViewModel.Price
                     </div>
                 </div>
@@ -58,7 +58,6 @@
                        asp-route-id="@Model.serviceViewModel.Id">
                             Edit
                         </a>
-                        @*<button type="button" class="btn btn-outline-danger col-4" dt data-toggle="modal" data-target="#serviceModal">Disable</button>*@
                         <br>
                     }
                     else if (string.IsNullOrEmpty(Model.Role) || Model.Role == "Customer")
