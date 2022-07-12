@@ -1,11 +1,12 @@
 ﻿@page
+@using System.Security.Claims
 @model DentistBookingWebApp.Pages.Account.Details.AdminModel
 @{
     ViewData["Title"] = "Details";
 }
 <div class="container">
     <div>
-        <h2 class="text-center">Customer Information</h2>
+        <h2 class="text-center">Admin Information</h2>
         <h3 class="text-primary text-center">@Html.DisplayFor(model => model.Admin.FullName)</h3>
         <hr />
         <div class="row">
@@ -41,9 +42,14 @@
             </div>
         </div>
     </div>
-    <div class="text-center mt-5">
-        <a class="btn btn-primary col-4" href="/Account/Edit/Admin?id=@Model.Admin.User.Id"><i class="fa-solid fa-pen-to-square"></i> | Edit</a>
-    </div>
+    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Admin.UserId.ToString())
+    {
+
+        <div class="text-center mt-5">
+            <a class="btn btn-primary col-4" href="/Account/Edit/Admin?id=@Model.Admin.User.Id"><i class="fa-solid fa-pen-to-square"></i> | Edit</a>
+        </div>
+    }
+
 </div>
 
 @section Styles {

@@ -18,17 +18,20 @@ namespace DentistBookingWebApp.Pages.Admin.CustomerPage
         private readonly IUserRepository userRepository;
         private readonly IDentistRepository dentistRepository;
         private readonly ICustomerRepository customerRepository;
+        private readonly IAdminRepository adminRepository;
 
-        public AccountModel(IUserRepository userRepository, IDentistRepository dentistRepository, ICustomerRepository customerRepository)
+        public AccountModel(IUserRepository userRepository, IDentistRepository dentistRepository, ICustomerRepository customerRepository, IAdminRepository adminRepository)
         {
             this.userRepository = userRepository;
             this.dentistRepository = dentistRepository;
             this.customerRepository = customerRepository;
+            this.adminRepository = adminRepository;
         }
 
         //public IEnumerable<User> User { get;set; }
         public IEnumerable<BusinessObject.Dentist> Dentist { get; set; }
         public IEnumerable<Customer> Customer { get; set; }
+        public IEnumerable<BusinessObject.Admin> Admin { get; set; }
 
         public IActionResult OnGetAsync()
         {
@@ -36,6 +39,7 @@ namespace DentistBookingWebApp.Pages.Admin.CustomerPage
             {
                 Customer = customerRepository.GetCustomerList();
                 Dentist = dentistRepository.GetDentistList();
+                Admin = adminRepository.GetAllAdmins();
                 return Page();
             }
             catch(Exception ex)
