@@ -38,9 +38,7 @@ namespace DentistBookingWebApp.Pages.Services
 
             try
             {
-                List<Service> services = serviceRepository
-                            .GetActiveServiceListByPage((int)page, MAX_ITEM_PAGE)
-                            .ToList();
+                List<Service> services;
 
                 if (serviceList == null)
                 {
@@ -50,12 +48,23 @@ namespace DentistBookingWebApp.Pages.Services
                 int pageCount;
                 if (!string.IsNullOrEmpty(SearchString))
                 {
-                    services = services.Where(s => s.Name.Contains(SearchString)).ToList();
-                    pageCount = (int)Math.Ceiling(services.Count() / (double)MAX_ITEM_PAGE);
+                    List<Service> seearchServices = serviceRepository.GetActiveServiceList().Where(s => s.Name.ToLower().Contains(SearchString.ToLower()))
+                                                                        .ToList();
+                    if(seearchServices.Count == 0)
+                    {
+                        return Page();
+                    }
+                    services = seearchServices.Skip((int)((page - 1) * MAX_ITEM_PAGE)).Take(MAX_ITEM_PAGE).ToList();
+                    //services = services.Where(s => s.Name.Contains(SearchString)).ToList();
+                    pageCount = (int)Math.Ceiling(seearchServices.Count() / (double)MAX_ITEM_PAGE);
+                    ViewData["SearchString"] = SearchString;
 
                 }
                 else
                 {
+                    services = serviceRepository
+                            .GetActiveServiceListByPage((int)page, MAX_ITEM_PAGE)
+                            .ToList();
                     pageCount = (int)Math.Ceiling(serviceRepository.GetActiveServiceList().Count() / (double)MAX_ITEM_PAGE);
                 }
 
