@@ -144,21 +144,25 @@
         {
             @if ((DateTime.Now - Model.Reservation.ResevrationDate).TotalMinutes >= 0)
             {
-                <div class="text-center">
-                    <button class="btn btn-outline-success col-6 my-3"
+                if (Model.Reservation.Status == "Completed")
+                {
+                    <div class="text-center">
+                        <button class="btn btn-outline-success col-6 my-3"
                     data-toggle="modal" data-target="#feedbackModal"
                     data-reservation="@Model.Reservation.Id">
-                        Feedback
-                    </button>
-                    @if (Model.Feedback != null)
-                    {
-                        <button class="btn btn-outline-danger col-6 my-3"
+                            Feedback
+                        </button>
+                        @if (Model.Feedback != null)
+                        {
+                            <button class="btn btn-outline-danger col-6 my-3"
                     data-toggle="modal" data-target="#deleteFeedbackModal"
                     data-reservation="@Model.Reservation.Id">
-                            Remove feedback
-                        </button>
-                    }
-                </div>
+                                Remove feedback
+                            </button>
+                        }
+                    </div>
+                }
+
             }
 
 
