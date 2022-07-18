@@ -31,6 +31,20 @@ namespace DataAccess
         }
         //------------------------------------------
 
+        public IEnumerable<Admin> GetAdminList()
+        {
+            IEnumerable<Admin> admins;
+            try
+            {
+                var dbContext = new DentistBookingContext();
+                admins = dbContext.Admins.Include(c => c.User.Role).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return admins;
+        }
         public Admin GetAdminByUserId(int userId)
         {
             Admin admin;

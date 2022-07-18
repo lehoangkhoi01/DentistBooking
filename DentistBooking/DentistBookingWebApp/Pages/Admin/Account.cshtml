@@ -83,6 +83,7 @@
                     <a class="dropdown-item nav-link" onclick="toggleButton('all')" href="#all" onselect="true" role="tab">All</a>
                     <a class="dropdown-item nav-link" onclick="toggleButton('customer')" href="#customer" role="tab">Customer</a>
                     <a class="dropdown-item nav-link" onclick="toggleButton('dentist')" href="#dentist" role="tab">Dentist</a>
+                    <a class="dropdown-item nav-link" onclick="toggleButton('admin')" href="#admin" role="tab">Admin</a>
                 </div>
             </div>
         </div>
@@ -141,6 +142,25 @@
                             </td>
                             <td>
                                 <a href="/Account/Details/Dentist?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @foreach (var item in Model.Admin)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Email)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Role.Name)
+                            </td>
+                            <td>
+                                <a href="/Account/Details/Admin?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
                             </td>
                         </tr>
                     }
@@ -233,6 +253,49 @@
                 </tbody>
             </table>
         </div>
+        <div class="tab-panel" style="display:none" id="admin" role="tabpanel">
+            <table class="table table-striped table-bordered mydatatable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Admin.First().User.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Admin.First().FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Admin.First().User.Role.Name)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Admin)
+                    {
+                        @*                if (item.RoleId == 3)
+                    {*@
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Email)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Role.Name)
+                            </td>
+                            <td>
+                                <a href="/Account/Details/Admin?id=@item.UserId"><i class="fa-solid fa-circle-info" style="color:darkgray"></i></a>
+                            </td>
+                        </tr>
+                        @*}*@
+                    }
+
+                </tbody>
+            </table>
+        </div>
     </main>
 </div>
 
@@ -253,15 +316,24 @@
                 document.getElementById(id).style.display = 'block';
                 document.getElementById('customer').style.display = 'none';
                 document.getElementById('dentist').style.display = 'none';
+                document.getElementById('admin').style.display = 'none';
             } else if (id == 'customer') {
                 document.getElementById(id).style.display = 'block';
                 document.getElementById('all').style.display = 'none';
                 document.getElementById('dentist').style.display = 'none';
+                document.getElementById('admin').style.display = 'none';
+            }
+            else if (id == 'dentist') {
+                document.getElementById(id).style.display = 'block';
+                document.getElementById('customer').style.display = 'none';
+                document.getElementById('all').style.display = 'none';
+                document.getElementById('admin').style.display = 'none';
             }
             else {
                 document.getElementById(id).style.display = 'block';
                 document.getElementById('customer').style.display = 'none';
                 document.getElementById('all').style.display = 'none';
+                document.getElementById('dentist').style.display = 'none';
             }
         }
     </script>

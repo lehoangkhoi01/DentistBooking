@@ -88,7 +88,7 @@
                             <div class="service_description_short">
                                 @Html.Raw(item.Description)
                             </div>
-                            
+
                             @*<small>Donec id elit non mi porta.</small>*@
                         </a>
                     }
@@ -114,4 +114,15 @@
         }
     </script>
     }
+
+    <script type="text/javascript">
+        window.onload = function() {
+            if ('@TempData["Message"]' != "") {
+                $.notify("@TempData["Message"]", { color: "#fff", background: "#20D67B" })
+            }
+            else if ('@TempData["ErrorMessage"]' != "") {
+                $.notify("@TempData["ErrorMessage"]", { color: "#fff", background: "#D44950" })
+            }
+        }
+    </script>
 

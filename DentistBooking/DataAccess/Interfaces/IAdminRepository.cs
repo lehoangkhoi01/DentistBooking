@@ -13,5 +13,6 @@ namespace DataAccess.Interfaces
         public Admin GetAdminByPhone(string phone);
         public void UpdateAdmin(Admin admin);
         public void AddAdmin(Admin admin);
+        public IEnumerable<Admin> GetAllAdmins();
     }
 }

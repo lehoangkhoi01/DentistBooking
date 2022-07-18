@@ -16,9 +16,9 @@ namespace DentistBookingWebApp.Validation
             try
             {
                 decimal price = decimal.Parse(value.ToString());
-                if(price < 0 && price > 1000)
+                if(price < 0 || price > 1000)
                 {
-                    ErrorMessage = "Range for service price should be between 0 - 10000";
+                    ErrorMessage = "Range for service price should be between 0 - 1000";
                     return false;
                 }
             }

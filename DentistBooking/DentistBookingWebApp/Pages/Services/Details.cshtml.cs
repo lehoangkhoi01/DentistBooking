@@ -32,38 +32,47 @@ namespace DentistBookingWebApp.Pages.Services
 
         public IActionResult OnGet(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            Role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
-
-
-            Service service = serviceRepository.GetServiceById((int)id);
-            TopServiceList = serviceRepository.GetActiveServiceList().Take(4).ToList();
-
-            if(service == null)
+            try
             {
-                return NotFound();
-            }
-            else
-            {
-                serviceViewModel = new ServiceViewModel
+                Role = User.FindFirst(claim => claim.Type == ClaimTypes.Role)?.Value;
+
+                Service service = serviceRepository.GetServiceById((int)id);
+                if(Role != "Admin" && service.Status == "Inactive")
                 {
-                    Id = service.Id,
-                    Name = service.Name,
-                    Description = service.Description,
-                    Image = service.Image,
-                    Price = service.Price,
-                    Status = service.Status == "Active" ? true : false,
-                    Admin = service.Admin,
-                    CreatedDate = service.CreatedDate,
-                    UpdatedDate = service.UpdatedDate
-                };
+                    return NotFound();
+                }
 
-                return Page();
+                TopServiceList = serviceRepository.GetActiveServiceList().Take(4).ToList();
+
+                if (service == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    serviceViewModel = new ServiceViewModel
+                    {
+                        Id = service.Id,
+                        Name = service.Name,
+                        Description = service.Description,
+                        Image = service.Image,
+                        Price = service.Price,
+                        Status = service.Status == "Active" ? true : false,
+                        Admin = service.Admin,
+                        CreatedDate = service.CreatedDate,
+                        UpdatedDate = service.UpdatedDate
+                    };
+                }
             }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "There is an error. Please try again later";
+            }
+            return Page();
         }
 
         //public IActionResult OnPostDisableService([FromForm] int serviceId)
