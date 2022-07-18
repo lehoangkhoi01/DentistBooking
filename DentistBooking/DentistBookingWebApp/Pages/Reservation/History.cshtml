@@ -77,7 +77,7 @@
                     <div class="card-button px-3">
                         @if ((DateTime.Now - item.ResevrationDate).TotalMinutes >= 0)
                         {
-                            @if (item.Status == "Completed")
+                            @if (item.Status == "Complete")
                             {
                                 <button type="button" class="btn btn-success button-card mx-3" dt data-toggle="modal" data-target="#feedbackModal" data-reservation="@item.Id">Feedback</button>
                             }

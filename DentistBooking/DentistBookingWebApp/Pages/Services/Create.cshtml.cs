@@ -76,7 +76,7 @@ namespace DentistBookingWebApp.Pages.Services
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                TempData["ErrorMessage"] = "There is an error. Please try again later.";
                 return Page();
             }
 

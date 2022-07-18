@@ -21,7 +21,7 @@
                         {
                             <span class="text-danger">@Model.Reservation.Status</span>
                         }
-                        else if (Model.Reservation.Status == "Accepted" || Model.Reservation.Status == "Completed")
+                        else if (Model.Reservation.Status == "Accepted" || Model.Reservation.Status == "Complete")
                         {
                             <span class="text-success">@Model.Reservation.Status</span>
                         }
@@ -77,7 +77,7 @@
             <div class="row">
                 <div class="col">
                     <span class="text-secondary">Rate:</span>
-                    @if (Model.Feedback != null && Model.Feedback.Star != 0)
+                    @if (Model.Feedback != null && Model.Feedback.Star >= 0)
                     {
                         <span style="font-weight: 400">@Model.Feedback.Star</span>
                     }
@@ -131,10 +131,7 @@
                             <input hidden name="reservationId" value="@Model.Reservation.Id" />
                             <button type="button" class="btn btn-outline-success col-6 my-3" onclick="onCompleteReservation()">Complete</button>
                         </form>
-                    }
-                    else if (Model.Reservation.Status.Equals("Waiting"))
-                    {
-                        <button class="btn btn-outline-danger col-6 my-3" data-toggle="modal" data-target="#cancelModal">Cancel</button>
+                         <button class="btn btn-outline-danger col-6 my-3" data-toggle="modal" data-target="#cancelModal">Cancel</button>
                     }
 
                 }
@@ -144,7 +141,7 @@
         {
             @if ((DateTime.Now - Model.Reservation.ResevrationDate).TotalMinutes >= 0)
             {
-                if (Model.Reservation.Status == "Completed")
+                if (Model.Reservation.Status == "Complete")
                 {
                     <div class="text-center">
                         <button class="btn btn-outline-success col-6 my-3"

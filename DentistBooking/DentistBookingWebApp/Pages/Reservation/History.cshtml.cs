@@ -43,6 +43,7 @@ namespace DentistBookingWebApp.Pages.Reservation
                 User user = userRepository.GetUserByEmail(email);
                 Customer customer = customerRepository.GetCustomerByUserId(user.Id);
                 Reservations = (await reservationRepository.GetReservationsByCustomerId((int)page, MAX_ITEM_PAGE, customer.Id))
+                                .Reverse()
                                 .ToList();
                 
                 int pageCount = (int)Math.Ceiling((await reservationRepository.GetReservationsByCustomerId(customer.Id)).Count() / (double)MAX_ITEM_PAGE);

@@ -11,17 +11,35 @@ namespace DataAccess
 {
     public class FeedbackDAO
     {
-        private static FeedbackDAO instance = null;
-        private static readonly object instanceLock = new object();
+        //private static FeedbackDAO instance = null;
+        //private static readonly object instanceLock = new object();
 
+        //private FeedbackDAO() { }
+        //public static FeedbackDAO Instance
+        //{
+        //    get
+        //    {
+        //        lock (instanceLock)
+        //        {
+        //            if (instance == null)
+        //            {
+        //                instance = new FeedbackDAO();
+        //            }
+        //        }
+        //        return instance;
+        //    }
+        //}
+
+        private static FeedbackDAO instance;
+        private static readonly object instanceLock = new object();
         private FeedbackDAO() { }
         public static FeedbackDAO Instance
         {
             get
             {
-                lock (instanceLock)
+                lock(instanceLock)
                 {
-                    if (instance == null)
+                    if(instance == null)
                     {
                         instance = new FeedbackDAO();
                     }

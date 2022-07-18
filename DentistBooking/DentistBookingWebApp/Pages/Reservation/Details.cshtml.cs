@@ -99,6 +99,7 @@ namespace DentistBookingWebApp.Pages.Reservation
 
                 AuthorizeForAdminAndChosenDentist(reservation);
                 reservation.Status = "Accepted";
+                reservation.NoteMessage = "";
                 await reservationRepository.UpdateReservation(reservation);
                 TempData["Message"] = "Update successfully";
             }
